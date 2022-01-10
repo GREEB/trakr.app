@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple trakr.app</title>
+    <style>
+        .lil-gui{
+            z-index: 99999999999999;
+position: absolute;
+right: 0;
+        }
+    </style>
+</head>
+
+<body style="padding: 0;
+margin: 0;
+overflow: hidden;">
+    <div class="GUI" />
+    <div class="STATS" />
+    <div class="THREE" />
+
+    <script id="vertexshader" type="x-shader/x-vertex">
+        attribute float size;
+        varying vec3 vColor;
+        varying vec3 vPos;
+        void main() {
+        vColor = color;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        vPos = position;
+        gl_PointSize = color.r * 5.0;
+        }
+      </script>
+
+    <script id="fragmentshader" type="x-shader/x-fragment">
+        varying vec3 vColor;
+        varying vec3 vPos;
+        void main() {
+        gl_FragColor = vec4((vPos.z / 50.0) * 3.0,0.51,0.51, 1.0);
+        //gl_FragColor = vec4((vPos.z / 255.0) * 3.0 ,(vPos.x / 255.0) * 6.0),(vPos.y / 255.0) * 6.0 ), 1.0);
+        }
+      </script>
+    </div>
+    <script type="module">
+      import * as THREE from 'https://cdn.skypack.dev/three';
+      import { OrbitControls } from 'https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls.js';
+    import Stats from 'https://cdn.skypack.dev/three/examples/jsm/libs/stats.module.js'
+    import { GUI } from 'https://cdn.skypack.dev/three/examples/jsm/libs/lil-gui.module.min.js'
+    import { GLTFLoader } from 'https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader.js'
+
+    let aCamera = new THREE.Vector3()
+    let bCamera = new THREE.Vector3()
+    let box = null
+    let camera = null
+    let car = null
+    let clock = new THREE.Clock()
+    let colors = {}
+    let controls = null
+    let cube = null
+    let directionCamera = new THREE.Vector3()
+    let firstChord = true
+    let geometry = new THREE.BufferGeometry()
+    let goalCamera = new THREE.Object3D()
+    let gui = null
+    let guiLet = {}
+    let intersection = null
+    let keepingTrackOfTweens = []
+    let lastBgColor = [50, 50, 50]
+    let material = null
+    let mouse = new THREE.Vector2()
+    let points = null
+    let pointsCount = null
+    let maxParticle = 500000
+    let raycaster = new THREE.Raycaster()
+    let renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: false, antialias: true })
+    let scene = new THREE.Scene()
+    let spheres = []
+    let spheresIndex = 0
+    let stats = new Stats()
+    let tempCamera = new THREE.Vector3()
+    let toggle = 0
+    //
+    let followCamera = new THREE.Object3D()
+    let updateFollowCam = false
+    let animecount = 0
+    let lastPos = null
+    //
+    let fromPostion = null
+    let fromRotation = null
+    let toPosition = null
+    let toRotation = null
+
+    THREE.Object3D.DefaultUp = new THREE.Vector3(0, 0, 1)
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000)
+    goalCamera.add(camera)
+    // followCamera.position.z = -10
+    const positions = new Float32Array(maxParticle * 3)
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    material = new THREE.ShaderMaterial({
+        vertexShader: document.getElementById('vertexshader').textContent,
+        fragmentShader: document.getElementById('fragmentshader').textContent,
+        vertexColors: true,
+        depthWrite: false
+    })
+    points = new THREE.Points(geometry, material)
+    scene.add(points)
+    box = new THREE.BoxHelper(points, 0xFFFFFF)
+    box.visible = true
+    scene.add(box)
+    geometry.setDrawRange(0, 0)
+    renderer.setClearColor(new THREE.Color(0x0D0D0D))
+    renderer.setPixelRatio(window.devicePixelRatio)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    document.getElementsByClassName('THREE')[0].appendChild(renderer.domElement)
+    document.getElementsByClassName('STATS')[0].appendChild(stats.dom)
+    window.addEventListener('resize', onWindowResize)
+    controls = new OrbitControls(camera, renderer.domElement)
+    geometry.computeBoundingBox()
+    camera.position.z = 500
+    const bBox = geometry.boundingBox
+    const center = new THREE.Vector3()
+    bBox.getCenter(center)
+    controls.target.copy(center)
+    const axes2 = new THREE.AxesHelper(100)
+    axes2.position.x = -520
+    axes2.position.y = -300
+    scene.add(axes2)
+    const light = new THREE.PointLight(0xFFFFFF, 1)
+    light.position.set(0, 0, 500)
+    scene.add(light)
+    // addCar()
+    // window.addEventListener('mousemove', onMouseMove, false)
+    // window.addEventListener('mousedown', onMouseDown, true)
+    initGui()
+    animate()
+
+    /**
+     * This is what your looking for if you want to inject your own data
+     * 
+     * Del
+     * 
+    */
+
+    for (let index = 0; index < 10000; index++) {
+            parsePoint({
+                x:Math.random() * index / 20,
+                y:Math.random() * index / 20,
+                z:Math.random() * index / 20,
+            })
+    }
+
+    function initQuadGui() {
+        const cubeFolder = gui.addFolder('Scene')
+        cubeFolder.add(cube.quaternion, 'x', 0, Math.PI).listen()
+        cubeFolder.add(cube.quaternion, 'y', 0, Math.PI).listen()
+        cubeFolder.add(cube.quaternion, 'z', 0, Math.PI).listen()
+        const cameraFolder = gui.addFolder('Camera')
+        cameraFolder.add(cube.position, 'z', 0, 1000).listen()
+        cameraFolder.add(cube.position, 'x', 0, 1000).listen()
+        cameraFolder.add(cube.position, 'y', 0, 1000).listen()
+    }
+    function parseChordPack(val) {
+        const now = new Date()
+        for (let i = 0; i < val.alluserPos.length; i++) {
+            parsePoint(val.alluserPos[i], 'pack')
+            if ((val.alluserPos.length - 1) === i) {
+                geometry.computeBoundingSphere()
+                geometry.computeBoundingBox()
+                $toast.info(`${val.alluserPos.length} points drawn in ${(new Date() - now)} ms`)
+            }
+        }
+    }
+    function addCar() {
+        const loader = new GLTFLoader()
+        const self = this
+        loader.load(
+            // resource URL
+            'static/models/race.glb',
+            function (gltf) {
+                self.car = gltf.scene
+                gltf.scene.children[0].rotation.x = Math.PI / 2
+                self.car.add(self.followCamera)
+                self.car.scale = new THREE.Vector3(0.25, 0.25, 0.25)
+                self.scene.add(gltf.scene)
+            }
+        )
+    }
+    function animateCar(val) {
+        fromPostion = car.position
+        toPosition = new THREE.Vector3(parseFloat(val.x) / 20, parseFloat(val.z) / 20, parseFloat(val.y) / 20)
+        fromRotation = new THREE.Quaternion()
+        toRotation = new THREE.Quaternion()
+        fromRotation.copy(car.quaternion)
+        toRotation.setFromAxisAngle(new THREE.Vector3(0, 0, 1), val.yaw - (val.yaw * 2))
+    }
+    function followCam(val) {
+    }
+    function setBackgroundColor(arrayRGB) {
+        lastBgColor = arrayRGB
+        renderer.setClearColor(new THREE.Color().setRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]))
+        // renderer.clear(true, true, true)
+    }
+    function changeColor(color) {
+        const sel = color.toLowerCase()
+        points.geometry.attributes.color.array = colors[sel]
+        points.geometry.attributes.color.needsUpdate = true
+    }
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+    function animate() {
+        requestAnimationFrame(animate)
+        if (fromPostion && fromRotation && toPosition && toRotation && lastPos) {
+            car.position.lerpVectors(fromPostion, toPosition, 0.1)
+            car.quaternion.slerpQuaternions(fromRotation, toRotation, 0.1)
+            car.needsUpdate = true
+            // camera.position.z = 5
+            aCamera.lerp(car.position, 0.4)
+            bCamera.copy(goalCamera.position)
+            directionCamera.copy(aCamera).sub(bCamera).normalize()
+            const dis = aCamera.distanceTo(bCamera) - 2.5
+            goalCamera.position.addScaledVector(directionCamera, dis)
+            goalCamera.position.lerp(tempCamera, 0.02)
+            tempCamera.setFromMatrixPosition(followCamera.matrixWorld)
+            camera.lookAt(car.position)
+            // controls.target.copy(car.position)
+            camera.position.lerp(new THREE.Vector3(camera.position.x, camera.position.y, car.position.z - 5.5), 0.01)
+            camera.needsUpdate = true
+        }
+        lastPos = fromPostion
+        controls.update()
+        // TWEEN.update()
+        render()
+        stats.update()
+    }
+    function render() {
+        renderer.render(scene, camera)
+    }
+    function onMouseMove(event) {
+        const canvas = renderer.domElement
+        const rect = canvas.getBoundingClientRect()
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.top
+        mouse.x = (x / canvas.clientWidth) * 2 - 1
+        mouse.y = (y / canvas.clientHeight) * -2 + 1
+    }
+    function onMouseDown(event) {
+        // if (intersects.length) {
+        //   controls.target.copy(intersects[0].point.clone())
+        // }
+    }
+    function addPoint(xyz) {
+        const positions = points.geometry.attributes.position.array
+        positions[pointsCount] = xyz[0]
+        positions[pointsCount + 1] = xyz[1]
+        positions[pointsCount + 2] = xyz[2]
+        points.geometry.attributes.position.needsUpdate = true
+        geometry.setDrawRange(0, pointsCount / 3)
+        pointsCount += 3
+        guiLet.pointsCount = pointsCount
+    }
+    function parsePoint(posData) {
+        if (!points) { return }
+        // each point must be 3D
+        const xyz = [
+            parseFloat(posData.x / 20),
+            parseFloat(posData.z / 20),
+            parseFloat(posData.y / 20)
+        ]
+        addPoint(xyz)
+    }
+    function initGui() {
+        const self = this
+        guiLet = {
+            boxVisible: false,
+            colorSchema: 'Height',
+            backgroundColor: lastBgColor,
+            pointsCount: 0,
+            pps: 0
+        }
+        gui = new GUI({ autoPlace: false })
+        const optionFolder = gui.addFolder('Options')
+        optionFolder.add(guiLet, 'pointsCount').listen()
+        optionFolder.add({ add() { } }, 'add')
+        optionFolder.add(guiLet, 'colorSchema', ['Height', 'Terrain']).onChange(function (v) { self.changeColor(v) })
+        optionFolder.add(material, 'opacity', 0, 1).listen()
+        // optionFolder.add(material, 'size', 0.1, 10).listen()
+        optionFolder.addColor(guiLet, 'backgroundColor').name('Background').onChange(function (value) { self.setBackgroundColor(value) })
+        optionFolder.add(guiLet, 'boxVisible').name('Bounding box').onChange(function (value) { box.visible = value })
+        const cameraFolder = gui.addFolder('Camera')
+        cameraFolder.add(camera.position, 'z', 0, 100).listen()
+        cameraFolder.add(camera.position, 'x', 0, 100).listen()
+        cameraFolder.add(camera.position, 'y', 0, 100).listen()
+        gui.close()
+        document.getElementsByClassName('GUI')[0].prepend(gui.domElement)
+    }
+    function toBuffer(ab) {
+        const buf = Buffer.alloc(ab.byteLength)
+        const view = new Uint8Array(ab)
+        for (let i = 0; i < buf.length; ++i) {
+            buf[i] = view[i]
+        }
+        return buf
+    }
+
+    </script>
+</body>
+
+</html>

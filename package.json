@@ -1,0 +1,50 @@
+{
+  "name": "trakr.app",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint": "yarn lint:js",
+    "lintfix": "yarn lint:js --fix"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "^5.0.0-1637745161.ea53f98",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/pwa": "^3.3.5",
+    "@nuxtjs/toast": "^3.3.1",
+    "@seregpie/three.text-sprite": "^3.2.0",
+    "@tweenjs/tween.js": "^18.6.4",
+    "core-js": "^3.19.3",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash.throttle": "^4.1.1",
+    "msgpackr": "^1.5.2",
+    "nuxt": "^2.15.8",
+    "nuxt-socket-io": "^2.0.0",
+    "on-change": "^4.0.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.12.1",
+    "socket.io": "^4.4.0",
+    "three": "^0.135.0",
+    "uuid": "^8.3.2",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "vue-toastification": "^1.7.14",
+    "vuetify": "^2.6.1",
+    "webpack": "^4.46.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.3",
+    "@nuxtjs/eslint-config": "^8.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/vuetify": "^1.12.3",
+    "eslint": "^8.4.1",
+    "eslint-plugin-nuxt": "^3.1.0",
+    "eslint-plugin-vue": "^8.2.0"
+  }
+}

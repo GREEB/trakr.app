@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - lts/*
+
+os:
+  - linux
+dist: focal
+
+branches:
+  only:
+    - main
+    - master
+
+cache: yarn
+
+script:
+  - yarn lint

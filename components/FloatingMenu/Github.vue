@@ -1,0 +1,12 @@
+<template>
+  <div>
+    <v-btn
+      small
+      icon
+      class="githubButton"
+      color="#151515"
+    >
+      <v-icon>mdi-github</v-icon>
+    </v-btn>
+  </div>
+</template>
