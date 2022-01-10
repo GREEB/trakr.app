@@ -1,10 +1,10 @@
-# [Trakr.app](https://trakr.app)
+![](https://user-images.githubusercontent.com/1221769/148717218-fe44c144-98e7-40b1-b806-f9d572c1cccd.png)
+
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 [![Build Status](https://app.travis-ci.com/GREEB/trakr.app.svg?branch=main)](https://app.travis-ci.com/GREEB/trakr.app)
 [![issues](https://github.com/GREEB/ForzaPointCloud/workflows/todo2issue/badge.svg)](https://github.com/GREEB/trakr.app/actions?query=workflow:"todo2issue")
-![](https://user-images.githubusercontent.com/1221769/148322387-67a89550-77f5-4c04-80ac-af9329859144.gif)
 
-WIP!
+WIP
 
 ## Features
 
@@ -82,3 +82,8 @@ openssl rand 256 | base64
 ## Acknowledgements
 
  - [@jonathanlurie](https://github.com/jonathanlurie)/[pointCloud](https://github.com/jonathanlurie/pointCloud)
+
+
+## Dump
+
+![](https://user-images.githubusercontent.com/1221769/148322387-67a89550-77f5-4c04-80ac-af9329859144.gif)
