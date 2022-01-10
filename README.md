@@ -1,6 +1,6 @@
 # [Trakr.app](https://trakr.app)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
-[![Build Status](https://app.travis-ci.com/GREEB/trakr.app.svg?branch=master)](https://app.travis-ci.com/GREEB/trakr.app)
+[![Build Status](https://app.travis-ci.com/GREEB/trakr.app.svg?branch=main)](https://app.travis-ci.com/GREEB/trakr.app)
 [![issues](https://github.com/GREEB/ForzaPointCloud/workflows/todo2issue/badge.svg)](https://github.com/GREEB/trakr.app/actions?query=workflow:"todo2issue")
 ![](https://user-images.githubusercontent.com/1221769/148322387-67a89550-77f5-4c04-80ac-af9329859144.gif)
 
