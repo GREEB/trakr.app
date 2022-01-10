@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   head: {
-    titleTemplate: '%s - trakr.app',
+    titleTemplate: '%s -',
     title: 'trakr.app',
     meta: [
       { charset: 'utf-8' },
