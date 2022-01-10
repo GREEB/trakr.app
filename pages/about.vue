@@ -112,7 +112,7 @@
         </ul>
         <p class="wipinfo">
           Most of the stuff above unfortunately doesn’t work yet help me build
-          this @ <a href="">github.com/GREEB/trakr.app</a>
+          this on <a href="https://github.com/greeb/trakr.app">github</a>
         </p>
         <ul>
           <li>
@@ -312,6 +312,7 @@ position: absolute;
   text-align: center;
   font-style: normal;
   font-size: 18px;
+  font-weight: 700;
   line-height: 24px;
   /* identical to box height */
   letter-spacing: 0.01em;
@@ -425,6 +426,9 @@ position: absolute;
     width: 90%;
     white-space: unset;
   }
+      .features ul:nth-child(2) {
+    margin-left: 0;
+  }
 }
 @media only screen and (max-width: 1337px) {
   .intro .content h1 img {
@@ -438,6 +442,9 @@ position: absolute;
   }
   .intro nav button {
     right: 2em;
+  }
+    .features ul:nth-child(2) {
+    margin-left: 0;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -453,11 +460,20 @@ position: absolute;
   .supported h1 {
     padding: 0 0 0 1em;
   }
-
+.icons {
+    position: absolute;
+    right: 1em;
+    top: 3.5em;
+}
   .supported .content {
     margin: 1em;
   }
-
+  .features .content{
+    padding: 1em
+  }
+  .features ul:nth-child(2) {
+    margin-left: 0;
+  }
   .features ul li h3,
   .features ul li p {
     padding: 0;
@@ -472,6 +488,7 @@ position: absolute;
   .features h1,
   .supported h1 {
     font-size: 28px;
+    padding: 1em 1em 1em 1em;
   }
   .intro .content h1 {
     font-size: 61px;
