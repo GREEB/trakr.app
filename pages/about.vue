@@ -453,7 +453,7 @@ position: absolute;
     padding: 20px;
   }
   .intro nav button {
-    top: 28px;
+    top: 52px;
     right: 20px;
   }
   .features h1,
