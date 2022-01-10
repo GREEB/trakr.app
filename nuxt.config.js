@@ -2,13 +2,19 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   head: {
-    titleTemplate: '%s -',
+    titleTemplate: '%s - Track car telemetry in 3D space',
     title: 'trakr.app',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { hid: 'description', name: 'description', content: 'How this works: The Games we support can deliver telemetry over UDP, we parse and display this data ' },
+      { name: 'format-detection', content: 'telephone=no' },
+      { hid: 'og:title', name: 'og:title', content: 'Track car telemetry in 3D space ' },
+      { hid: 'og:image', name: 'og:image', content: 'https://user-images.githubusercontent.com/1221769/148717218-fe44c144-98e7-40b1-b806-f9d572c1cccd.png' },
+      { hid: 'twitter:title', name: 'twitter:title', content: 'Track car telemetry in 3D space ' },
+      { hid: 'twitter:description', name: 'description', content: 'How this works: The Games we support can deliver telemetry over UDP, we parse and display this data ' },
+      { hid: 'twitter:image', name: 'twitter:image', content: 'https://user-images.githubusercontent.com/1221769/148717218-fe44c144-98e7-40b1-b806-f9d572c1cccd.png' }
+
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
