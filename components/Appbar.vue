@@ -5,7 +5,7 @@
     app
     dense
   >
-    <img src="~static/logo.svg">
+    <img src="~static/logo512.png">
     <v-toolbar-title v-text="title" />
     <v-spacer />
     <v-chip
@@ -94,7 +94,7 @@
 <script>
 export default {
   data: () => ({
-    title: 'PointCloud',
+    title: 'trakr.app',
     gg: null,
     active: false,
     oauth: 'https://discord.com/api/oauth2/authorize?client_id=918603750057328640&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20email'
