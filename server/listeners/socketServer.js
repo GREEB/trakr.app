@@ -16,7 +16,7 @@ httpServer.listen(process.env.IOPORT, () => {
 // server-side
 export const io = new Server(httpServer, {
   cors: {
-    origin: process.env.BASEURL || 'http://localhost:' + process.env.PORT || 3000,
+    origin: process.env.URL || 'http://localhost:' + process.env.PORT || 3000,
     methods: ['GET', 'POST'],
     credentials: true
   }
