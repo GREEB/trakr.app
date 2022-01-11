@@ -6558,6 +6558,11 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
+nuxt-social-meta@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/nuxt-social-meta/-/nuxt-social-meta-1.0.0.tgz#1c2458d33726b1a87c8afc74446a6d0a7ba03583"
+  integrity sha512-IL0jGSqj7eRq7YxkMTHLPBX+mDtmnxOiyhle35xWwQL7CwIau05SysQyjMrQSvEqKL4zQAOM5+DGuPVcthfZ7Q==
+
 nuxt-socket-io@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/nuxt-socket-io/-/nuxt-socket-io-2.0.0.tgz#bada6f2a9ddaf451d31ee813560c1ae17ec2de97"
@@ -9599,6 +9604,11 @@ vue@^2.6.12, vue@^2.6.14:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
+
+vuescroll@^4.17.3:
+  version "4.17.3"
+  resolved "https://registry.yarnpkg.com/vuescroll/-/vuescroll-4.17.3.tgz#e1c29372a007e0dff0cee6b4515783d43924f9e1"
+  integrity sha512-5P3hje/fYjo1eAB0Y8zboLbaq/mnPNczYyZ1aPHHM6wIFKcqal9Mi42CBCZizUnEtoXtbsGlnyLcVbnalTNptA==
 
 vuetify-loader@^1.7.3:
   version "1.7.3"

@@ -22,12 +22,16 @@ const createToken = async (user) => {
 export const postLogin = async (req, res, next) => {
   let user
   let token
-  console.log('postLogin')
+  let redirectURL
+  if (process.env.URL) {
+    redirectURL = process.env.URL + '/callback'
+  } else {
+    redirectURL = 'http://localhost:3000/callback'
+  }
+  console.log(redirectURL)
   try {
     // Get Discord Data
-    const {
-      code
-    } = req.body
+    const { code } = req.body
 
     if (code) {
       const oauthResult = await fetch('https://discord.com/api/oauth2/token', {
@@ -37,7 +41,7 @@ export const postLogin = async (req, res, next) => {
           client_secret: process.env.DISCORDSECRET,
           code,
           grant_type: 'authorization_code',
-          redirect_uri: 'http://localhost:3000/callback',
+          redirect_uri: redirectURL,
           scope: 'identify'
         }),
         headers: {
@@ -60,6 +64,11 @@ export const postLogin = async (req, res, next) => {
       const username = userData.username
       const did = userData.id
       const avatar = userData.avatar
+      // if (email === undefined) {
+      //   return res.status(401).json({
+      //     error: 'Unauthorized'
+      //   })
+      // }
       if (userData.error) {
         return res.status(401).json({
           error: 'Invalid Token'
@@ -157,5 +166,4 @@ export const getUser = async (req, res, next) => {
       }
     })
   }
-  console.log(user)
 }

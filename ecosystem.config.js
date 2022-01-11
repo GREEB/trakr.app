@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'trakr.app',
       script: './node_modules/nuxt/bin/nuxt.js',
-      args: 'start'
+      args: 'NODE_ENV=production start'
     }
   ]
 }

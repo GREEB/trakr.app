@@ -25,6 +25,7 @@
     "lodash.throttle": "^4.1.1",
     "msgpackr": "^1.5.2",
     "nuxt": "^2.15.8",
+    "nuxt-social-meta": "^1.0.0",
     "nuxt-socket-io": "^2.0.0",
     "on-change": "^4.0.0",
     "pg": "^8.7.1",
@@ -36,6 +37,7 @@
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "vue-toastification": "^1.7.14",
+    "vuescroll": "^4.17.3",
     "vuetify": "^2.6.1",
     "webpack": "^4.46.0"
   },

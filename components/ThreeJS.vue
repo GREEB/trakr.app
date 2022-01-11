@@ -83,24 +83,15 @@ export default {
   },
   // Get Store
   computed: {
-    chordPack () { return this.$store.state.chordPack },
-    connected () {
-      return this.$store.state.connected
-    }
+    chordPack () { return this.$store.state.chordPack }
   },
   // Watch for change Store and do stuff
   watch: {
     chordPack (val) {
       if (val.length === 0) { return }
       this.parseChordPack(val)
-    },
-    connected (state) {
-      if (state) {
-        this.$toast.success('Socket connected')
-      } else {
-        this.$toast.error('Socket disconnected')
-      }
     }
+
   },
   // init Three when mounted
   mounted () {
@@ -152,6 +143,8 @@ export default {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
 
     document.getElementsByClassName('THREE')[0].appendChild(this.renderer.domElement)
+    this.stats.dom.style.cssText = ''
+    this.stats.dom.classList.add('statsjs')
     document.getElementsByClassName('STATS')[0].appendChild(this.stats.dom)
     window.addEventListener('resize', this.onWindowResize)
 
@@ -336,7 +329,8 @@ export default {
         pointsCount: 0,
         pps: 0
       }
-      this.gui = new GUI({ autoPlace: false })
+      this.gui = new GUI()
+
       const optionFolder = this.gui.addFolder('Options')
       optionFolder.add(this.guiLet, 'pointsCount').listen()
       optionFolder.add({ add () { } }, 'add')
@@ -350,7 +344,10 @@ export default {
       cameraFolder.add(this.camera.position, 'x', 0, 100).listen()
       cameraFolder.add(this.camera.position, 'y', 0, 100).listen()
       this.gui.close()
-      document.body.appendChild(this.gui.domElement)
+      document.getElementsByClassName('GUI')[0].appendChild(this.gui.domElement)
+      document.getElementsByClassName('lil-gui')[0].children[1].appendChild(this.stats.dom)
+
+      // document.body.appendChild()
     },
     toBuffer (ab) {
       const buf = Buffer.alloc(ab.byteLength)
@@ -364,3 +361,13 @@ export default {
 
 }
 </script>
+<style lang="sass" scoped>
+html
+  overflow: hidden
+.lil-gui.root
+    top: 47px
+    right: 0
+.lil-gui .title
+  font-size: 12px !important
+  line-height: 19px
+</style>

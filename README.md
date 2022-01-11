@@ -41,6 +41,11 @@ Look at issues
 
 ## Development
 
+To run the production version which takes URL into consideration for callbacks and CORS and also redirects to ```/about``` if not logged in
+
+```NODE_ENV=production``` or use the pm2 ecosystem script this will always launch in production mode
+
+
 If you only wanna see the code for the WebGl/Three stuff there is a file in the root of this repo called ```simple.html```, there should be everything you need.
 
 First make sure you copy the example.env to .env

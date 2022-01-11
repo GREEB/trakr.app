@@ -27,11 +27,11 @@ export default {
   mounted () {
     if (this.$route.query.code) {
       // check origin?
-      // console.log(this.$route.query.code)
+      console.log(this.$route.query.code)
       this.loginData.code = this.$route.query.code
       this.login()
     } else {
-      // this.$router.push('/')
+      this.$router.push('/')
     }
   },
   methods: {

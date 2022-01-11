@@ -1,138 +1,160 @@
 <template>
   <div class="contaner">
-    <section class="intro">
-      <nav>
-        <div class="logo">
-          <img src="" alt="">
-          <img src="~static/image/location-dynamic-gradient.png" alt="">
-          <h1>trakr.app</h1>
-        </div>
-        <div class="right">
-          <button
-            @click="$toast.info(`trakr.app is not yet online, help build it on Github`)"
-          >
-            Open trakr
-          </button>
-          <div class="icons">
-            <a href="https://discord.gg/Ub69BwWXSn">
-              <v-icon
-                right
-                dark
-              >
-                mdi-discord
-              </v-icon>
-            </a>
-            <a href="https://www.reddit.com/r/trakrapp/">
-              <v-icon
-                right
-                dark
-              >
-                mdi-reddit
-              </v-icon>
-            </a>
-            <a href="https://twitter.com/trakr1app">
-              <v-icon
-                right
-                dark
-              >
-                mdi-twitter
-              </v-icon>
-            </a>
-            <a href="https://github.com/greeb/trakr.app">
-              <v-icon
-                right
-                dark
-              >
-                mdi-github
-              </v-icon>
-            </a>
+    <vue-scroll :ops="ops">
+      <section class="intro">
+        <nav>
+          <div class="logo">
+            <img src="" alt="">
+            <img src="~static/image/location-dynamic-gradient.png" alt="">
+            <h1>trakr.app</h1>
           </div>
+          <div class="right">
+            <v-btn
+              class="openapp"
+              to="/"
+            >
+              Open trakr
+            </v-btn>
+            <div class="icons">
+              <a href="https://discord.gg/Ub69BwWXSn">
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-discord
+                </v-icon>
+              </a>
+              <a href="https://www.reddit.com/r/trakrapp/">
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-reddit
+                </v-icon>
+              </a>
+              <a href="https://twitter.com/trakr1app">
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-twitter
+                </v-icon>
+              </a>
+              <a href="https://github.com/greeb/trakr.app">
+                <v-icon
+                  right
+                  dark
+                >
+                  mdi-github
+                </v-icon>
+              </a>
+            </div>
+          </div>
+        </nav>
+        <div class="content">
+          <div class="three" />
+          <h1>
+            Track car telemetry in
+            <img src="~static/image/3d-dynamic-gradient.png" alt="3D"> space
+          </h1>
+          <p>
+            <span>How this works:</span> The Games we support can deliver
+            telemetry over UDP, we parse and display this data
+          </p>
         </div>
-      </nav>
-      <div class="content">
-        <div class="three" />
-        <h1>
-          Track car telemetry in
-          <img src="~static/image/3d-dynamic-gradient.png" alt="3D"> space
-        </h1>
-        <p>
-          <span>How this works:</span> The Games we support can deliver
-          telemetry over UDP, we parse and display this data
-        </p>
-      </div>
-      <span class="scroll-btn">
-        <a href="#">
-          <span class="mouse">
-            <span />
-          </span>
-        </a>
-      </span>
-    </section>
-    <section class="features">
-      <h1>Features</h1>
-      <div class="content">
-        <ul>
-          <li>
-            <img src="~static/image/roll-brush-dynamic-gradient.png" alt="">
-            <h3>GLSL Shaders for efficient visualisiation</h3>
-            <p>
-              Custom Vertex and Fragment shader support, premade shader library
-            </p>
-          </li>
-          <li>
-            <img src="~static/image/wifi-dynamic-gradient.png" alt="">
-            <h3>Realtime visuals in a browser</h3>
-            <p>Monitor Data from anywhere in the world with your browser</p>
-          </li>
-          <li>
-            <img src="~static/image/flag-dynamic-gradient.png" alt="">
-            <h3>Race and compare data</h3>
-            <p>Compare Lap times and look at coresponding telemetry</p>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <img src="~static/image/zoom-dynamic-gradient.png" alt="">
-            <h3>YDIY fully download raw data at anytime</h3>
-            <p>
-              Your data is Yours, you can do whatever you want we are simple a
-              middleman to save data
-            </p>
-          </li>
-          <li>
-            <img src="~static/image/scissor-dynamic-gradient.png" alt="">
-            <h3>Custom Input</h3>
-            <p>Use custom inputs to visualize data from anywhere</p>
-          </li>
-          <li>
-            <img src="~static/image/target-dynamic-gradient.png" alt="">
-            <h3>Collaborative Mapping</h3>
-            <p>Many diffrent clients can make up one map invite other users</p>
-          </li>
-        </ul>
-        <p class="wipinfo">
-          Most of the stuff above unfortunately doesn’t work yet help me build
-          this on <a href="https://github.com/greeb/trakr.app">github</a>
-        </p>
-        <ul>
-          <li>
-            <img src="~static/image/key-dynamic-gradient.png" alt="">
-            <h3>Open Source</h3>
-            <p>Fully open source ready to selfhost</p>
-          </li>
-        </ul>
-      </div>
-    </section>
-    <footer>
-      &copy;
-      <span id="copyright" />
-      trakr.app
-    </footer>
+        <span class="scroll-btn">
+          <a href="#">
+            <span class="mouse">
+              <span />
+            </span>
+          </a>
+        </span>
+      </section>
+      <section class="features">
+        <h1>Features</h1>
+        <div class="content">
+          <ul>
+            <li>
+              <img src="~static/image/roll-brush-dynamic-gradient.png" alt="">
+              <h3>GLSL Shaders for efficient visualisiation</h3>
+              <p>
+                Custom Vertex and Fragment shader support, premade shader library
+              </p>
+            </li>
+            <li>
+              <img src="~static/image/wifi-dynamic-gradient.png" alt="">
+              <h3>Realtime visuals in a browser</h3>
+              <p>Monitor Data from anywhere in the world with your browser</p>
+            </li>
+            <li>
+              <img src="~static/image/flag-dynamic-gradient.png" alt="">
+              <h3>Race and compare data</h3>
+              <p>Compare Lap times and look at coresponding telemetry</p>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <img src="~static/image/zoom-dynamic-gradient.png" alt="">
+              <h3>YDIY fully download raw data at anytime</h3>
+              <p>
+                Your data is Yours, you can do whatever you want we are simple a
+                middleman to save data
+              </p>
+            </li>
+            <li>
+              <img src="~static/image/scissor-dynamic-gradient.png" alt="">
+              <h3>Custom Input</h3>
+              <p>Use custom inputs to visualize data from anywhere</p>
+            </li>
+            <li>
+              <img src="~static/image/target-dynamic-gradient.png" alt="">
+              <h3>Collaborative Mapping</h3>
+              <p>Many diffrent clients can make up one map invite other users</p>
+            </li>
+          </ul>
+          <p class="wipinfo">
+            Most of the stuff above unfortunately doesn’t work yet help me build
+            this on <a href="https://github.com/greeb/trakr.app">github</a>
+          </p>
+          <ul>
+            <li>
+              <img src="~static/image/key-dynamic-gradient.png" alt="">
+              <h3>Open Source</h3>
+              <p>Fully open source ready to selfhost</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <footer>
+        &copy;
+        <span id="copyright" />
+        trakr.app
+      </footer>
+    </vue-scroll>
   </div>
 </template>
 <script>
 export default {
   layout: 'about',
+  data () {
+    return {
+      ops: {
+        bar: {
+          onlyShowBarOnScroll: true,
+          keepShow: false,
+          background: '#000 ',
+          opacity: 1,
+          minSize: 0,
+          size: '6px'
+        }
+      }
+    }
+  },
+  head () {
+    return {
+      title: 'Homepage'
+    }
+  },
   mounted () {
     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
   }
@@ -140,6 +162,7 @@ export default {
 
 </script>
 <style scoped>
+
 .overlayer{
     position: absolute;
 top: 0;
@@ -150,6 +173,8 @@ width: 100%;
 z-index: 99999;
 }
 .contaner {
+  overflow: hidden;
+  height: 100vh;
   color: #ededed;
   padding:0;
   margin:0;
@@ -247,27 +272,12 @@ button {
   pointer-events: all;
   cursor: pointer;
 }
-.intro nav button {
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 32px;
-  text-align: center;
-  letter-spacing: 0.01em;
-  background: radial-gradient(
-    283.2% 4771.01% at 143% 456%,
-    #581cd5 0%,
-    #db94ba 49.48%,
-    #e5b565 100%
-  );
-  position: absolute;
-  right: 3em;
-  top: 3.5em;
-  border-radius: 10px;
-  border: none;
-  padding: 4px 16px 4px 16px;
+.openapp {
+  background: radial-gradient( 283.2% 4771.01% at 143% 456%, #581cd5 0%, #db94ba 49.48%, #e5b565 100% );
   color: #fff;
+  position: absolute;
+  right: 36px;
+  top: 4.5em;
 }
 .intro nav {
   font-family: Segoe UI;
@@ -280,6 +290,9 @@ button {
   align-items: center;
   text-align: center;
   letter-spacing: 0.01em;
+}
+.intro{
+  position: relative;
 }
 .intro .content {
   width: 63%;

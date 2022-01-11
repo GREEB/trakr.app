@@ -8,13 +8,7 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'How this works: The Games we support can deliver telemetry over UDP, we parse and display this data ' },
-      { name: 'format-detection', content: 'telephone=no' },
-      { hid: 'og:title', name: 'og:title', content: 'Track car telemetry in 3D space ' },
-      { hid: 'og:image', name: 'og:image', content: 'https://user-images.githubusercontent.com/1221769/148717218-fe44c144-98e7-40b1-b806-f9d572c1cccd.png' },
-      { hid: 'twitter:title', name: 'twitter:title', content: 'Track car telemetry in 3D space ' },
-      { hid: 'twitter:description', name: 'description', content: 'How this works: The Games we support can deliver telemetry over UDP, we parse and display this data ' },
-      { hid: 'twitter:image', name: 'twitter:image', content: 'https://user-images.githubusercontent.com/1221769/148717218-fe44c144-98e7-40b1-b806-f9d572c1cccd.png' }
-
+      { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -58,14 +52,17 @@ export default {
     port: process.env.PORT || 3000
   },
   publicRuntimeConfig: {
+    dev: process.env.NODE_ENV !== 'production',
     port: process.env.PORT,
     ioPort: process.env.IOPORT,
-    baseURL: process.env.BASEURL
+    baseURL: process.env.URL,
+    discordId: process.env.DISCORDID
+
   },
   privateRuntimeConfig: {
     port: process.env.PORT,
     ioPort: process.env.IOPORT,
-    baseURL: process.env.BASEURL,
+    baseURL: process.env.URL,
     jwtSecret: process.env.JWTSECRET,
     postgresURL: process.env.POSTGRES,
     discordId: process.env.DISCORDID,
@@ -77,8 +74,7 @@ export default {
   //   '~assets/main.sass'
   // ],
 
-  plugins: [
-  ],
+  plugins: ['~/plugins/vuescroll'],
 
   components: true,
 
