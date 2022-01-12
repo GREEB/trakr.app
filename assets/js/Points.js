@@ -4,7 +4,7 @@ import {
   Points,
   Vector3
 } from 'three'
-import { Perlin } from 'three-noise'
+// import { Perlin } from 'three-noise'
 
 import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
 
@@ -49,12 +49,12 @@ export function parsePoint (posData) {
   this.addPoint(xyz)
 }
 export function perlin2Points () {
-  const perlin = new Perlin(Math.random())
-  for (let a = 0; a < 100; a++) {
-    for (let b = 0; b < 100; b++) {
-      this.parsePoint({ x: a * 100, z: b * 100, y: 200 + perlin.get3(new Vector3(a / 100, b / 100, 0)) * 100 })
-    }
-  }
+  // const perlin = new Perlin(Math.random())
+  // for (let a = 0; a < 100; a++) {
+  //   for (let b = 0; b < 100; b++) {
+  //     this.parsePoint({ x: a * 100, z: b * 100, y: 200 + perlin.get3(new Vector3(a / 100, b / 100, 0)) * 100 })
+  //   }
+  // }
 }
 export function parseChordPack (val) {
   // const now = new Date()
