@@ -16,7 +16,7 @@ module.exports = {
       'ref': 'origin/master',
       'repo': 'git@github.com:GREEB/trakr.app.git',
       'ssh_options': ['ForwardAgent=yes'],
-      'path': '/opt/trakr.app',
+      'path': '/opt/trakr',
       'post-deploy': 'yarn && yarn build && pm2 startOrRestart ecosystem.config.js --env production'
     }
   }
