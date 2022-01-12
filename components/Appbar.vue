@@ -4,6 +4,8 @@
     fixed
     app
     dense
+    rounded
+    elevation="1"
   >
     <v-tooltip v-model="showConnectionTooltip" bottom>
       <template #activator="{ on, attrs }">
@@ -17,17 +19,21 @@
       </template>
       <span>{{ connectedText }}</span>
     </v-tooltip>
-    <v-toolbar-title v-text="title" />
+    <NuxtLink class="tb-icon" to="/">
+      <v-toolbar-title v-text="title" />
+    </NuxtLink>
     <v-btn
       class="ml-5"
       text
+      small
       to="/about"
     >
       About
     </v-btn>
-    <v-menu offset-y>
+    <!-- <v-menu offset-y>
       <template #activator="{ on, attrs }">
         <v-btn
+          small
           class="mx-1"
           dark
           v-bind="attrs"
@@ -46,29 +52,16 @@
           </NuxtLink>
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu> -->
     <v-spacer />
-    <v-chip
-      id="pointsCount"
-      outlined
-      dark
-      label
-      small
-      text-color="white"
-    >
-      <v-icon left>
-        mdi-ray-vertex
-      </v-icon>
-      {{ gg }}
-    </v-chip>
-    <v-spacer />
-    <div>
+    <!-- Not sure how to fix this error the right way -->
+    <!-- <client-only>
       <v-btn
         v-if="!$auth.loggedIn"
         color="blue darken-1"
         text
         class="ma-2 white--text"
-        :href="oauth"
+        :href="discordURL"
       >
         Login
         <v-icon
@@ -85,7 +78,7 @@
         </v-icon>
       </v-btn>
       <v-menu
-        v-if="$auth.loggedIn"
+        v-else
         bottom
         min-width="200px"
         rounded
@@ -102,10 +95,8 @@
             >
               <img
                 :src="avatar"
-                alt=""
+                alt="Test"
               >
-
-              <!-- <span class="white--text text-h5">dfgdg</span> -->
             </v-avatar>
           </v-btn>
         </template>
@@ -134,7 +125,7 @@
           </v-list-item-content>
         </v-card>
       </v-menu>
-    </div>
+    </client-only> -->
   </v-app-bar>
 </template>
 <script>
@@ -146,7 +137,7 @@ export default {
     gg: null,
     active: false,
     showConnectionTooltip: false,
-    connectedText: '',
+    connectedText: 'Not connected',
     oauth: 'https://discord.com/api/oauth2/authorize?client_id=918603750057328640&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20email'
   }),
   computed: {
@@ -162,9 +153,6 @@ export default {
     },
     getUserInfo () {
       return this.$store.getters.getUserInfo
-    },
-    pointCounts () {
-      return this.$store.state.points.count
     },
     avatar () {
       return `https://cdn.discordapp.com/avatars/${this.$auth.user.did}/${this.$auth.user.avatar}.png`
@@ -185,13 +173,14 @@ export default {
       setTimeout(() => {
         this.showConnectionTooltip = false
       }, 1000)
-    },
-    pointCounts (count) {
-      this.gg = count
     }
   },
-  mounted () {
-    console.log(this.discordURL)
+  created () {
+    setInterval(() => {
+      if (this.pc) {
+        console.log(this.count)
+      }
+    }, 1000)
   },
   methods: {
     async logout () {
@@ -203,6 +192,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.tb-icon
+  font-weight: 600
+  text-decoration: none
+  color: #fff
 .logo
     transition: all 0.5s ease
     filter: grayscale(1)

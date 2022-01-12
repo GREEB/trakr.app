@@ -3,11 +3,10 @@
     <Appbar />
 
     <v-main>
-      <v-container>
-        <FloatingMenuGithub />
-        <FloatingMenuSettings />
-        <Nuxt />
-      </v-container>
+      <FloatingMenuGithub />
+      <FloatingMenuSettings />
+      <div class="stage" />
+      <Nuxt />
     </v-main>
   </v-app>
 </template>

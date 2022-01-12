@@ -2,7 +2,7 @@
   <div class="contaner">
     <vue-scroll :ops="ops">
       <section class="intro">
-        <nav>
+        <!-- <nav>
           <div class="logo">
             <img src="" alt="">
             <img src="~static/image/location-dynamic-gradient.png" alt="">
@@ -50,7 +50,7 @@
               </a>
             </div>
           </div>
-        </nav>
+        </nav> -->
         <div class="content">
           <div class="three" />
           <h1>
@@ -135,7 +135,7 @@
 </template>
 <script>
 export default {
-  layout: 'about',
+  // layout: 'about',
   data () {
     return {
       ops: {
@@ -161,8 +161,21 @@ export default {
 }
 
 </script>
+<style>
+.lil-gui.root{
+  display: none;
+}
+</style>
 <style scoped>
-
+.v-toolbar{
+  display:none
+}
+.v-main{
+  padding-top:0 !important
+}
+canvas{
+  display:none !important
+}
 .overlayer{
     position: absolute;
 top: 0;
@@ -226,9 +239,12 @@ table::after {
   opacity: 0.1;
 }
 .intro {
-    background: #0b0b0b;
+  margin-top: -48px;
+  background: #0b0b0b;
 }
-
+.lil-gui.root{
+  display: none;
+}
 .intro .content h1 {
   font-style: normal;
   font-weight: 600;
@@ -336,7 +352,7 @@ position: absolute;
 }
 .features h1 {
   margin: 0;
-  padding: 2em 0em 2em 4em;
+  padding: 2em 0em 0em 4em;
   font-style: normal;
   font-weight: 600;
   font-size: 48px;

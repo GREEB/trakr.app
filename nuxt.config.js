@@ -70,26 +70,33 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  // css: [
-  //   '~assets/main.sass'
-  // ],
+  css: [
+    '~assets/main.sass'
+  ],
 
-  plugins: ['~/plugins/vuescroll'],
-
+  plugins: [
+    '~/plugins/vuescroll',
+    '~/plugins/three.client.js'
+  ],
+  render: {
+    bundleRenderer: {
+      shouldPreload: (file, type) => {
+        return ['script', 'style', 'font'].includes(type)
+      }
+    }
+  },
   components: true,
 
   buildModules: [
     '@nuxtjs/fontawesome',
     '@nuxtjs/eslint-module',
-    '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/vuetify'
   ],
 
   modules: [
     'vue-toastification/nuxt',
-    'nuxt-socket-io',
-    '@nuxtjs/axios'
+    'nuxt-socket-io'
   ],
 
   // Toastification module configuration
@@ -125,11 +132,6 @@ export default {
         }
       }
     ]
-  },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    baseURL: '/'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

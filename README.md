@@ -31,7 +31,11 @@ WIP
 
 ## Bugs
 
-Too many atm.
+Big bugs/features to fix/create
+ - Camera System
+ - Session System
+ - Social System
+ - Modular UDP input system
 
 ## Contributing
 
@@ -43,10 +47,7 @@ Look at issues
 
 To run the production version which takes URL into consideration for callbacks and CORS and also redirects to ```/about``` if not logged in
 
-```NODE_ENV=production``` or use the pm2 ecosystem script this will always launch in production mode
-
-
-If you only wanna see the code for the WebGl/Three stuff there is a file in the root of this repo called ```simple.html```, there should be everything you need.
+If you only wanna see the code for the WebGl/Three stuff there look at the assets folder.
 
 First make sure you copy the example.env to .env
 

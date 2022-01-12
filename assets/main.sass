@@ -2,6 +2,9 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+$appbar-height: 48px
+.stage 
+  background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)
 html
     overflow: hidden !important
 // .container
@@ -18,12 +21,13 @@ html
 //         margin-top: 0.3em
 // .v-footer
 //     background: transparent !important
-
-
+canvas
+    position: absolute
+    top: 0
 .ThreeContainer
     position: absolute
     left: 0
-    top: -48px
+    top: -$appbar-height
 .v-app-bar
     background: transparent !important
     img
@@ -59,11 +63,6 @@ html
     height: 100%
     width: 100%
     max-width: unset
-.container
-    width: 100%
-    height: 100%
-    max-width: unset !important
-    padding: 0 !important
 .toasted-container.bottom-left
     left: 1% !important
     bottom: 2% !important
@@ -87,3 +86,12 @@ html
 //     top: unset !important
 //     right: 0 !important
 //     left: unset !important
+.statsjs
+    position: relative
+    canvas
+        margin-right: 1em
+        display: inline !important
+        position: relative
+.lil-gui.root
+    right: 0
+    margin-top: $appbar-height

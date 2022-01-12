@@ -101,3 +101,7 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+settingsBtn
+  position: absolute
+</style>
