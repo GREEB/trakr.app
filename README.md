@@ -32,6 +32,7 @@ WIP
 ## Bugs
 
 Big bugs/features to fix/create
+ - Nuxt with three js is a bit big should be 600kb minified 
  - Camera System
  - Session System
  - Social System
