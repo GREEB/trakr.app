@@ -1,8 +1,7 @@
 import {
   Float32BufferAttribute,
   ShaderMaterial,
-  Points,
-  Vector3
+  Points
 } from 'three'
 // import { Perlin } from 'three-noise'
 
