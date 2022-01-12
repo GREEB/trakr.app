@@ -27,6 +27,7 @@
     "lodash.throttle": "^4.1.1",
     "msgpackr": "^1.5.2",
     "nuxt": "^2.15.8",
+    "nuxt-lazy-load": "^1.2.9",
     "nuxt-social-meta": "^1.0.0",
     "nuxt-socket-io": "^2.0.0",
     "on-change": "^4.0.0",
