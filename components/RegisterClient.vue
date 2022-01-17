@@ -22,14 +22,6 @@
             label="Forza Horizon 5"
             value="1"
           />
-          <v-radio
-            label="Forza Horizon 4"
-            value="2"
-          />
-          <v-radio
-            label="Forza Motorsport 7"
-            value="3"
-          />
         </v-radio-group>
       </v-card-text>
       <v-divider />

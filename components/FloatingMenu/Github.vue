@@ -5,6 +5,7 @@
       icon
       class="githubButton"
       color="#151515"
+      href="https://github.com/greeb/trakr.app"
     >
       <v-icon>mdi-github</v-icon>
     </v-btn>

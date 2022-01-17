@@ -1,12 +1,19 @@
-// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
-//
-// The variables you want to modify
-// $font-size-root: 20px;
+// Manual dark theme color cuz i dont get vuetify 
+
 $appbar-height: 48px
-.stage 
-  background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)
+
+.stage
+    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)
 html
     overflow: hidden !important
+.lil-gui.root
+    display: none
+    z-index: 0
+.guicontainer
+    z-index: 0
+    position: absolute
+.hide
+    display: none
 // .container
 //     max-width: unset !important
 //     padding: 0 !important
@@ -29,7 +36,6 @@ canvas
     left: 0
     top: -$appbar-height
 .v-app-bar
-    background: transparent !important
     img
         width: 2.25em
         margin-top: 0.3em
@@ -41,10 +47,6 @@ canvas
     position: absolute
     top: 0
     right: 0
-
-
-    
-
 .settingsBtn
     z-index: 1 !important
     position: absolute !important
@@ -72,7 +74,7 @@ canvas
     max-height: 30px !important
     min-height: 30px !important
 .Vue-Toastification__toast-body
-    margin-left:2em
+    margin-left: 2em
 .Vue-Toastification__toast-body, .Vue-Toastification__close-button
     line-height: 0px !important
 .Vue-Toastification__icon
@@ -94,4 +96,42 @@ canvas
         position: relative
 .lil-gui.root
     right: 0
-    margin-top: $appbar-height
+.lil-gui.root.light
+    font-family: var(--font-family)
+    font-size: var(--font-size)
+    line-height: 1
+    font-weight: normal
+    font-style: normal
+    text-align: left
+    background-color: var(--background-color)
+    color: var(--text-color)
+    user-select: none
+    -webkit-user-select: none
+    touch-action: manipulation
+    --background-color: #e8e8e8
+    --text-color: #1f1f1f
+    --title-background-color: #e8e8e8
+    --title-text-color: #000
+    --widget-color: #f5f5f5
+    --hover-color: #d3d3d3
+    --focus-color: #d8d8d8
+    --number-color: #2cc9ff
+    --string-color: #a2db3c
+    --font-size: 11px
+    --input-font-size: 11px
+    --font-family: -apple-system,BlinkMacSystemFont,"Lucida Grande","Segoe UI",Roboto,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+    --font-family-mono: Menlo,Monaco,Consolas,"Droid Sans Mono",monospace,"Droid Sans Fallback"
+    --padding: 4px
+    --spacing: 4px
+    --widget-height: 20px
+    --name-width: 45%
+    --slider-knob-width: 2px
+    --slider-input-width: 27%
+    --color-input-width: 27%
+    --slider-input-min-width: 45px
+    --color-input-min-width: 45px
+    --folder-indent: 7px
+    --widget-padding: 0 0 0 3px
+    --widget-border-radius: 2px
+    --checkbox-size: calc(.75*var(--widget-height))
+    --scrollbar-width: 5px

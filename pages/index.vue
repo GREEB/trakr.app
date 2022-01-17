@@ -1,16 +1,9 @@
 <template>
-  <div class="container">
-    <v-btn
-      @mouseup="stopAdd"
-      @mousedown="addPoints"
-    >
-      add random point
-    </v-btn>
+  <div>
     <Sockets />
   </div>
 </template>
 <script>
-
 export default {
   middleware: 'isAuthenticated',
   data () {
@@ -18,8 +11,8 @@ export default {
       interval: null
     }
   },
-  mounted () {
-    console.log(this)
+  head: {
+    title: 'Home'
   },
   methods: {
     /**
@@ -40,3 +33,8 @@ export default {
   }
 }
 </script>
+<style>
+.lil-gui.root{
+  display: block;
+}
+</style>

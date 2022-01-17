@@ -51,7 +51,6 @@ export default ({ store, app, route }, inject) => {
   const initStage = () => {
     // eslint-disable-next-line no-unused-vars
     // DO NOT INJECT ON THESE SITES
-    console.log('init Stage')
     stage = new Stage({
       container: document.querySelector('.stage'),
       guiContainer: document.querySelector('.gui')

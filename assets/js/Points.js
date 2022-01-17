@@ -6,8 +6,8 @@ import {
 // import { Perlin } from 'three-noise'
 
 import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
-
 export function createEmptyPoints () {
+  this.pointsCount = 0
   const positions = new Float32Array(this.maxParticle * 3)
   this.geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
 
@@ -41,8 +41,8 @@ export function parsePoint (posData) {
   // each point must be 3D
   const xyz = [
     parseFloat(posData.x / 20),
-    parseFloat(posData.z / 20),
-    parseFloat(posData.y / 20)
+    parseFloat(posData.y / 20),
+    parseFloat(posData.z / 20)
   ]
 
   this.addPoint(xyz)

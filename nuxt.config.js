@@ -2,8 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   head: {
-    titleTemplate: '%s - Track car telemetry in 3D space',
-    title: 'trakr.app',
+    titleTemplate: '%s - Trakr.app',
+    title: 'Trakr.app',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,7 +15,7 @@ export default {
     ]
   },
   loading: {
-    color: 'black',
+    color: 'gray',
     height: '3px'
   },
   auth: {
@@ -56,8 +56,8 @@ export default {
     port: process.env.PORT,
     ioPort: process.env.IOPORT,
     baseURL: process.env.URL,
-    discordId: process.env.DISCORDID
-
+    discordId: process.env.DISCORDID,
+    githubURL: process.env.DISCORDID
   },
   privateRuntimeConfig: {
     port: process.env.PORT,
@@ -73,10 +73,10 @@ export default {
   css: [
     '~assets/main.sass'
   ],
-
   plugins: [
     '~/plugins/vuescroll',
-    '~/plugins/three.client.js'
+    '~/plugins/three.client'
+
   ],
   render: {
     bundleRenderer: {
@@ -95,10 +95,15 @@ export default {
   ],
 
   modules: [
+    'cookie-universal-nuxt',
+    '@nuxtjs/axios',
     'vue-toastification/nuxt',
     'nuxt-socket-io'
   ],
-
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: '/'
+  },
   // Toastification module configuration
   toast: {
     position: 'bottom-left',
@@ -136,9 +141,11 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    // customVariables: ['~/assets/variables.scss'],
+    // treeShake: true, enable to set variables
     theme: {
       dark: true,
+      // options: { customProperties: true },
       themes: {
         dark: {
           primary: colors.blue.darken2,
