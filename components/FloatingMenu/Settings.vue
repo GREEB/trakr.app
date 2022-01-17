@@ -21,50 +21,48 @@
     </template>
 
     <v-card offset-x="true">
-      <v-list-item class="guilist" two-line>
-        <v-list-item-content>
-          <v-list-item-title class="text-h5">
-            Settings
-          </v-list-item-title>
-          <v-list-item-subtitle>UID: 1278312, Points</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider />
-      <v-sheet
-        elevation="10"
-        class="py-4 px-1"
-      >
-        <v-chip-group
-          multiple
-          active-class="primary--text"
-        >
-          <v-chip>
-            123
-          </v-chip>
-        </v-chip-group>
-      </v-sheet>
       <v-list>
         <v-list-item>
-          <v-list-item-action>
-            <v-switch
-              v-model="message"
-              color="purple"
-            />
-          </v-list-item-action>
-          <v-list-item-title>Show bounding box</v-list-item-title>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
-
         <v-list-item>
-          <v-list-item-action>
-            <v-switch
-              v-model="allSettings"
-
-              color="purple"
-              @change="toggleSettings"
-            />
-          </v-list-item-action>
-          <v-list-item-title>toggle lil gui</v-list-item-title>
+          <v-switch
+            v-model="gui"
+            label="lil gui"
+            @change="toggleGui"
+          />
+        </v-list-item>
+        <v-list-item>
+          <v-switch
+            v-model="$vuetify.theme.dark"
+            :label="$vuetify.theme.dark ? 'Darkmode' : 'Lightmode'"
+            persistent-hint
+            @click="setThreeBG"
+          />
+        </v-list-item>
+        <v-list-item>
+          <v-btn
+            class="about"
+            text
+            small
+            depressed
+            to="/stress"
+          >
+            Stress
+          </v-btn>
+        </v-list-item>
+        <v-list-item>
+          <v-btn
+            href="http://github.com/greeb/trakr.app"
+            small
+            icon
+            color="#fff"
+            class="mr-1"
+          >
+            <v-icon>mdi-github</v-icon>
+          </v-btn>
         </v-list-item>
       </v-list>
 
@@ -72,9 +70,10 @@
         <v-spacer />
 
         <v-btn
+          icon
           @click="menu = false"
         >
-          close
+          <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -82,19 +81,60 @@
 </template>
 <script>
 export default {
+
   data: () => ({
     gg: null,
     fav: true,
     menu: false,
     message: false,
-    allSettings: false
+    gui: false
   }),
+  mounted () {
+    const gui = this.$cookies.get('gui')
+    if (gui === true) {
+      this.gui = true
+      const el = document.querySelector('.gui')
+      el.style.display = 'block'
+    }
+
+    const theme = this.$cookies.get('theme')
+    if (theme !== undefined) {
+      if (theme === 'dark') {
+        this.setDark()
+      } else {
+        this.setLight()
+      }
+    }
+  },
   methods: {
-    toggleSettings (w) {
-      const el = document.querySelector('.lil-gui')
+    setThreeBG () {
+      if (this.$vuetify.theme.dark) {
+        document.getElementsByClassName('lil-gui root')[0].classList.remove('light')
+        this.$stage.setBackgroundColor('#1E1E1E')
+        this.$cookies.set('theme', 'dark', { path: '/', maxAge: 60 * 60 * 24 * 7 })
+      } else {
+        document.getElementsByClassName('lil-gui root')[0].classList.add('light')
+        this.$stage.setBackgroundColor('#ffffff')
+        this.$cookies.set('theme', 'light', { path: '/', maxAge: 60 * 60 * 24 * 7 })
+      }
+    },
+    setDark () {
+      this.$vuetify.theme.dark = true
+      document.getElementsByClassName('lil-gui root')[0].classList.remove('light')
+      this.$stage.setBackgroundColor('#1E1E1E')
+    },
+    setLight () {
+      this.$vuetify.theme.dark = false
+      document.getElementsByClassName('lil-gui root')[0].classList.add('light')
+      this.$stage.setBackgroundColor(this.$vuetify.theme.themes.light.background)
+    },
+    toggleGui (w) {
+      const el = document.querySelector('.gui').parentElement
       if (w) {
+        this.$cookies.set('gui', true, { path: '/', maxAge: 60 * 60 * 24 * 7 })
         el.style.display = 'block'
       } else {
+        this.$cookies.set('gui', false, { path: '/', maxAge: 60 * 60 * 24 * 7 })
         el.style.display = 'none'
       }
     }
