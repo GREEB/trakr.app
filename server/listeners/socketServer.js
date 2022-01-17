@@ -2,9 +2,10 @@ import http from 'http'
 import dotenv from 'dotenv'
 import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
-import config from '../config/auth.config'
+import cookie from 'cookie'
 import { addIOuser, registerUDPUser } from '../controllers/userController'
 import { sendInitData } from '../controllers/dataController'
+import config from '../config/auth.config'
 
 dotenv.config()
 
@@ -24,23 +25,22 @@ export const io = new Server(httpServer, {
 io.use(function (socket, next) {
   // TODO: No idea if this is right way to do things or if we need to recheck this everytime with middleware
   // category=Auth
-  const authtoken = socket.handshake.headers.cookie.split(' ')[1]
-  const token = authtoken.split('=')[1].slice(0, -1)
-  if (token === 'false') {
-    console.log('token is false')
+  const authtoken = socket.handshake.headers.cookie
+  console.log(cookie.parse(authtoken))
+
+  const token = cookie.parse(authtoken)['auth._token.local'].split(' ')[1]
+  if (cookie.parse(authtoken)['auth._token.local'] === 'false') {
     socket.decoded = false
     next()
   } else {
-    console.log('token found')
-
-    jwt.verify(token.substring(9), config.secret, function (err, decoded) {
+    jwt.verify(token, config.secret, function (err, decoded) {
       if (err) { return next(new Error('Authentication error')) }
       socket.decoded = decoded
       next()
     })
   }
 }).on('connection', (socket) => {
-  console.log('ON CONNECTION')
+  console.log('CONNECTED SOCKET')
   if (socket.handshake.headers.path === '/') {
     socket.join('home')
   }
