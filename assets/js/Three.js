@@ -1,11 +1,22 @@
-/* eslint-disable unicorn/number-literal-case */
-import { AxesHelper, Object3D, WebGLRenderer, Scene, PerspectiveCamera, PCFSoftShadowMap, AmbientLight, sRGBEncoding, ACESFilmicToneMapping, Color, Vector3, BufferGeometry } from 'three'
+// Import librarys
+import {
+  AxesHelper,
+  BufferGeometry,
+  Color,
+  Object3D,
+  PerspectiveCamera,
+  Scene,
+  Vector3,
+  WebGLRenderer
+} from 'three'
 import { bindAll } from 'lodash-es'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { initGui } from './Gui'
 import { EventBus } from '~/assets/js/utils/event.js'
-import { createEmptyPoints, addPoint, parsePoint, parseChordPack, perlin2Points } from '~/assets/js/Points.js'
 
+// import local
+import { createEmptyPoints, addPoint, parsePoint, parseChordPack, perlin2Points } from '~/assets/js/Points.js'
+import { setBackgroundColor } from '~/assets/js/Helpers'
 export default class Stage {
   constructor (opts = {}) {
     this.geometry = new BufferGeometry()
@@ -20,11 +31,8 @@ export default class Stage {
     this.onResize()
   }
 
-  // WARNING: This is not a drop in replacement solution and
-  // it might not work for some edge cases. Test your code!
   addListeners () {
-    bindAll(this, ['onResize', 'render'])
-
+    bindAll(this, ['onResize', 'render']) // I want to get rid of lodash pls
     EventBus.$on('ON_RESIZE', this.onResize)
     EventBus.$on('ON_TICK', this.render)
   }
@@ -44,15 +52,9 @@ export default class Stage {
       alpha: true
     })
     this.renderer.setPixelRatio(pixelRatio)
-    this.renderer.setClearColor(new Color(0x0D0D0D))
+    this.renderer.setClearColor(new Color(0x1E1E1E))
 
-    this.renderer.toneMappingExposure = 0.6
-    this.renderer.outputEncoding = sRGBEncoding
-    this.renderer.toneMapping = ACESFilmicToneMapping
     this.renderer.powerPreference = 'high-performance'
-
-    this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = PCFSoftShadowMap
 
     this.container.style.overflow = 'hidden'
     this.container.style.margin = 0
@@ -75,9 +77,6 @@ export default class Stage {
 
     // this.controls = new OrbitControls(this.camera, this.container);
     // this.controls.update();
-
-    const ambientLight = new AmbientLight(0xdbdbdb)
-    this.scene.add(ambientLight)
     this.scene.add(new AxesHelper(100))
     this.createEmptyPoints()
     this.initGui()
@@ -108,3 +107,4 @@ Stage.prototype.parsePoint = parsePoint
 Stage.prototype.parseChordPack = parseChordPack
 Stage.prototype.initGui = initGui
 Stage.prototype.perlin2Points = perlin2Points
+Stage.prototype.setBackgroundColor = setBackgroundColor
