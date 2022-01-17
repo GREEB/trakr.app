@@ -11,8 +11,6 @@ const maxClientTimeout = 10 // UDP client "timeout" in seconds
 
 const udpClients = {}
 
-// FIXME: Dumbass loop, Looks for ips that have not send data in a while and delete them
-// category=Server
 setInterval(() => {
   // console.log(users)
   Object.keys(users).forEach((id) => {

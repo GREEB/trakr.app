@@ -19,15 +19,6 @@ import { users, idFromIp } from './userController.js' // Mongo Model
 export const throttledWrite = async (x, y, z, s, r, flying, yaw, pitch, roll, ip, size, userID) => {
   const userId = idFromIp(ip)
 
-  /**
-   * TODO: Fix throttle speed by car speed
-   * category=Server
-   * this doesn't really work atm we do (speed ^-2) * (2 * 10^7)
-   * but that doesn't scale really well for all number especially low ones
-   *
-   * @const speedo This variable is the speed we should throttle at
-   * */
-
   const now = new Date()
   const speed2kmh = Math.abs(Math.round(s * 2.237)) * 1.60934
   // const twenymil = 2 * Math.pow(10, 7)

@@ -23,10 +23,7 @@ export const io = new Server(httpServer, {
   }
 })
 io.use(function (socket, next) {
-  // TODO: No idea if this is right way to do things or if we need to recheck this everytime with middleware
-  // category=Auth
   const authtoken = socket.handshake.headers.cookie
-  console.log(cookie.parse(authtoken))
 
   const token = cookie.parse(authtoken)['auth._token.local'].split(' ')[1]
   if (cookie.parse(authtoken)['auth._token.local'] === 'false') {
@@ -40,7 +37,6 @@ io.use(function (socket, next) {
     })
   }
 }).on('connection', (socket) => {
-  console.log('CONNECTED SOCKET')
   if (socket.handshake.headers.path === '/') {
     socket.join('home')
   }
