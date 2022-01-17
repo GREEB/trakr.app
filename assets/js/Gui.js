@@ -10,7 +10,7 @@ export function initGui () {
     pointsCount: 0,
     pps: 0
   }
-  this.gui = new GUI()
+  this.gui = new GUI({ autoPlace: false })
   this.stats = new Stats()
   this.stats.dom.style.cssText = ''
   this.stats.dom.classList.add('statsjs')
@@ -29,13 +29,12 @@ export function initGui () {
   cameraFolder.add(this.camera.position, 'z', 0, 100).listen()
   cameraFolder.add(this.camera.position, 'x', 0, 100).listen()
   cameraFolder.add(this.camera.position, 'y', 0, 100).listen()
-  this.gui.close()
   const statsFolder = this.gui.addFolder('FPS')
-  statsFolder.close()
   statsFolder.domElement.children[1].appendChild(this.stats.dom)
   // this.gui.domElement.childNodes[0].appendChild(this.stats.dom)
   // statsFolder.appendChild(this.stats.dom)
   this.guiContainer.appendChild(this.gui.domElement)
+
   // this.guiContainer.appendChild(this.stats.dom)
   // document.getElementsByClassName('gui')[0].appendChild(this.gui.domElement)
   // this.guiContainer.getElementsByClassName('lil-gui')[0].children[1].children[0].appendChild(this.stats.dom)
