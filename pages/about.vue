@@ -53,11 +53,15 @@
         </nav> -->
         <div class="content">
           <div class="three" />
-          <h1>
+          <h1 class="text-wrap">
             Track car telemetry in
-            <img src="~static/image/3d-dynamic-gradient.png" alt="3D"> space
+            <img
+              src="image/3d-dynamic-gradient.png"
+              alt="3D"
+            >
+            space
           </h1>
-          <p>
+          <p class="text-wrap">
             <span>How this works:</span> The Games we support can deliver
             telemetry over UDP, we parse and display this data
           </p>
@@ -75,26 +79,50 @@
         <div class="content">
           <ul>
             <li>
-              <img src="~static/image/roll-brush-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/roll-brush-dynamic-gradient.png"
+                alt=""
+              />
               <h3>GLSL Shaders for efficient visualisiation</h3>
               <p>
                 Custom Vertex and Fragment shader support, premade shader library
               </p>
             </li>
             <li>
-              <img src="~static/image/wifi-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/wifi-dynamic-gradient.png"
+                alt=""
+              />
               <h3>Realtime visuals in a browser</h3>
               <p>Monitor Data from anywhere in the world with your browser</p>
             </li>
             <li>
-              <img src="~static/image/flag-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/flag-dynamic-gradient.png"
+                alt=""
+              />
               <h3>Race and compare data</h3>
               <p>Compare Lap times and look at coresponding telemetry</p>
             </li>
           </ul>
           <ul>
             <li>
-              <img src="~static/image/zoom-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/zoom-dynamic-gradient.png"
+                alt=""
+              />
               <h3>YDIY fully download raw data at anytime</h3>
               <p>
                 Your data is Yours, you can do whatever you want we are simple a
@@ -102,12 +130,24 @@
               </p>
             </li>
             <li>
-              <img src="~static/image/scissor-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/scissor-dynamic-gradient.png"
+                alt=""
+              />
               <h3>Custom Input</h3>
               <p>Use custom inputs to visualize data from anywhere</p>
             </li>
             <li>
-              <img src="~static/image/target-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/target-dynamic-gradient.png"
+                alt=""
+              />
               <h3>Collaborative Mapping</h3>
               <p>Many diffrent clients can make up one map invite other users</p>
             </li>
@@ -118,7 +158,13 @@
           </p>
           <ul>
             <li>
-              <img src="~static/image/key-dynamic-gradient.png" alt="">
+              <v-img
+                max-height="65"
+                max-width="91"
+                contain
+                src="image/key-dynamic-gradient.png"
+                alt=""
+              />
               <h3>Open Source</h3>
               <p>Fully open source ready to selfhost</p>
             </li>
@@ -142,7 +188,7 @@ export default {
         bar: {
           onlyShowBarOnScroll: true,
           keepShow: false,
-          background: '#000 ',
+          background: '#151515 ',
           opacity: 1,
           minSize: 0,
           size: '6px'
@@ -150,22 +196,21 @@ export default {
       }
     }
   },
-  head () {
-    return {
-      title: 'Homepage'
-    }
+  head: {
+    title: 'About'
+  },
+  // Little fix to show and hide lil gui on page
+  beforeDestroy () {
+    document.getElementsByClassName('guicontainer')[0].classList.remove('hide')
   },
   mounted () {
+    this.overlay = false
     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
+    document.getElementsByClassName('guicontainer')[0].classList.add('hide')
   }
 }
 
 </script>
-<style>
-.lil-gui.root{
-  display: none;
-}
-</style>
 <style scoped>
 .v-toolbar{
   display:none
@@ -178,17 +223,16 @@ canvas{
 }
 .overlayer{
     position: absolute;
-top: 0;
-left: 0;
-height: 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
     background: #0b0b0b;
-width: 100%;
-z-index: 99999;
+    width: 100%;
+    z-index: 99999;
 }
 .contaner {
   overflow: hidden;
   height: 100vh;
-  color: #ededed;
   padding:0;
   margin:0;
   font-family: Segoe UI;
@@ -240,10 +284,11 @@ table::after {
 }
 .intro {
   margin-top: -48px;
-  background: #0b0b0b;
+  background: #1E1E1E;
 }
-.lil-gui.root{
-  display: none;
+.theme--light .intro {
+  margin-top: -48px;
+  background: #fff;
 }
 .intro .content h1 {
   font-style: normal;
@@ -264,10 +309,6 @@ table::after {
   line-height: 24px;
   letter-spacing: 0.01em;
   color: #8d8d8d;
-}
-
-.intro p span {
-  color: #ededed;
 }
 .intro h1 img {
   height: 308px;
@@ -346,6 +387,9 @@ position: absolute;
   /* identical to box height */
   letter-spacing: 0.01em;
 }
+.features .content .v-image{
+  float: left;
+}
 .features .content {
   height: 100%;
   padding: 6.5em;
@@ -406,10 +450,15 @@ position: absolute;
   margin-bottom: 4em;
 }
 .features {
-  background-color: #181a1e;
+  background-color: #131313;
   width: 100%;
 }
-
+.theme--light .features {
+  background-color: rgb(230, 230, 230);
+}
+.theme--light footer{
+  background-color: #e6e6e6;
+}
 .supported {
   background: linear-gradient(
     180deg,
