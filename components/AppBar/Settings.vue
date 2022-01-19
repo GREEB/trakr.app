@@ -2,80 +2,62 @@
   <v-menu
     v-model="menu"
     :close-on-content-click="false"
-    :nudge-width="200"
+    :nudge-width="100"
     offset-y
   >
     <template #activator="{ on, attrs }">
       <v-btn
-        class="mx-2 settingsBtn"
+        class="mx-2"
         fab
         dark
         x-small
+        color="accent"
+
         v-bind="attrs"
         v-on="on"
       >
-        <v-icon dark>
+        <v-icon x-small>
           mdi-wrench
         </v-icon>
       </v-btn>
     </template>
+    <v-card offset-x="true" color="accent">
+      <v-card-title>App Settings</v-card-title>
+      <v-card-subtitle>Basic App settings</v-card-subtitle>
+      <v-list
+        flat
+        subheader
+        three-line
+      >
+        <v-subheader>General</v-subheader>
 
-    <v-card offset-x="true">
-      <v-list>
         <v-list-item>
+          <v-list-item-action>
+            <v-switch
+              v-model="gui"
+              @change="toggleGui"
+            />
+          </v-list-item-action>
+
           <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
+            <v-list-item-title>lil gui aka dat.gui </v-list-item-title>
+            <v-list-item-subtitle>Toggle lil gui mostly for devlopment</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
-          <v-switch
-            v-model="gui"
-            label="lil gui"
-            @change="toggleGui"
-          />
-        </v-list-item>
-        <v-list-item>
-          <v-switch
-            v-model="$vuetify.theme.dark"
-            :label="$vuetify.theme.dark ? 'Darkmode' : 'Lightmode'"
-            persistent-hint
-            @click="setThreeBG"
-          />
-        </v-list-item>
-        <v-list-item>
-          <v-btn
-            class="about"
-            text
-            small
-            depressed
-            to="/stress"
-          >
-            Stress
-          </v-btn>
-        </v-list-item>
-        <v-list-item>
-          <v-btn
-            href="http://github.com/greeb/trakr.app"
-            small
-            icon
-            color="#fff"
-            class="mr-1"
-          >
-            <v-icon>mdi-github</v-icon>
-          </v-btn>
+          <v-list-item-action>
+            <v-switch
+              v-model="$vuetify.theme.dark"
+              @click="setThreeBG"
+            />
+          </v-list-item-action>
+
+          <v-list-item-content>
+            <v-list-item-title>Darkmode</v-list-item-title>
+            <v-list-item-subtitle>Watch out flashbang effect is real</v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
-
-      <v-card-actions>
-        <v-spacer />
-
-        <v-btn
-          icon
-          @click="menu = false"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-menu>
 </template>
@@ -83,6 +65,7 @@
 export default {
 
   data: () => ({
+    settings: [],
     gg: null,
     fav: true,
     menu: false,
@@ -91,10 +74,12 @@ export default {
   }),
   mounted () {
     const gui = this.$cookies.get('gui')
+    const el = document.querySelector('.gui')
     if (gui === true) {
       this.gui = true
-      const el = document.querySelector('.gui')
       el.style.display = 'block'
+    } else {
+      el.style.display = 'none'
     }
 
     const theme = this.$cookies.get('theme')
@@ -110,7 +95,7 @@ export default {
     setThreeBG () {
       if (this.$vuetify.theme.dark) {
         document.getElementsByClassName('lil-gui root')[0].classList.remove('light')
-        this.$stage.setBackgroundColor('#1E1E1E')
+        this.$stage.setBackgroundColor('#121212')
         this.$cookies.set('theme', 'dark', { path: '/', maxAge: 60 * 60 * 24 * 7 })
       } else {
         document.getElementsByClassName('lil-gui root')[0].classList.add('light')
@@ -121,7 +106,7 @@ export default {
     setDark () {
       this.$vuetify.theme.dark = true
       document.getElementsByClassName('lil-gui root')[0].classList.remove('light')
-      this.$stage.setBackgroundColor('#1E1E1E')
+      this.$stage.setBackgroundColor('#121212')
     },
     setLight () {
       this.$vuetify.theme.dark = false
@@ -129,7 +114,7 @@ export default {
       this.$stage.setBackgroundColor(this.$vuetify.theme.themes.light.background)
     },
     toggleGui (w) {
-      const el = document.querySelector('.gui').parentElement
+      const el = document.querySelector('.gui')
       if (w) {
         this.$cookies.set('gui', true, { path: '/', maxAge: 60 * 60 * 24 * 7 })
         el.style.display = 'block'
@@ -141,7 +126,3 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-settingsBtn
-  position: absolute
-</style>

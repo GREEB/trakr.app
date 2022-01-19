@@ -1,0 +1,45 @@
+<template>
+  <div>
+    <v-btn
+      icon
+      x-small
+      color="grey"
+      href="https://github.com/GREEB/trakr.app/"
+      class="mr-1"
+      target="_blank"
+    >
+      <v-icon>mdi-github</v-icon>
+    </v-btn>
+    <v-btn
+      icon
+      x-small
+      color="grey"
+      href="https://github.com/GREEB/trakr.app/"
+      class="mr-1"
+      target="_blank"
+    >
+      <v-icon>mdi-discord</v-icon>
+    </v-btn>
+
+    <v-btn
+      icon
+      x-small
+      color="grey"
+      target="_blank"
+      class="mr-1"
+      href="https://github.com/GREEB/trakr.app/"
+    >
+      <v-icon>mdi-reddit</v-icon>
+    </v-btn>
+    <v-btn
+      icon
+      x-small
+      color="grey"
+      target="_blank"
+      class="mr-1"
+      href="https://github.com/GREEB/trakr.app/"
+    >
+      <v-icon>mdi-twitter</v-icon>
+    </v-btn>
+  </div>
+</template>
