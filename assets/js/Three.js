@@ -17,6 +17,7 @@ import { EventBus } from '~/assets/js/utils/event.js'
 // import local
 import { createEmptyPoints, addPoint, parsePoint, parseChordPack, perlin2Points } from '~/assets/js/Points.js'
 import { setBackgroundColor } from '~/assets/js/Helpers'
+import { orbit } from '~/assets/js/Camera'
 export default class Stage {
   constructor (opts = {}) {
     this.geometry = new BufferGeometry()
@@ -26,6 +27,7 @@ export default class Stage {
     this.PointsMaterial = null
     this.container = opts.container || document.body
     this.guiContainer = opts.guiContainer || document.body
+    this.controls = null
     this.addListeners()
     this.init()
     this.onResize()
@@ -52,7 +54,7 @@ export default class Stage {
       alpha: true
     })
     this.renderer.setPixelRatio(pixelRatio)
-    this.renderer.setClearColor(new Color(0x1E1E1E))
+    this.renderer.setClearColor(new Color(0x121212))
 
     this.renderer.powerPreference = 'high-performance'
 
@@ -76,7 +78,7 @@ export default class Stage {
     this.camera.lookAt(new Vector3(0, 0, 0))
 
     // this.controls = new OrbitControls(this.camera, this.container);
-    // this.controls.update();
+    //
     this.scene.add(new AxesHelper(100))
     this.createEmptyPoints()
     this.initGui()
@@ -84,12 +86,14 @@ export default class Stage {
   }
 
   onResize () {
-    this.camera.aspect = window.innerWidth / window.innerHeight
+    const newHeight = window.innerHeight - 48
+    this.camera.aspect = window.innerWidth / newHeight
     this.camera.updateProjectionMatrix()
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.setSize(window.innerWidth, newHeight)
   }
 
   render ({ mouse }) {
+    this.controls.update()
     this.stats.update()
 
     if (this.currentTarget) {
@@ -108,3 +112,4 @@ Stage.prototype.parseChordPack = parseChordPack
 Stage.prototype.initGui = initGui
 Stage.prototype.perlin2Points = perlin2Points
 Stage.prototype.setBackgroundColor = setBackgroundColor
+Stage.prototype.orbit = orbit
