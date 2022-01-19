@@ -1,9 +1,9 @@
 <template>
   <div class="fhContainer">
     <v-container>
-      <div class="mb-4 mt-4 text-h3">
+      <h1 class="mb-4 mt-4 text-h3">
         Changes
-      </div>
+      </h1>
       <p>Github commits will be shown here</p>
       <v-card
         class="mx-auto"

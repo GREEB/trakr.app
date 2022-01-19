@@ -71,6 +71,13 @@
             Changelog
           </v-list-item-title>
         </v-list-item>
+        <v-list-item link to="/compatibility">
+          <v-list-item-title>
+            Compatibility
+          </v-list-item-title>
+        </v-list-item>
+        <v-divider />
+
         <v-divider />
 
         <v-subheader>External Links</v-subheader>

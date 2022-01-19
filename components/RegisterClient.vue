@@ -79,6 +79,7 @@
   </v-dialog>
 </template>
 <script>
+import games from '~/games.json'
 export default {
   data () {
     return {
@@ -114,6 +115,9 @@ export default {
         this.dialog = true
       }
     }
+  },
+  mounted () {
+    console.log(games)
   },
   methods: {
     save () {

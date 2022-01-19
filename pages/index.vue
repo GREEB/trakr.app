@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  // middleware: 'isAuthenticated',
+  middleware: 'isFirstVisit',
   data () {
     return {
       interval: null
