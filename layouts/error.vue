@@ -4,12 +4,7 @@
     <div>
       <v-row class="d-flex justify-center">
         <h1 v-if="error.statusCode === 404" class="text-h1">
-          <v-img
-            class="errorimg"
-            max-width="400"
-            lazy-src="image/tiny/404.png"
-            src="image/404.png"
-          />
+          {{ pageNotFound }}
         </h1>
         <h1 v-else>
           {{ otherError }}
