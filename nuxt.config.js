@@ -95,6 +95,7 @@ export default {
   ],
 
   modules: [
+    '@nuxt/content',
     'cookie-universal-nuxt',
     '@nuxtjs/axios',
     'vue-toastification/nuxt',
@@ -142,7 +143,6 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     // customVariables: ['~/assets/variables.scss'],
-    // treeShake: true, enable to set variables
     theme: {
       dark: true,
       // options: { customProperties: true },
