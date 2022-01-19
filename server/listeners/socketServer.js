@@ -24,8 +24,8 @@ export const io = new Server(httpServer, {
 })
 io.use(function (socket, next) {
   const authtoken = socket.handshake.headers.cookie
-
   const token = cookie.parse(authtoken)['auth._token.local'].split(' ')[1]
+
   if (cookie.parse(authtoken)['auth._token.local'] === 'false') {
     socket.decoded = false
     next()
@@ -36,13 +36,20 @@ io.use(function (socket, next) {
       next()
     })
   }
-}).on('connection', (socket) => {
-  if (socket.handshake.headers.path === '/') {
-    socket.join('home')
-  }
-  addIOuser(socket)
-  sendInitData(socket)
-  socket.on('sockets/game', (data) => {
-    registerUDPUser(data, socket)
-  })
 })
+  .on('connection', (socket) => {
+    if (socket.handshake.headers.path === '/') {
+      socket.join('home')
+    }
+    // if user on eg /m/fh5 send global data for fh5 and add to fh5 room do that for every game we support
+    // Adding user to our dumb user manager
+    addIOuser(socket)
+
+    // Send init data to user
+    sendInitData(socket)
+
+    // Register Client Call
+    socket.on('sockets/game', (data) => {
+      registerUDPUser(data, socket)
+    })
+  })

@@ -1,28 +1,29 @@
-<template>
-  <v-app dark>
-    <div>
-      <v-card
-        class="d-flex justify-center align-center mb-6"
-        flat
-        tile
-        height="100vh"
-      >
-        <div>
-          <h1 v-if="error.statusCode === 404" class="text-h1">
-            {{ pageNotFound }}
-          </h1>
-          <h1 v-else>
-            {{ otherError }}
-          </h1>
-          <NuxtLink to="/" class="text-h3 text-center">
-            Home page
-          </NuxtLink>
-        </div>
-      </v-card>
-    </div>
-  </v-app>
-</template>
 
+<template>
+  <div class="v-container d-flex justify-center align-center">
+    <div>
+      <v-row class="d-flex justify-center">
+        <h1 v-if="error.statusCode === 404" class="text-h1">
+          <v-img
+            class="errorimg"
+            max-width="400"
+            lazy-src="image/tiny/404.png"
+            src="image/404.png"
+          />
+        </h1>
+        <h1 v-else>
+          {{ otherError }}
+        </h1>
+      </v-row>
+      <v-row class="d-flex justify-center">
+        <v-btn class="text-center" big to="/">
+          Home
+        </v-btn>
+      </v-row>
+    </div>
+  </div>
+  <!-- Inject sockets into the template maybe not the best way? -->
+</template>
 <script>
 export default {
   props: {
@@ -47,9 +48,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-container{
+  height: 100%;
+  background: #121212;
+  z-index: 1;
+  position: relative;
+}
 h1 {
   font-size: 20px;
 }
+
 </style>

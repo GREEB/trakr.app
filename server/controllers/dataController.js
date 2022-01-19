@@ -54,7 +54,7 @@ export const throttledWrite = async (x, y, z, s, r, flying, yaw, pitch, roll, ip
  */
 export const sendInitData = async (socket) => {
   if (socket.decoded === false) { return }
-  // Global user wants all data
+  // room by path?
   if (socket.rooms.has('home')) {
     const alluserPos = await models.position.findAll({
       raw: true,
@@ -62,10 +62,7 @@ export const sendInitData = async (socket) => {
     })
     const serializedAsBuffer = pack({ alluserPos })
     io.to(socket.id).emit('chordPack', serializedAsBuffer)
-    console.log(niceBytes(serializedAsBuffer.length))
   } else {
-    console.log(socket.rooms.has('home'))
-    // console.log(socket)
     const alluserPos = await models.position.findAll({
       raw: true,
       where: {

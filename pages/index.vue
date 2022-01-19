@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <v-container fluid>
     <Sockets />
-  </div>
+  </v-container>
 </template>
 <script>
 export default {
-  middleware: 'isAuthenticated',
+  // middleware: 'isAuthenticated',
   data () {
     return {
       interval: null

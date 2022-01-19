@@ -3,17 +3,35 @@
 $appbar-height: 48px
 
 .stage
-    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)
+    overflow: hidden
+    margin: 0px
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    width: 100%
 html
-    overflow: hidden !important
+    overflow: auto
+.height
+    height: 100%
 .lil-gui.root
     display: none
     z-index: 0
 .guicontainer
     z-index: 0
     position: absolute
+    right: 0
 .hide
     display: none
+.fhContainer
+    height: 100%
+    background: #121212
+    z-index: 1
+    position: relative
+h1 + p
+    font-size: 1.25rem
+    font-weight: 300
+
 // .container
 //     max-width: unset !important
 //     padding: 0 !important
@@ -31,32 +49,6 @@ html
 canvas
     position: absolute
     top: 0
-.ThreeContainer
-    position: absolute
-    left: 0
-    top: -$appbar-height
-.v-app-bar
-    img
-        width: 2.25em
-        margin-top: 0.3em
-.THREE
-    position: absolute
-    top: 0
-    left: 0
-.GUI
-    position: absolute
-    top: 0
-    right: 0
-.settingsBtn
-    z-index: 1 !important
-    position: absolute !important
-    bottom: 1em
-    right: 1em
-.githubButton
-    position: absolute !important
-    z-index: 1
-    bottom: 1em
-    right: 5em
 .mainContainer
     position: absolute
     top: 0
@@ -115,6 +107,45 @@ canvas
     --widget-color: #f5f5f5
     --hover-color: #d3d3d3
     --focus-color: #d8d8d8
+    --number-color: #2cc9ff
+    --string-color: #a2db3c
+    --font-size: 11px
+    --input-font-size: 11px
+    --font-family: -apple-system,BlinkMacSystemFont,"Lucida Grande","Segoe UI",Roboto,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+    --font-family-mono: Menlo,Monaco,Consolas,"Droid Sans Mono",monospace,"Droid Sans Fallback"
+    --padding: 4px
+    --spacing: 4px
+    --widget-height: 20px
+    --name-width: 45%
+    --slider-knob-width: 2px
+    --slider-input-width: 27%
+    --color-input-width: 27%
+    --slider-input-min-width: 45px
+    --color-input-min-width: 45px
+    --folder-indent: 7px
+    --widget-padding: 0 0 0 3px
+    --widget-border-radius: 2px
+    --checkbox-size: calc(.75*var(--widget-height))
+    --scrollbar-width: 5px
+.lil-gui.root
+    font-family: var(--font-family)
+    font-size: var(--font-size)
+    line-height: 1
+    font-weight: normal
+    font-style: normal
+    text-align: left
+    background-color: var(--background-color)
+    color: var(--text-color)
+    user-select: none
+    -webkit-user-select: none
+    touch-action: manipulation
+    --background-color: #1a1a1a
+    --text-color: #bebebe
+    --title-background-color: #1E1E1E
+    --title-text-color: #e4e4e4
+    --widget-color: #3b3b3b
+    --hover-color: #3b3b3b
+    --focus-color: #646464
     --number-color: #2cc9ff
     --string-color: #a2db3c
     --font-size: 11px

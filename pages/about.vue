@@ -2,61 +2,12 @@
   <div class="contaner">
     <vue-scroll :ops="ops">
       <section class="intro">
-        <!-- <nav>
-          <div class="logo">
-            <img src="" alt="">
-            <img src="~static/image/location-dynamic-gradient.png" alt="">
-            <h1>trakr.app</h1>
-          </div>
-          <div class="right">
-            <v-btn
-              class="openapp"
-              to="/"
-            >
-              Open trakr
-            </v-btn>
-            <div class="icons">
-              <a href="https://discord.gg/Ub69BwWXSn">
-                <v-icon
-                  right
-                  dark
-                >
-                  mdi-discord
-                </v-icon>
-              </a>
-              <a href="https://www.reddit.com/r/trakrapp/">
-                <v-icon
-                  right
-                  dark
-                >
-                  mdi-reddit
-                </v-icon>
-              </a>
-              <a href="https://twitter.com/trakr1app">
-                <v-icon
-                  right
-                  dark
-                >
-                  mdi-twitter
-                </v-icon>
-              </a>
-              <a href="https://github.com/greeb/trakr.app">
-                <v-icon
-                  right
-                  dark
-                >
-                  mdi-github
-                </v-icon>
-              </a>
-            </div>
-          </div>
-        </nav> -->
         <div class="content">
           <div class="three" />
           <h1 class="text-wrap">
             Track car telemetry in
             <img
-              src="image/3d-dynamic-gradient.png"
+              src="/image/3d-dynamic-gradient.png"
               alt="3D"
             >
             space
@@ -65,6 +16,9 @@
             <span>How this works:</span> The Games we support can deliver
             telemetry over UDP, we parse and display this data
           </p>
+        </div>
+        <div>
+          <AppBarSocial />
         </div>
         <span class="scroll-btn">
           <a href="#">
@@ -201,7 +155,10 @@ export default {
   },
   // Little fix to show and hide lil gui on page
   beforeDestroy () {
-    document.getElementsByClassName('guicontainer')[0].classList.remove('hide')
+    const gui = this.$cookies.get('gui')
+    if (gui === true) {
+      document.getElementsByClassName('guicontainer')[0].classList.remove('hide')
+    }
   },
   mounted () {
     this.overlay = false
@@ -212,6 +169,7 @@ export default {
 
 </script>
 <style scoped>
+
 .v-toolbar{
   display:none
 }
@@ -231,11 +189,11 @@ canvas{
     z-index: 99999;
 }
 .contaner {
+  font-family: "Roboto", sans-serif;
   overflow: hidden;
-  height: 100vh;
+  height: calc(100vh - 48px);
   padding:0;
   margin:0;
-  font-family: Segoe UI;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -252,8 +210,9 @@ p span {
   top: 1.5em;
 }
 footer {
-  padding: 4em;
-  background: #181a1e;
+  height: 100px;
+  padding-right: 4em;
+  background: #131313;
   font-size: 12px;
   text-align: right;
 }
@@ -284,7 +243,7 @@ table::after {
 }
 .intro {
   margin-top: -48px;
-  background: #1E1E1E;
+  background: #121212;
 }
 .theme--light .intro {
   margin-top: -48px;
@@ -337,7 +296,7 @@ button {
   top: 4.5em;
 }
 .intro nav {
-  font-family: Segoe UI;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 36px;
@@ -446,7 +405,6 @@ position: absolute;
 }
 
 .features ul:nth-child(2) {
-    margin-left: 4em;
   margin-bottom: 4em;
 }
 .features {

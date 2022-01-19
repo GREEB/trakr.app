@@ -14,6 +14,8 @@ WIP
 
 ## Todo
 
+- Accessibility everything
+- TS everything
 - Three js code splitting making it more modular and smarter, bufferattribute system
 - Better car representation 
 - Camera System, support for multiple cameras
@@ -26,6 +28,7 @@ WIP
 - Download System
 - Custom input api
 - Custom model
+- Progressive images with vue-loader
 - much more
 
 
@@ -42,7 +45,27 @@ Big bugs/features to fix/create
 
 Contributions are always welcome!
 
-Look at issues
+```
+type(category): description [flags]
+```
+
+Where `type` is one of the following:
+
+* `breaking`
+* `build`
+* `ci`
+* `chore`
+* `docs`
+* `feat`
+* `fix`
+* `other`
+* `perf`
+* `refactor`
+* `revert`
+* `style`
+* `test`
+
+
 
 ## Development
 
@@ -62,6 +85,34 @@ Read "Enviroment Variables" below
   yarn dev
 ```
     
+
+## [Flow Diagram](https://asciiflow.com/#/share/eJytkktOwzAQhq8ymnUVJCRUyDIs2LBEYuONSabBNHEi24VWVXccAYW7IE7DSXCKIiXUbuKCZckea%2F5vHp4tSl4SxnJVFDMs%2BIYUxrhluGYYX13MZww39nY%2Bv7Q3Q2tjDYY3VqOjJ11JyERquCENv9fX2%2BfEzZh8eeQG8pYKXBGIsi6oJGkoGwDhTvGlinhdW%2FP99ZBzkIVjtZx7etDCUGf%2BHJ1%2BYtpOcoB2GLHX0oCYw6eTawgh%2B1r63%2FomvDJwOjSeigP%2BqZ%2FH6Cx3jhHJZ7ek%2BWiZ15VciNyD3LskPF2SzODsNunn4lNAXWmTK9J%2F6ZZvPoK6NZE%2BMhUjc9JFmoQ4lkVztKbQMMlKFBksVFVCuv%2FhE4ue2HMHHXe4%2BwZ70bxY)
+
+Games.json is not yet implemented
+
+`Games.json` will be read by front/backend to see what games are implemented
+full implementation of udp packet parsing could be done in single json object for each game in games.json
+goal is to have uniform data and an easy way to enable disable a game on the app
+
+## Url
+
+Not really sure about this but for now, x is a uuid
+
+### Map
+- `/map/x`
+  -  `/map/x/x`
+
+  
+
+### User
+- `/user/x`
+  - `/user/x/session/x`
+  -  `/user/x/map/x`
+
+### Challange
+- `/c/12345`
+
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
@@ -86,11 +137,11 @@ openssl rand 256 | base64
 `DISCORDSECRET` Discord oAuth secret
 
 
-## Acknowledgements
-
- - [@jonathanlurie](https://github.com/jonathanlurie)/[pointCloud](https://github.com/jonathanlurie/pointCloud)
-
-
 ## Dump
 
 ![](https://user-images.githubusercontent.com/1221769/148322387-67a89550-77f5-4c04-80ac-af9329859144.gif)
+
+
+## Acknowledgements
+
+ - [@jonathanlurie](https://github.com/jonathanlurie)/[pointCloud](https://github.com/jonathanlurie/pointCloud)

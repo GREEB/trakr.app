@@ -1,0 +1,13 @@
+{
+    "fh5":{
+        "name": "Forza Horizon 5",
+        "slug": "fh5",
+        "id": 0,
+        "packs": {
+            "x": {
+                "type": "float",
+                "offset": 0
+            }
+        }
+    }
+}

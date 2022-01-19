@@ -64,11 +64,6 @@ export const postLogin = async (req, res, next) => {
       const username = userData.username
       const did = userData.id
       const avatar = userData.avatar
-      // if (email === undefined) {
-      //   return res.status(401).json({
-      //     error: 'Unauthorized'
-      //   })
-      // }
       if (userData.error) {
         return res.status(401).json({
           error: 'Invalid Token'
