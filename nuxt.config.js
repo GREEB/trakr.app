@@ -110,7 +110,7 @@ export default {
   },
   // Toastification module configuration
   toast: {
-    cssFile: '~/assets/noti.css',
+    cssFile: '~/assets/noti.scss',
     position: 'bottom-left',
     hideProgressBar: true,
     timeout: 2194,
@@ -146,6 +146,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    treeShake: true,
     // customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,
