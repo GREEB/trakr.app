@@ -12,10 +12,10 @@ module.exports = {
     production: {
       user: 'root',
       host: [process.env.BOXIP],
-      ref: 'main',
+      ref: 'origin/main',
+      ssh_options: ['ForwardAgent=yes'],
       repo: 'git@github.com:GREEB/trakr.app.git',
-      path: '/opt/trakr.app',
-      'post-deploy': 'yarn && yarn build && pm2 startOrRestart ecosystem.config.js --env production'
+      path: '/opt/trakr.app'
     }
   }
 }
