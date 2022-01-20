@@ -95,6 +95,9 @@ export default {
   ],
 
   modules: [
+    ['nuxt-highlightjs', {
+      style: 'night-owl'
+    }],
     '@nuxt/content',
     'cookie-universal-nuxt',
     '@nuxtjs/axios',
@@ -107,6 +110,7 @@ export default {
   },
   // Toastification module configuration
   toast: {
+    cssFile: '~/assets/noti.css',
     position: 'bottom-left',
     hideProgressBar: true,
     timeout: 2194,

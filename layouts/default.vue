@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <AppBar />
-    <RegisterClient />
+    <LazyRegisterClient />
     <v-main>
       <div class="stage" />
       <Gui />

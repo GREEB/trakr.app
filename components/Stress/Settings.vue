@@ -289,5 +289,7 @@ export default {
   position: absolute;
   right: 0;
 }
-
+.v-navigation-drawer {
+  background-color: #1E1E1E;
+}
 </style>

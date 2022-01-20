@@ -9,9 +9,9 @@
     >
       <template #activator="{ on, attrs }">
         <v-btn
-          color="blue darken-1"
-          text
-          class="ma-2 white--text"
+          small
+          :color="btncolor"
+          class="ma-2"
           v-bind="attrs"
           v-on="on"
         >
@@ -31,9 +31,14 @@
 </template>
 <script>
 export default {
+  props: {
+    btncolor: {
+      type: String,
+      default: '#7289da'
+    }
+  },
   data: () => ({
     dialog: false
   })
-
 }
 </script>

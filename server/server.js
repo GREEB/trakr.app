@@ -17,7 +17,7 @@ app.use(express.json())
 authRouter(app)
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Origin', process.env.URL || 'http://localhost:3000')
   res.setHeader(
     'Access-Control-Allow-Methods',
     'OPTIONS, GET, POST, PUT, PATCH, DELETE'

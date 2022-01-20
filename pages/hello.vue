@@ -30,9 +30,7 @@
             <v-card-text>Because of limitations we need to authenticate user to be able to moderate bad actors. For now we only support auth over discord oauth.</v-card-text>
 
             <v-card-actions>
-              <v-btn text>
-                Login
-              </v-btn>
+              <AppBarLogin v-if="$config.dev" />
             </v-card-actions>
           </v-card>
         </v-col>
@@ -46,7 +44,7 @@
             <v-card-title class="text-h5">
               2. Register Client
             </v-card-title>
-            <v-card-text>Set your games UDP data out to <code>trakr.app:5300</code> and go to the website on the same IP, a prompt will apear asking you to register your client.</v-card-text>
+            <v-card-text>Set your games UDP data out to a UDP url from the list below and go to the website on the same IP, a prompt will apear asking you to register your client.</v-card-text>
             <v-card-actions>
               <v-progress-circular
                 :size="20"
@@ -84,7 +82,7 @@
         <v-col>
           <h2>Compatibility list</h2>
           <p>For now this is very limited but if you want a game supported consider contributig on github</p>
-          <Compatibility />
+          <LazyCompatibility />
         </v-col>
       </v-row>
     </v-container>
@@ -93,7 +91,7 @@
 <script>
 export default {
   head: {
-    title: 'Home'
+    title: 'Hello'
   }
 }
 </script>

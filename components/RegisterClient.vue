@@ -1,46 +1,178 @@
 <template>
   <v-dialog
     v-model="dialog"
-    scrollable
-    max-width="300px"
+    max-width="fit-content"
   >
-    <v-card v-if="$auth.loggedIn">
-      <v-alert :value="alert" type="error">
-        {{ alertText }}
-      </v-alert>
-      <v-card-title>Register Client</v-card-title>
-      <v-card-subtitle>
-        {{ text }}
-      </v-card-subtitle>
-      <v-divider />
-      <v-card-text>
-        <v-radio-group
-          v-model="dialogm1"
-          column
-        >
-          <v-radio
-            label="Forza Horizon 5"
-            value="1"
-          />
-        </v-radio-group>
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
+    <v-card v-if="$auth.loggedIn" tile>
+      <v-toolbar
+        flat
+        dark
+        color="accent"
+      >
         <v-btn
-          color="blue darken-1"
-          text
+          icon
+          dark
           @click="dialog = false"
         >
-          Close
+          <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="save"
+        <v-toolbar-title>
+          We've detected an unregistered client
+        </v-toolbar-title>
+        <v-spacer />
+        <v-toolbar-items>
+          <v-btn
+            dark
+            text
+            @click="save"
+          >
+            Save
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+
+      <v-card-text>
+        <v-alert
+          v-model="validateAlert"
+          dense
+          outlined
+          type="error"
+          class="ma-5"
         >
-          Save
-        </v-btn>
-      </v-card-actions>
+          Fill out form
+        </v-alert>
+        <v-row>
+          <v-form>
+            <v-col>
+              <v-list
+                flat
+              >
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      Confirm
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      Help us make sure you are sending the right data to the right url
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item-group
+                  v-model="settings.confirm"
+                >
+                  <v-list-item>
+                    <template #default="{ active }">
+                      <v-list-item-action>
+                        <v-checkbox :input-value="active" />
+                      </v-list-item-action>
+
+                      <v-list-item-content>
+                        <v-list-item-title>Game: Forza Horizon 5</v-list-item-title>
+                        <v-list-item-subtitle>Make sure you are sending data from this game</v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-col>
+            <v-col>
+              <v-list flat>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      Usage
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      Help us categorize how you play
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item-group
+                  v-model="settings.usage"
+                >
+                  <v-list-item>
+                    <template #default="{ active }">
+                      <v-list-item-action>
+                        <v-checkbox :input-value="active" />
+                      </v-list-item-action>
+
+                      <v-list-item-content>
+                        <v-list-item-title>Racer</v-list-item-title>
+                        <v-list-item-subtitle>I only Race, <strong>no modding/cheating</strong></v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-list-item>
+                  <v-list-item>
+                    <template #default="{ active }">
+                      <v-list-item-action>
+                        <v-checkbox :input-value="active" />
+                      </v-list-item-action>
+
+                      <v-list-item-content>
+                        <v-list-item-title>Casual</v-list-item-title>
+                        <v-list-item-subtitle>I Race and do just casual driving, <strong>no modding/cheating</strong></v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-list-item>
+                  <v-list-item>
+                    <template #default="{ active }">
+                      <v-list-item-action>
+                        <v-checkbox :input-value="active" />
+                      </v-list-item-action>
+
+                      <v-list-item-content>
+                        <v-list-item-title>Modder</v-list-item-title>
+                        <v-list-item-subtitle>I do use mods and will be flying around</v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-col>
+            <v-col>
+              <v-list flat>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      Visibility / Contributing
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      Choose visibility/contribution
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item-group
+                  v-model="settings.visibility"
+                >
+                  <v-list-item :disabled="modding">
+                    <template #default="{ active }">
+                      <v-list-item-action>
+                        <v-checkbox :disabled="modding" :value="modding ? false : active" :input-value="active" />
+                      </v-list-item-action>
+                      <v-list-item-content>
+                        <v-list-item-title>Share</v-list-item-title>
+                        <v-list-item-subtitle>Use my data for Maps <strong>no modding/cheating</strong></v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-list-item>
+                  <v-list-item>
+                    <template #default="{ active }">
+                      <v-list-item-action>
+                        <v-checkbox :value="modding ? true : active" :input-value="modding ? true : active" />
+                      </v-list-item-action>
+
+                      <v-list-item-content>
+                        <v-list-item-title>Hide</v-list-item-title>
+                        <v-list-item-subtitle>No data will be shared</v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-col>
+          </v-form>
+        </v-row>
+      </v-card-text>
     </v-card>
     <v-card
       v-else
@@ -57,41 +189,25 @@
         >
           Close
         </v-btn>
-        <v-btn
-          v-if="!$auth.loggedIn"
-          type="submit"
-          color="blue darken-1"
-          text
-          class="ma-2 white--text"
-          :href="oauth"
-          @click="save"
-        >
-          Login
-          <v-icon
-            right
-            dark
-          >
-            mdi-discord
-          </v-icon>
-        </v-btn>
+        <AppBarLogin />
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
-import games from '~/games.json'
 export default {
   data () {
     return {
-      text: 'We have detected unregistred UDP data',
-      alert: false,
-      alertText: '',
-      dialogm1: '',
-      dialog: false,
-      oauth: 'https://discord.com/api/oauth2/authorize?client_id=918603750057328640&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20email'
-
+      settings: {
+        visibility: null,
+        usage: null,
+        confirm: null
+      },
+      validateAlert: false,
+      dialog: false
     }
   },
+
   // mounted () {
   //   console.log('mounted')
   //   this.socket = this.$nuxtSocket({ channel: '/index', withCredentials: true })
@@ -103,33 +219,41 @@ export default {
   //     })
   // },
   computed: {
+    modding () {
+      if (this.settings.usage === 2) {
+        return true
+      } else {
+        return false
+      }
+    },
     udpNew () {
       return this.$store.state.udpNew
-      // Or return basket.getters.fruitsCount
-      // (depends on your design decisions).
     }
   },
   watch: {
+    settings (val) {
+      console.log(val)
+    },
     udpNew (state) {
       if (state) {
         this.dialog = true
       }
     }
   },
-  mounted () {
-    console.log(games)
-  },
   methods: {
     save () {
-      if (this.dialogm1 === '') {
-        // empty has to choose
-        this.alert = true
-        this.alertText = 'You need to choose one'
-      } else {
-        // change vuex value that sends back data
-        this.$store.commit('sockets/game', this.dialogm1)
-        this.dialog = false
+      if (this.settings.confirm !== 1) {
+        this.validateAlert = true
       }
+      // if (this.dialogm1 === '') {
+      //   // empty has to choose
+      //   this.alert = true
+      //   this.alertText = 'You need to choose one'
+      // } else {
+      //   // change vuex value that sends back data
+      //   this.$store.commit('sockets/game', this.dialogm1)
+      //   this.dialog = false
+      // }
       // this.dialog = fals∂e
     }
   }

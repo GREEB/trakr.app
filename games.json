@@ -2,11 +2,150 @@
     "fh5":{
         "name": "Forza Horizon 5",
         "slug": "fh5",
+        "url": "fh5.trakr.app",
+        "port": 5300,
         "id": 0,
         "packs": {
-            "x": {
-                "type": "float",
-                "offset": 0
+            "speed":{
+                "info":{
+                    "description": "Speed in m/s",
+                    "icon": "mdi-speedometer"
+                },
+                "data":{
+                    "type": "int",
+                    "offset": 256
+                }
+            },
+            "position":{
+                "info":{
+                    "description": "x,y,z positions",
+                    "icon": "mdi-crosshairs-gps"
+                },
+                "data":{
+                    "x": {
+                        "type": "float",
+                        "offset": 224,
+                        "fixed" : 1
+                    },
+                    "y": {
+                        "type": "float",
+                        "offset": 248,
+                        "fixed" : 1
+                    },
+                    "z": {
+                        "type": "float",
+                        "offset": 252,
+                        "fixed" : 1
+                    }
+                }
+               
+            },
+            "axes":{
+                "info":{
+                    "description": "roll, pitch, yaw of vehicle",
+                    "icon": "mdi-rotate-3d-variant"
+                },
+                "data":{
+                    "yaw": {
+                        "type": "float",
+                        "offset": 56
+                    },
+                    "pitch": {
+                        "type": "float",
+                        "offset": 60
+                    },
+                    "roll": {
+                        "type": "float",
+                        "offset": 64
+                    }
+                }
+               
+            },
+            "puddle":{
+                "info":{
+                    "description": "If tires in water",
+                    "icon": "mdi-waves"
+                },
+                "data":{
+                    "FL": {
+                        "type": "int",
+                        "offset": 132,
+                        "radix": 10
+                    },
+                    "FR": {
+                        "type": "int",
+                        "offset": 136,
+                        "radix": 10
+    
+                    },
+                    "RL": {
+                        "type": "int",
+                        "offset": 140,
+                        "radix": 10
+    
+                    },
+                    "RR": {
+                        "type": "int",
+                        "offset": 144,
+                        "radix": 10
+    
+                    }
+                }
+                
+            },
+            "surface":{
+                "info":{
+                    "description": "Surface rumble",
+                    "icon": "mdi-road-variant"
+                },
+                "data":{
+                    "FL": {
+                        "type": "float",
+                        "offset": 148
+                    },
+                    "FR": {
+                        "type": "float",
+                        "offset": 152
+                    },
+                    "RL": {
+                        "type": "float",
+                        "offset": 156
+                    },
+                    "RR": {
+                        "type": "float",
+                        "offset": 160
+                    }
+                }
+               
+            },
+            "suspension":{
+                "info":{
+                    "description": "Suspension",
+                    "icon": "mdi-tire"
+                },
+                "data":{
+                    "FL": {
+                        "type": "float",
+                        "offset": 68,
+                        "fixed": 1
+                    },
+                    "FR": {
+                        "type": "float",
+                        "offset": 72,
+                        "fixed": 1
+                    },
+                    "RL": {
+                        "type": "float",
+                        "offset": 76,
+                        "fixed": 1
+                    },
+                    "RR": {
+                        "type": "float",
+                        "offset": 80,
+                        "fixed": 1
+                    }
+                }
+ 
             }
         }
     }

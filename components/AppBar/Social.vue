@@ -14,7 +14,7 @@
       icon
       x-small
       color="grey"
-      href="https://github.com/GREEB/trakr.app/"
+      href="https://discord.gg/Ub69BwWXSn"
       class="mr-1"
       target="_blank"
     >
@@ -27,7 +27,7 @@
       color="grey"
       target="_blank"
       class="mr-1"
-      href="https://github.com/GREEB/trakr.app/"
+      href="https://reddit.com/r/trakrapp/"
     >
       <v-icon>mdi-reddit</v-icon>
     </v-btn>
@@ -37,7 +37,7 @@
       color="grey"
       target="_blank"
       class="mr-1"
-      href="https://github.com/GREEB/trakr.app/"
+      href="https://twitter.com/tr4krapp"
     >
       <v-icon>mdi-twitter</v-icon>
     </v-btn>

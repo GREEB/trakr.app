@@ -5,7 +5,7 @@
     <StressDialog />
     <!-- Start main settings card for stress page -->
 
-    <v-navigation-drawer permanent>
+    <v-navigation-drawer permanent class="grey darken-4">
       <v-list>
         <v-list-item class="px-2">
           <v-list-item-avatar>

@@ -4,16 +4,14 @@
       class="ml-10 about"
       text
       small
-      depressed
       to="/"
     >
       home
     </v-btn>
     <v-btn
-      class="ml-1 about"
       text
+      class="ml-1 about"
       small
-      depressed
       to="/about"
     >
       About
@@ -61,9 +59,9 @@
             Getting Started
           </v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/stress">
+        <v-list-item link to="/compatibility">
           <v-list-item-title>
-            Stress
+            Compatibility
           </v-list-item-title>
         </v-list-item>
         <v-list-item link to="/changelog">
@@ -71,11 +69,12 @@
             Changelog
           </v-list-item-title>
         </v-list-item>
-        <v-list-item link to="/compatibility">
+        <v-list-item link to="/stress">
           <v-list-item-title>
-            Compatibility
+            Stress
           </v-list-item-title>
         </v-list-item>
+
         <v-divider />
 
         <v-divider />

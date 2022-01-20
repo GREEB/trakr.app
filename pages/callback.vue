@@ -40,11 +40,11 @@ export default {
         await this.$auth.loginWith('local', {
           data: this.loginData
         })
-        const cookieRes = this.$cookies.get('firstVisit')
+        const cookieRes = this.$cookies.get('firstLogin')
         if (cookieRes === undefined) {
           this.$router.push('/hello')
           console.log('First Login show something')
-          this.$cookies.set('firstVisit', new Date(), {
+          this.$cookies.set('firstLogin', new Date(), {
             path: '/',
             maxAge: 60 * 60 * 24 * 7 * 191
           })

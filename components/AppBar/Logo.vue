@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtLink class="tb-icon" to="/">
-      <v-tooltip v-model="showConnectionTooltip" bottom color="rgba(0, 0, 0,0.1)">
+      <v-tooltip v-model="showConnectionTooltip" bottom>
         <template #activator="{ on, attrs }">
           <v-img
             max-height="40"

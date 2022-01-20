@@ -2,7 +2,7 @@
   <div class="fhContainer">
     <v-container>
       <h1 class="mb-4 mt-4 text-h3">
-        Changes
+        Changelog
       </h1>
       <p>Github commits will be shown here</p>
       <v-card
@@ -24,6 +24,9 @@ export default {
     return {
       page
     }
+  },
+  head: {
+    title: 'Changelog'
   }
 }
 </script>

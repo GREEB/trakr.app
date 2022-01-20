@@ -10,7 +10,7 @@
     <v-spacer />
 
     <AppBarSettings />
-    <AppBarLogin />
+    <AppBarLogin v-if="$config.dev" />
   </v-app-bar>
 </template>
 <script>
