@@ -15,6 +15,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:GREEB/trakr.app.git',
       path: '/opt/trakr.app',
+      key: '~/.ssh/id_rsa',
       'post-deploy': 'yarn && yarn build && pm2 startOrRestart ecosystem.config.js --env production'
     }
   }
