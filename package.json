@@ -11,7 +11,7 @@
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
     "lintfix": "yarn lint:js --fix",
-    "start-production": "pm2 start ecosystem.config.js --env production",
+    "prod": "pm2 delete nuxtjs && git pull && yarn build && pm2 start ecosystem.config.js --env production",
     "release": "generate-changelog -f './content/CHANGELOG.md'"
   },
   "dependencies": {
