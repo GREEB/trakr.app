@@ -1,11 +1,11 @@
 import { pack } from 'msgpackr'
-import consola from 'consola'
+// import consola from 'consola'
 import { io } from '../listeners/socketServer'
 import models from '../models/indexModel'
 import { lastSeen } from '../helpers/users'
 import { users, idFromIp } from './userController.js'
 
-export const throttledWrite2 = async (msg, rinfo, gameId) => {
+export const throttledWrite2 = (msg, rinfo, gameId) => {
   const userId = idFromIp(rinfo.address)
   if (users[userId].udp === undefined) { return }
 
