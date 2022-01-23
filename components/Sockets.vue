@@ -1,9 +1,4 @@
-<template>
-  <div />
-</template>
 <script>
-import { unpack } from 'msgpackr'
-
 export default {
   data () {
     return {
@@ -14,8 +9,8 @@ export default {
 
   computed: {
     chordPack () { return this.$store.state.chordPack },
-    connected () { return this.$store.state.connected }
-
+    connected () { return this.$store.state.connected },
+    udpGame () { return this.$store.state.udpGame }
   },
   // Watch for change Store and do stuff
   watch: {
@@ -41,10 +36,12 @@ export default {
       })
       this.socket
         .on('chord', (msg, cb) => {
-          const buffer = unpack(this.toBuffer(msg))
-          this.parsePoint(buffer.obj2Send)
-          this.animateCar(buffer.obj2Send)
-          this.followCam(buffer.obj2Send)
+          // const parsed = games[gameId].parser.parse(Buffer.from(msg, 'hex'))
+
+          // const buffer = unpack(this.toBuffer(msg))
+          // this.parsePoint(buffer.obj2Send)
+          // this.animateCar(buffer.obj2Send)
+          // this.followCam(buffer.obj2Send)
         /* Handle event */
         })
     }

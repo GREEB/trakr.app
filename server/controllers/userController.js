@@ -1,174 +1,132 @@
-import throttle from 'lodash.throttle'
-import onChange from 'on-change'
 import consola from 'consola'
-import { age } from '../helpers/defaults.js'
-import { io } from '../listeners/socketServer' // Main user obj to look at
+import { io } from '../listeners/socketServer'
 import models from '../models/indexModel.js'
-
+import { sessionWatcher } from '../helpers/users'
 export const users = {}
 
-const maxClientTimeout = 10 // UDP client "timeout" in seconds
+export const maxClientTimeout = 2 // UDP client "timeout" in seconds
+export const watchedObject = {} // Object for session but really simple and needs redoing
 
-const udpClients = {}
-
-setInterval(() => {
-  // console.log(users)
-  Object.keys(users).forEach((id) => {
-    if (age(users[id]) > maxClientTimeout) { delete users[id] }
-  })
-}, 3000)
-
-export const lastSeen = (obj) => {
-  const user = obj
-  user.udp.lastSeen = Date.now()
-}
+/**
+ * Really dumb loop that looks at clients last pack send needs redoing
+ */
+sessionWatcher()
 
 // User send back to register call here
-export const registerUDPUser = async (data, socket) => {
-  console.log('register udp')
+export const registerUDPuser = async (data, socket) => {
   const userId = idFromSocket(socket)
   const mid = userId.toString()
 
-  if (socket.decoded !== false) {
-    const findUDPclient = await models.udp.findOne({
-      where: {
-        mid
-      }
-    })
-    if (findUDPclient) {
-      users[userId].udp.known = { id: findUDPclient.id }
+  consola.info(`userController.js:registerUDPuser() Register client with id ${userId}`)
 
-      // found client
+  if (socket.decoded !== false) {
+    const findUDPclient = await models.udp.findOne({ where: { mid } })
+    if (findUDPclient) {
+      users[userId].udp.known = findUDPclient.userId
       // send back that we already have registered
-      console.log('client already registered')
+      consola.info(`userController.js:registerUDPuser() client already registered ${findUDPclient.id}`)
     } else {
-      // create client
-      const createUDPclient = await models.udp.create({
-        userId: socket.decoded.id,
+      await models.udp.create({
+        userId: parseInt(socket.decoded.id),
         mid: idFromSocket(socket),
-        game: data.data
+        game: 0,
+        usage: 0,
+        visibility: 0
+      }).then(function (item) {
+        io.to(users[userId].socket.id).emit('udpRegister', 'success')
+        // send back to client
+        users[userId].udp.known = { id: item.id }
+      }).catch(function (err) {
+        consola.error(err)
+        io.to(users[userId].socket.id).emit('udpRegister', 'error')
       })
-      // send back to client
-      users[userId].udp.known = { id: createUDPclient.id }
     }
   }
-  // return not authed
 }
 
-export const addUDPUser = async (ip) => {
+export const addUDPUser = async (ip, gameId) => {
   const userId = idFromIp(ip).toString()
-  if (!(userId in users)) {
-    users[userId] = {}
-  } // If empty create
-  if (users[userId].udp === undefined) {
-    users[userId].udp = {}
+
+  consola.info(`userController.js:addUDPUser() adding user with id ${userId}`)
+  if (!(userId in users)) { users[userId] = {} }
+  if (users[userId].udp === undefined) { users[userId].udp = {} }
+  if (('socket' in users[userId])) { // If online on frontend, send udpConnect ping
+    consola.info(`userController.js:addIOuser() emiting connectUdp to ${users[userId].socket.id}`)
+    io.to(users[userId].socket.id).emit('udpConnect', users[userId].udp) // connect does not register client, connect just gives metadata to the connection
   }
 
-  // Check if we know this ip
-  const udpClient = await models.udp.findOne({ where: { mid: userId } })
-
-  if (udpClient) {
-    // Add udp to user
-    users[userId].udp.known = { id: udpClient.id }
-    consola.log('udpClient: client found in db')
-  } else {
-    // if user online
+  const udpClient = await models.udp.findOne({ where: { mid: userId } }) // Check if we know this ip
+  if (udpClient) { // if we know
+    users[userId].udp.known = udpClient.userId
+    consola.info(`userController.js:addUDPUser() client found in db ${udpClient.id}`)
+    users[userId].udp.visibility = udpClient.visibility
+    users[userId].udp.usage = udpClient.usage
+  } else { // if we dont know ip
+    users[userId].udp.known = false
+    users[userId].udp.visibility = false
+    users[userId].udp.usage = false
     if ((userId in users) && users[userId].socket !== undefined) {
-      io.to(users[userId].socket.id).emit('registerUdp')
-    } else {
-      users[userId].udp.known = false
-      // unreg and not on frontend
+      io.to(users[userId].socket.id).emit('udpRegister', 'new')
     }
-    consola.log('udpClient: client not found in db')
+    consola.info(`userController.js:addUDPUser() client not found in db ${userId}`)
   }
+  users[userId].udp.ip = ip
+  users[userId].udp.game = gameId
   users[userId].udp.lastSeen = null
   users[userId].udp.firstSeen = Date.now()
-  // if (!(userId in users)) {
-  //   consola.info('UDP: User not on website')
-  //   // If empty = user not on website
-  //   users[userId] = {}
-  // } else {
-  //   // user on website
-  //   consola.info('UDP: User on website', users[userId].auth)
-  //   if (users[userId].auth !== false) {
-  //     // and authed already
-  //     consola.info('UDP: SocketIo found & authed', users[userId].auth)
-  //     const mid = userId
-  //     const findUDPclient = await Udp.findOne({
-  //       where: {
-  //         mid
-  //       }
-  //     })
-  //     if (!findUDPclient) {
-  //       // no UDP Client found ask to register
-  //       io.to(users[userId].socket.id).emit('registerUdp')
-  //     } else {
-  //       // client found
-  //       console.log(findUDPclient)
-  //     }
-  //   } else {
-  //     consola.info('UDP: SocketIo found & not authed', users[userId].auth)
-  //   }
-  // not authed but on website, ask to login?
-  // }
 }
 
 // Add io users to local object to match udp and socket
+export const removeIOuser = (socket) => {
+  const userId = idFromSocket(socket) // Create ID
+  if ((userId in users)) {
+    consola.info(`userController.js:removeIOuser() removing IO user ${userId}`)
+    delete users[userId].socket
+  }
+  // remove user
+}
 export const addIOuser = (socket) => {
   const userId = idFromSocket(socket) // Create ID
+
+  consola.info(`userController.js:addIOuser() adding user with id ${userId}`)
   if (!(userId in users)) { users[userId] = {} } // If empty create
 
+  if (('udp' in users[userId])) {
+    if (('game' in users[userId].udp)) {
+      consola.info(`userController.js:addIOuser() emiting connectUdp to ${socket.id}`)
+      io.to(socket.id).emit('udpConnect', users[userId].udp)
+    }
+  }
+
   if (socket.decoded === false) {
-    // Add connectino with no auth for global map
     users[userId].auth = false
   } else {
-    // Socket has auth
     users[userId].auth = socket.decoded
     users[userId].auth.cookie = socket.handshake.headers.cookie
   }
+  if (users[userId].udp !== undefined && users[userId].udp.known === false) { // if has udp
+    consola.info(`userController.js:addIOuser() emiting udpRegister new to ${socket.id}`)
 
-  if (users[userId].udp !== undefined && users[userId].udp.known === false) {
-    io.to(socket.id).emit('registerUdp')
+    io.to(socket.id).emit('udpRegister', 'new')
   }
 
   users[userId].socket = {}
   users[userId].socket.id = socket.id
   users[userId].socket.lastSeen = null
   users[userId].socket.firstSeen = Date.now()
-  // if (dc['auth._token.discord']) {
-  //   users[userID].dc = {}
-  //   users[userID].dc.username = dc.username
-  //   users[userID].dc.avatar = dc.avatar
-  //   users[userID].dc.id = dc.id
-  //   users[userID].dc.token = dc['auth._token.discord']
-  //   users[userID].dc.token_expiration = dc['auth._token_expiration.discord']
-  //   users[userID].dc.refresh_token = dc['auth._refresh_token.discord']
-  //   users[userID].dc.token_expiration = dc['auth._refresh_token_expiration.discord']
-  // } else {
-  //   users[userID].dc = false
-  // }
-  // io.to(socket.id).emit('registerUdp')
 }
 
-const watchedObject = onChange(udpClients, (path, value, previousValue) => {
-  if (previousValue === undefined) {
-    console.log(`${value} connected to UDP`)
-    addUDPUser(value)
+export const makeUDPuser = (ip, gameId) => {
+  if (watchedObject[ip] === undefined) {
+    addUDPUser(ip, gameId)
   }
-  // if previousValue != undefined && value === unix then update
-  // if (value != undefined)
-  // defudpClients[path] = value
-})
-
-// Basically add user on first connect
-export const makeUDPuser = throttle((ip) => {
   watchedObject[ip] = ip
-}, 3000)
+}
 
 export const idFromSocket = (socket) => {
   let clientIp = '0.0.0.0'
   if ('x-real-ip' in socket.handshake.headers) {
-    clientIp = socket.handshake.headers['x-real-ip']
+    clientIp = socket.handshake.headers['x-real-ip'].toString()
   } else {
     clientIp = socket.handshake.address.split(':').pop().toString()
   }

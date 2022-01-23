@@ -3,15 +3,15 @@ import dotenv from 'dotenv'
 import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
-import { addIOuser, registerUDPUser } from '../controllers/userController'
+import consola from 'consola'
+import { addIOuser, registerUDPuser, removeIOuser } from '../controllers/userController'
 import { sendInitData } from '../controllers/dataController'
 import config from '../config/auth.config'
-
 dotenv.config()
 
 export const httpServer = http.createServer()
 httpServer.listen(process.env.IOPORT, () => {
-  console.log(`Socket listening on ${process.env.IOPORT}`)
+  consola.success(`Sockets listening on ${process.env.IOPORT}`)
 })
 // const io = new Server()
 // server-side
@@ -46,10 +46,15 @@ io.use(function (socket, next) {
     addIOuser(socket)
 
     // Send init data to user
-    sendInitData(socket)
-
+    // sendInitData(socket)
     // Register Client Call
     socket.on('sockets/game', (data) => {
-      registerUDPUser(data, socket)
+      registerUDPuser(data, socket)
+    })
+
+    // when sockets disconnects
+    socket.on('disconnect', (reason) => {
+      // socket disconnect remove it from users
+      removeIOuser(socket, reason)
     })
   })

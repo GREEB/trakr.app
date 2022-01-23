@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-
+import pkg from './package.json'
 export default {
   head: {
     titleTemplate: '%s - Trakr.app',
@@ -49,15 +49,16 @@ export default {
     { path: '/', handler: '~/server/server.js' }
   ],
   server: {
+    host: process.env.URL ? '0' : 'localhost',
     port: process.env.PORT || 3000
   },
   publicRuntimeConfig: {
-    dev: process.env.NODE_ENV !== 'production',
     port: process.env.PORT,
     ioPort: process.env.IOPORT,
     baseURL: process.env.URL,
     discordId: process.env.DISCORDID,
-    githubURL: process.env.DISCORDID
+    githubURL: process.env.DISCORDID,
+    version: pkg.version
   },
   privateRuntimeConfig: {
     port: process.env.PORT,
@@ -71,24 +72,17 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~assets/main.sass'
+    '~assets/main.sass',
+    '~assets/animations.sass'
   ],
   plugins: [
     '~/plugins/vuescroll',
     '~/plugins/three.client'
 
   ],
-  render: {
-    bundleRenderer: {
-      shouldPreload: (file, type) => {
-        return ['script', 'style', 'font'].includes(type)
-      }
-    }
-  },
   components: true,
 
   buildModules: [
-    '@nuxtjs/fontawesome',
     '@nuxtjs/eslint-module',
     '@nuxtjs/auth-next',
     '@nuxtjs/vuetify'
@@ -126,14 +120,16 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: process.env.BASEURL || 'http://localhost:' + process.env.IOPORT || 3001,
+        url: process.env.URL || 'http://localhost:' + process.env.IOPORT || 3001,
         default: true,
         vuex: {
           actions: [
+            'chordPack --> FORMAT_CHORDPACK',
             'connect --> CONNECT',
             'disconnect --> DISCONNECT',
-            'registerUdp --> UDPREGISTER',
-            'chordPack --> FORMAT_CHORDPACK'
+            'udpRegister --> UDPREGISTER',
+            'udpConnect --> UDPCONNECT',
+            'udpDisconnect --> UDPDISCONNECT'
 
           ],
           emitBacks: [
@@ -146,20 +142,34 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    treeShake: true,
     // customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,
-      // options: { customProperties: true },
+      options: {
+        customProperties: true
+      },
       themes: {
         dark: {
           primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
+          accent: '#724ade',
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.green.accent3,
+          bg: colors.green.accent3,
+          text: '#ffffff'
+        },
+        light: {
+          primary: colors.blue.darken2,
+          accent: '#724ade',
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
+          bg: colors.blue.accent3,
+          text: '#000000'
         }
       }
     }

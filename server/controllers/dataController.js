@@ -1,7 +1,37 @@
 import { pack } from 'msgpackr'
+import consola from 'consola'
 import { io } from '../listeners/socketServer'
 import models from '../models/indexModel'
-import { users, idFromIp } from './userController.js' // Mongo Model
+import { lastSeen } from '../helpers/users'
+import { users, idFromIp } from './userController.js'
+
+export const throttledWrite2 = async (msg, rinfo, gameId) => {
+  const userId = idFromIp(rinfo.address)
+  if (users[userId].udp === undefined) { return }
+
+  // if (users[userId] === undefined || users[userId].udp === undefined || users[userId].udp.known === false || Object.keys(users[userId].udp).length === 0) { return }
+
+  // // this is basically throttling itself not sure if good option
+  if (Date.now() - users[userId].udp.lastSeen >= 50) {
+    lastSeen(users[userId])
+  } else {
+    return
+  }
+  // await models.position.create({
+  //   raw: msg,
+  //   userId: users[userId].udp.known.id
+  // }).catch(function (err) {
+  //   consola.error(err)
+  // })
+
+  // we create a parser for menu for each game
+  if (('socket' in users[userId])) {
+    io.to(users[userId].socket.id).emit('chord', msg)
+  }
+  // io.to('home').emit('chord', msg)
+  // const parsed = games[gameId].parser.parse(Buffer.from(msg, 'hex'))
+  // console.log(parsed)
+}
 
 /**
  * ThrottledWrite is the function we send udp packet to, we auth it here and send data to socket and DB
@@ -19,13 +49,13 @@ import { users, idFromIp } from './userController.js' // Mongo Model
 export const throttledWrite = async (x, y, z, s, r, flying, yaw, pitch, roll, ip, size, userID) => {
   const userId = idFromIp(ip)
 
-  const now = new Date()
+  const now = Date.now()
   const speed2kmh = Math.abs(Math.round(s * 2.237)) * 1.60934
   // const twenymil = 2 * Math.pow(10, 7)
 
   // const speedo = Math.pow(speed2kmh, -2) * 100000
 
-  if (now - users[userId].udp.lastSeen >= 100) {
+  if (now - users[userId].udp.lastSeen >= 1000) {
     users[userId].udp.lastSeen = now
   } else {
     return

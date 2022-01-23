@@ -1,9 +1,21 @@
 <template>
   <div class="contaner">
     <vue-scroll :ops="ops">
+      <v-alert
+        style="
+          position: absolute;
+          top: 4em;
+          left: 0;
+          z-index: 1;
+          left: 1em;"
+        dense
+        outlined
+        color="accent"
+      >
+        This is a very early version that may <strong>crash</strong> your browser or even <strong>Computer</strong>
+      </v-alert>
       <section class="intro">
         <div class="content">
-          <div class="three" />
           <h1 class="text-wrap">
             Track car telemetry in
             <img
@@ -14,11 +26,16 @@
           </h1>
           <p class="text-wrap">
             <span>How this works:</span> The Games we support can deliver
-            telemetry over UDP, we parse and display this data
+            telemetry over UDP, we save parse and display this data.
           </p>
         </div>
         <div>
-          <AppBarSocial />
+          <AppBarSocial
+            style="
+            position: absolute;
+            top: calc(100vh - 50px);
+            left: 1em;"
+          />
         </div>
         <span class="scroll-btn">
           <a href="#">
@@ -40,9 +57,9 @@
                 src="image/roll-brush-dynamic-gradient.png"
                 alt=""
               />
-              <h3>GLSL Shaders for efficient visualisiation</h3>
+              <h3>GLSL Shaders for efficient visualization</h3>
               <p>
-                Custom Vertex and Fragment shader support, premade shader library
+                Custom Vertex and Fragment shader support, pre made shader library
               </p>
             </li>
             <li>
@@ -65,7 +82,7 @@
                 alt=""
               />
               <h3>Race and compare data</h3>
-              <p>Compare Lap times and look at coresponding telemetry</p>
+              <p>Compare Lap times and look at corresponding telemetry</p>
             </li>
           </ul>
           <ul>
@@ -103,7 +120,7 @@
                 alt=""
               />
               <h3>Collaborative Mapping</h3>
-              <p>Many diffrent clients can make up one map invite other users</p>
+              <p>Many different clients can make up one map invite other users</p>
             </li>
           </ul>
           <p class="wipinfo">
@@ -154,16 +171,9 @@ export default {
     title: 'About'
   },
   // Little fix to show and hide lil gui on page
-  beforeDestroy () {
-    const gui = this.$cookies.get('gui')
-    if (gui === true) {
-      document.getElementsByClassName('guicontainer')[0].classList.remove('hide')
-    }
-  },
   mounted () {
     this.overlay = false
     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-    document.getElementsByClassName('guicontainer')[0].classList.add('hide')
   }
 }
 

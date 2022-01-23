@@ -240,11 +240,11 @@ export default {
       if (!this.full) {
         this.interval = setInterval(() => {
           for (let index = 0; index < this.points2add; index++) {
-            this.$stage.parsePoint({
-              x: Math.random() * this.spread,
-              y: Math.random() * this.spread,
-              z: Math.random() * this.spread
-            })
+            this.$stage.parsePoint([
+              Math.random() * this.spread,
+              Math.random() * this.spread,
+              Math.random() * this.spread]
+            )
           }
           this.countofpoint = this.$stage.pointsCount
         }, this.eventloop)

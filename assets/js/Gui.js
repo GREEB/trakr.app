@@ -2,6 +2,14 @@ import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
 import { Color } from 'three'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 
+// TODO: Gui on mobile is broken/too big
+//  category=lilgui
+// Fix gui on mobile and style for mobile
+
+// TODO: Gui fps sometimes show fps,ms,mem, and somethimes only fps,ms
+// category=lilgui
+// FPS section in gui can have 2 or 3 elements depending on browser account for that
+
 export function initGui () {
   this.guiLet = {
     boxVisible: false,

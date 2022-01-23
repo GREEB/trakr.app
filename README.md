@@ -8,9 +8,11 @@ WIP
 
 ## Features
 
-- [x]  Three: Dynamic point cloud prototype
+- [x]  Three: Dynamic point cloud
 - [x]  Nuxt: Discord login
-- [x]  Nuxt: Simple Frontend
+- [x]  Nuxt: Ok Frontend
+- [x]  Three: Little stress site
+- [x]  Start of modular system for input data
 
 ## Todo
 
@@ -20,7 +22,6 @@ WIP
 - Better car representation 
 - Camera System, support for multiple cameras
 - Session System
-- Modular Data input system to support more games easier in the future
 - Friends System
 - Custom Shader frontend
 - Race System
@@ -39,7 +40,6 @@ Big bugs/features to fix/create
  - Camera System
  - Session System
  - Social System
- - Modular UDP input system
 
 ## Contributing
 
@@ -77,7 +77,7 @@ First make sure you copy the example.env to .env
 
 ```cp example.env .env```
 
-Read "Enviroment Variables" below
+Read "Environment Variables" below
 
 
 ```bash

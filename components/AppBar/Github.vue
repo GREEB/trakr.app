@@ -4,8 +4,7 @@
       <template #activator="{ on, attrs }">
         <v-btn
           icon
-          x-small
-          color="grey"
+          color="warning"
           v-bind="attrs"
           target="_blank"
           :href="bugurl"

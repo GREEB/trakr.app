@@ -1,14 +1,34 @@
-// Manual dark theme color cuz i dont get vuetify 
+// TODO: lightmode broken
+// category=styles
+// This is broken because of hardcoded colors in darkmode fix by using vuetify variables
+
+ // TODO: Mobile styles are broken
+ // category=styles
+ // Add breakpoints to all elements to fix
 
 $appbar-height: 48px
+header
+    .menuContainer
+        margin-left: 2em
+        .v-btn
+            margin: 0 .5em 0 .5em
+.v-navigation-drawer
+    .v-btn
+        height: 40px !important
+        border-radius: 0
+        margin-bottom: 0em !important
+        width: 100%
 .Vue-Toastification__toast--info
   background-color: #1e1e1e
   color: #fff
-
+.stage
+    display: none
+.adaptiveText
+    color: var(--v-text-base) !important
 html
     overflow: auto !important
 .theme--dark.v-application code
-  background-color: rgb(30, 30, 30) !important
+    background-color: rgb(30, 30, 30) !important
 .stage
     overflow: hidden
     margin: 0px
@@ -21,7 +41,6 @@ html
 .height
     height: 100%
 .lil-gui.root
-    display: none
     z-index: 0
 .guicontainer
     z-index: 0
@@ -29,11 +48,11 @@ html
     right: 0
 .hide
     display: none
-.fhContainer
-    height: 100%
-    background: #121212
-    z-index: 1
-    position: relative
+// .fhContainer
+//     height: 100%
+//     background: #121212
+//     z-index: 1
+//     position: relative
 h1 + p
     font-size: 1.25rem
     font-weight: 300
@@ -172,3 +191,12 @@ canvas
     --widget-border-radius: 2px
     --checkbox-size: calc(.75*var(--widget-height))
     --scrollbar-width: 5px
+
+.gay // https://codepen.io/charliewilco/pen/BzAJzE LGBTQ.css
+    --g-red: #d04b3673
+    --g-orange: #e3651181
+    --g-yellow: #ffbb007a
+    --g-green: #00b17f7e
+    --g-blue: #147bab70
+    --g-indigo: #67599775
+    background-image: linear-gradient( var(--g-red) 0%, var(--g-red) 16.6666%, var(--g-orange) 16.6666%, var(--g-orange) 33.333%, var(--g-yellow) 33.333%,var(--g-yellow) 50%,var(--g-green) 50%,var(--g-green) 66.6666%,var(--g-blue) 66.6666%,var(--g-blue) 83.3333%,var(--g-indigo) 83.3333%,var(--g-indigo) 100%)

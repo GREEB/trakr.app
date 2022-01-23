@@ -1,8 +1,10 @@
 import { db, Sequelize } from '../config/db.config'
 
 const Udp = db.define('udp', {
-  mid: Sequelize.STRING,
-  game: Sequelize.STRING
+  mid: Sequelize.INTEGER,
+  game: Sequelize.INTEGER,
+  usage: Sequelize.INTEGER,
+  visibility: Sequelize.INTEGER
 })
 
 export default Udp

@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken'
 import { v4 as uuidv4 } from 'uuid'
 import fetch from 'node-fetch'
+import consola from 'consola'
 import config from '../config/auth.config'
 import models from '../models/indexModel'
 
 const createToken = async (user) => {
-  console.log('createToken', user.id)
+  consola.log('authController.js:createToken() creating token for id: ', user.id)
 
   const expiredAt = new Date()
   expiredAt.setSeconds(expiredAt.getSeconds() + config.jwtRefreshExpiration)
@@ -28,7 +29,6 @@ export const postLogin = async (req, res, next) => {
   } else {
     redirectURL = 'http://localhost:3000/callback'
   }
-  console.log(redirectURL)
   try {
     // Get Discord Data
     const { code } = req.body
@@ -97,7 +97,7 @@ export const postLogin = async (req, res, next) => {
 }
 
 export const postRefreshToken = async (req, res, next) => {
-  console.log('postRefreshToken')
+  consola.log('postRefreshToken')
 
   const { refresh_token: requestToken } = req.body
 
@@ -118,7 +118,7 @@ export const postRefreshToken = async (req, res, next) => {
         message: 'Refresh token was expired. Please login again!'
       })
     }
-    console.log(refreshToken)
+    consola.log(`postRefreshToken: ${refreshToken}`)
     const user = await refreshToken.getUser()
     const newAccessToken = jwt.sign({ id: user.id }, config.secret, {
       expiresIn: config.jwtExpiration

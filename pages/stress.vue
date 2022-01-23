@@ -1,11 +1,12 @@
 /* eslint-disable vue/no-parsing-error */
 <template>
   <v-container fluid class="pa-0 height">
+    <Gui />
     <!-- Start dialog to say that this is not safe with wrong paras -->
     <StressDialog />
     <!-- Start main settings card for stress page -->
 
-    <v-navigation-drawer permanent class="grey darken-4">
+    <v-navigation-drawer permanent expand-on-hover>
       <v-list>
         <v-list-item class="px-2">
           <v-list-item-avatar>
@@ -29,7 +30,10 @@
   </v-container>
 </template>
 <script>
+import guiController from '../mixin/guiController'
+import stageController from '../mixin/stageController'
 export default {
+  mixins: [guiController, stageController],
   beforeDestroy () {
     this.$stage.orbit(false)
     this.$stage.createEmptyPoints()

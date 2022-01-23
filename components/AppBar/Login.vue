@@ -9,16 +9,14 @@
     >
       <template #activator="{ on, attrs }">
         <v-btn
-          small
           :color="btncolor"
-          class="ma-2"
+          small
           v-bind="attrs"
           v-on="on"
         >
           Login
           <v-icon
             right
-            dark
           >
             mdi-discord
           </v-icon>
@@ -35,6 +33,10 @@ export default {
     btncolor: {
       type: String,
       default: '#7289da'
+    },
+    btnsize: {
+      type: String,
+      default: 'small'
     }
   },
   data: () => ({

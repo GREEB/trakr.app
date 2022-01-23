@@ -2,9 +2,8 @@ import { EventBus } from '~/assets/js/utils/event'
 import Stage from '~/assets/js/Three'
 const position = require('touch-position')()
 
-export default ({ store, app, route }, inject) => {
+export default ({ route }, inject) => {
   const doc = document.documentElement
-
   let size, stage
   const onResize = () => {
     size = {
@@ -49,8 +48,6 @@ export default ({ store, app, route }, inject) => {
   }
 
   const initStage = () => {
-    // eslint-disable-next-line no-unused-vars
-    // DO NOT INJECT ON THESE SITES
     stage = new Stage({
       container: document.querySelector('.stage'),
       guiContainer: document.querySelector('.gui')

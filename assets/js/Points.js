@@ -23,6 +23,9 @@ export function createEmptyPoints () {
   this.geometry.setDrawRange(0, 0)
 }
 
+// FIXME: Adding points doesn't work on mobile, three js works fine
+// category=threejs
+// Not sure why this happens yet but chrome->device simulation-> pixel 5 doesn't add points
 export function addPoint (xyz) {
   const positions = this.points.geometry.attributes.position.array
 
@@ -40,9 +43,9 @@ export function parsePoint (posData) {
   if (!this.points) { return }
   // each point must be 3D
   const xyz = [
-    parseFloat(posData.x / 20),
-    parseFloat(posData.y / 20),
-    parseFloat(posData.z / 20)
+    parseFloat(posData[0] / 20),
+    parseFloat(posData[1] / 20),
+    parseFloat(posData[2] / 20)
   ]
 
   this.addPoint(xyz)

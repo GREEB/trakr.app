@@ -3,17 +3,7 @@
     <v-btn
       icon
       x-small
-      color="grey"
-      href="https://github.com/GREEB/trakr.app/"
-      class="mr-1"
-      target="_blank"
-    >
-      <v-icon>mdi-github</v-icon>
-    </v-btn>
-    <v-btn
-      icon
-      x-small
-      color="grey"
+      color="#5865f2"
       href="https://discord.gg/Ub69BwWXSn"
       class="mr-1"
       target="_blank"
@@ -24,7 +14,7 @@
     <v-btn
       icon
       x-small
-      color="grey"
+      color="#ff4500"
       target="_blank"
       class="mr-1"
       href="https://reddit.com/r/trakrapp/"
@@ -34,12 +24,22 @@
     <v-btn
       icon
       x-small
-      color="grey"
+      color="#1da1f2"
       target="_blank"
       class="mr-1"
       href="https://twitter.com/tr4krapp"
     >
       <v-icon>mdi-twitter</v-icon>
+    </v-btn>
+    <v-btn
+      icon
+      x-small
+      color="grey"
+      href="https://github.com/GREEB/trakr.app/"
+      class="mr-1"
+      target="_blank"
+    >
+      <v-icon>mdi-github</v-icon>
     </v-btn>
   </div>
 </template>

@@ -12,7 +12,7 @@
                 Name
               </th>
               <th class="text-left">
-                UDP Url
+                UDP Url (click to copy)
               </th>
               <th class="text-left">
                 Implemented packs
@@ -21,69 +21,17 @@
           </thead>
           <tbody>
             <tr
-              v-for="item in games"
-              :key="item.name"
+              v-for="(item, key) in games"
+              :key="item.slug"
             >
               <td>
-                {{ item.name }}
+                {{ item.gameName }}
               </td>
               <td>
-                <code v-if="$config.dev" @click=" $toast.info('Copied url to clipboard')">{{ item.url + ':' + item.port }}</code>
+                <code @click="copy2clip(item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024))">{{ item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024) }}</code>
               </td>
               <td>
-                <v-chip-group
-                  active-class="noactive"
-                  style
-                  column
-                >
-                  <div
-                    v-for="(packs, packName) in item.packs"
-                    :key="packName"
-                  >
-                    <v-menu
-                      :v-model="packName"
-                      bottom
-                      right
-                      transition="scale-transition"
-                      origin="top left"
-                    >
-                      <template #activator="{ on }">
-                        <v-chip
-                          small
-                          pill
-                          color="#2f2f2f"
-                          v-on="on"
-                        >
-                          <v-avatar left>
-                            <v-icon>{{ packs.info.icon }}</v-icon>
-                          </v-avatar>
-                          {{ packName }}
-                        </v-chip>
-                      </template>
-                      <v-card width="300">
-                        <v-list dark class="pa-0">
-                          <v-list-item>
-                            <v-list-item-avatar>
-                              <v-icon>{{ packs.info.icon }}</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                              <v-list-item-title>{{ packName }}</v-list-item-title>
-                              <v-list-item-subtitle>{{ packs.info.description }}</v-list-item-subtitle>
-                            </v-list-item-content>
-                          </v-list-item>
-                        </v-list>
-                        <v-divider />
-                        <v-list>
-                          <v-list-item>
-                            <v-list-item-subtitle>
-                              <pre><code v-highlight class="json">{{ packs.data }}</code></pre>
-                            </v-list-item-subtitle>
-                          </v-list-item>
-                        </v-list>
-                      </v-card>
-                    </v-menu>
-                  </div>
-                </v-chip-group>
+                n/a
               </td>
             </tr>
           </tbody>
@@ -93,12 +41,18 @@
   </v-col>
 </template>
 <script>
-import games from '~/games.json'
+import { games } from '~/assets/js/games'
 export default {
   data () {
     return {
       games,
       menu: false
+    }
+  },
+  methods: {
+    copy2clip (url) {
+      this.$toast.info('Copied url to clipboard')
+      navigator.clipboard.writeText(url)
     }
   }
 }
@@ -106,8 +60,5 @@ export default {
 <style scoped>
 td>code{
   cursor: pointer;
-}
-table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
-  background: #282828 !important
 }
 </style>

@@ -44,7 +44,7 @@ export default {
         if (cookieRes === undefined) {
           this.$router.push('/hello')
           console.log('First Login show something')
-          this.$cookies.set('firstLogin', new Date(), {
+          this.$cookies.set('firstLogin', Date.now(), {
             path: '/',
             maxAge: 60 * 60 * 24 * 7 * 191
           })

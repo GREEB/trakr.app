@@ -3,7 +3,6 @@ import {
   AxesHelper,
   BufferGeometry,
   Color,
-  Object3D,
   PerspectiveCamera,
   Scene,
   Vector3,
@@ -11,11 +10,12 @@ import {
 } from 'three'
 import { bindAll } from 'lodash-es'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { initGui } from './Gui'
+import { initGui } from '~/assets/js/Gui'
 import { EventBus } from '~/assets/js/utils/event.js'
 
 // import local
-import { createEmptyPoints, addPoint, parsePoint, parseChordPack, perlin2Points } from '~/assets/js/Points.js'
+import { createEmptyPoints, addPoint, parsePoint, parseChordPack } from '~/assets/js/Points.js'
+import { addCar, animateCar } from '~/assets/js/Car'
 import { setBackgroundColor } from '~/assets/js/Helpers'
 import { orbit } from '~/assets/js/Camera'
 export default class Stage {
@@ -45,7 +45,7 @@ export default class Stage {
   }
 
   init () {
-    Object3D.DefaultUp = new Vector3(0, 0, 1)
+    // Object3D.DefaultUp = new Vector3(0, 0, 1)
     const pixelRatio = window.devicePixelRatio
     const AA = pixelRatio <= 1
     /* Init renderer and canvas */
@@ -82,7 +82,7 @@ export default class Stage {
     this.scene.add(new AxesHelper(100))
     this.createEmptyPoints()
     this.initGui()
-    // this.perlin2Points()
+    // this.addCar()
   }
 
   onResize () {
@@ -96,9 +96,29 @@ export default class Stage {
     this.controls.update()
     this.stats.update()
 
-    if (this.currentTarget) {
-      this.currentTarget.rotation.x += 0.01
-      this.currentTarget.rotation.y += 0.01
+    if (this.fromPostion && this.fromRotation && this.toPosition && this.toRotation && this.lastPos) {
+      this.car.position.lerpVectors(this.fromPostion, this.toPosition, 0.1)
+      this.car.quaternion.slerpQuaternions(this.fromRotation, this.toRotation, 0.1)
+
+      this.car.needsUpdate = true
+      // this.camera.position.z = 5
+      this.aCamera.lerp(this.car.position, 0.4)
+      this.bCamera.copy(this.goalCamera.position)
+
+      this.directionCamera.copy(this.aCamera).sub(this.bCamera).normalize()
+
+      const dis = this.aCamera.distanceTo(this.bCamera) - 2.5
+
+      this.goalCamera.position.addScaledVector(this.directionCamera, dis)
+
+      this.goalCamera.position.lerp(this.tempCamera, 0.02)
+      this.tempCamera.setFromMatrixPosition(this.followCamera.matrixWorld)
+
+      this.camera.lookAt(this.car.position)
+      // this.controls.target.copy(this.car.position)
+
+      this.camera.position.lerp(new Vector3(this.camera.position.x, this.camera.position.y, this.car.position.z - 5.5), 0.01)
+      this.camera.needsUpdate = true
     }
 
     this.renderer.clear()
@@ -110,6 +130,7 @@ Stage.prototype.addPoint = addPoint
 Stage.prototype.parsePoint = parsePoint
 Stage.prototype.parseChordPack = parseChordPack
 Stage.prototype.initGui = initGui
-Stage.prototype.perlin2Points = perlin2Points
 Stage.prototype.setBackgroundColor = setBackgroundColor
 Stage.prototype.orbit = orbit
+Stage.prototype.addCar = addCar
+Stage.prototype.animateCar = animateCar
