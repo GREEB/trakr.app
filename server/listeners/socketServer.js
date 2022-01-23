@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
 import consola from 'consola'
 import { addIOuser, registerUDPuser, removeIOuser } from '../controllers/userController'
-import { sendInitData } from '../controllers/dataController'
+// import { sendInitData } from '../controllers/dataController'
 import config from '../config/auth.config'
 dotenv.config()
 

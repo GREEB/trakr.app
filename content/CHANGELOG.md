@@ -1,11 +1,15 @@
-#### 0.0.1 (2022-01-19)
+#### 0.0.15 (2022-01-23)
 
 ##### New Features
 
+* **mixin:**  added mixing for sockets, gui, stage (efb3c8b9)
+* **modularUdp:**  kinda have a scalable system for udp (4567589b)
+* **firstVisit:**
+  *  fristvisit to /about firstlogin to /hello (a2538546)
+  *  tracking first visit to show /hello (79f0e2ba)
 * **compatibility:**  added compatilility list very simple atm (b9692908)
 * **changelog:**  changelog page and content module added (a15d1b40)
 * **threebg:**  added functionality to change stage bg (c477deec)
-* **firstVisit:**  tracking first visit to show /hello (79f0e2ba)
 * **connectivity:**  show tooltip to see connectivity (a1b1a83d)
 * **settings:**  settings preferences get saved to cookie (39dbbd3b)
 * **hello:**  added hello page (30b3165b)
@@ -19,6 +23,11 @@
 * **lilgui:**  auto place off and place it into card (3b4c07e0)
 * **auth:**  Fixed bad cookie parsing (817aeb44)
 
+##### Other Changes
+
+* GREEB/trakr.app into main (3b3b81ba)
+* GREEB/trakr.app into main (5f0796ba)
+* GREEB/trakr.app into main (81f0868d)
 
 ##### Refactors
 
