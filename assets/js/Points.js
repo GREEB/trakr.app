@@ -1,28 +1,34 @@
 import {
   Float32BufferAttribute,
   ShaderMaterial,
-  Points
+  Points,
+  Vector3
 } from 'three'
-// import { Perlin } from 'three-noise'
-
 import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
+
 export function createEmptyPoints () {
   this.pointsCount = 0
   const positions = new Float32Array(this.maxParticle * 3)
   this.geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
-
+  this.geometry.frustumCulled = false
   this.material = new ShaderMaterial({
     vertexShader: defaultVertex,
     fragmentShader: defaultFragment,
     vertexColors: true,
     depthWrite: false
   })
-  // this.material = new PointsMaterial({ color: 0x888888, size: 10 })
+  this.material.needsUpdate = true
+  // this.material = new PointsMaterial({ color: 0x888888, size: 1 }) // Don't delete handy to debug/disable shaders
   this.points = new Points(this.geometry, this.material)
+  this.points.frustumCulled = false
+
   this.scene.add(this.points)
   this.geometry.setDrawRange(0, 0)
 }
 
+export function updateMaterial () {
+  this.material.needsUpdate = true
+}
 // FIXME: Adding points doesn't work on mobile, three js works fine
 // category=threejs
 // Not sure why this happens yet but chrome->device simulation-> pixel 5 doesn't add points
@@ -40,15 +46,52 @@ export function addPoint (xyz) {
 }
 
 export function parsePoint (posData) {
+  if (JSON.stringify(this.lastCarPos) === JSON.stringify(posData)) { return }
+  if (posData[0] + posData[1] + posData[2] === 0) { return }
   if (!this.points) { return }
-  // each point must be 3D
   const xyz = [
-    parseFloat(posData[0] / 20),
-    parseFloat(posData[1] / 20),
-    parseFloat(posData[2] / 20)
+    parseFloat(posData[0]),
+    parseFloat(posData[1]),
+    parseFloat(posData[2])
   ]
-
+  this.lastCarPos = posData
   this.addPoint(xyz)
+}
+export function parsePointStress (posData) {
+  if (posData[0] + posData[1] + posData[2] === 0) { return }
+  if (!this.points) { return }
+  const xyz = [
+    parseFloat(posData[0]),
+    parseFloat(posData[1]),
+    parseFloat(posData[2])
+  ]
+  this.addPoint(xyz)
+}
+// Not sure about this, but to stop the need to calulate bounding boxes we could load min max from file/db for each game
+export function setBoundingBox () {
+  this.geometry.computeBoundingBox()
+
+  const min = new Vector3(-5000, 5000, 500)
+  const max = new Vector3(5000, -5000, -500)
+
+  this.geometry.boundingBox.set(min, max)
+  this.geometry.computeBoundingSphere()
+  // const box = new Box3(min, max)
+}
+
+/**
+ * FIXME: Bounding boxes are calculated every 100 points for now
+ * category=threejs
+ * This can't be optimal this should only be done when necessary idk how to check for that tho
+ */
+export function computeBoundings () {
+  if (this.pointsCount - this.lastCompute > 1000) {
+    this.app.$toast.info('computeBoundingSphere, may lag')
+    // this.geometry.computeBoundingBox()
+    this.geometry.computeBoundingSphere()
+
+    this.lastCompute = this.pointsCount
+  }
 }
 export function perlin2Points () {
   // const perlin = new Perlin(Math.random())
