@@ -124,6 +124,10 @@ export const makeUDPuser = (ip, gameId) => {
 }
 
 export const idFromSocket = (socket) => {
+  console.log(socket.handshake.headers)
+  if (socket.handshake.headers.origin === 'http://localhost:3000') {
+    return 127001
+  }
   let clientIp = '0.0.0.0'
   if ('x-real-ip' in socket.handshake.headers) {
     clientIp = socket.handshake.headers['x-real-ip'].toString()

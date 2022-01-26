@@ -1,7 +1,8 @@
 /* eslint-disable vue/no-parsing-error */
 <template>
   <v-container fluid class="pa-0 height">
-    <Gui />
+    <LazyToolBar />
+
     <!-- Start dialog to say that this is not safe with wrong paras -->
     <StressDialog />
     <!-- Start main settings card for stress page -->

@@ -72,8 +72,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~assets/main.sass',
-    '~assets/animations.sass'
+    '~assets/css/main.sass',
+    '~assets/css/animations.sass'
   ],
   plugins: [
     '~/plugins/vuescroll',
@@ -104,7 +104,7 @@ export default {
   },
   // Toastification module configuration
   toast: {
-    cssFile: '~/assets/noti.css',
+    cssFile: '~/assets/css/noti.css',
     position: 'bottom-left',
     hideProgressBar: true,
     timeout: 2194,

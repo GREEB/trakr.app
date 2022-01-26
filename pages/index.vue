@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid />
+  <LazyToolBar />
 </template>
 <script>
 import guiController from '../mixin/guiController'

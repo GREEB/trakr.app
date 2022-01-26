@@ -4,7 +4,9 @@
 [![Build Status](https://app.travis-ci.com/GREEB/trakr.app.svg?branch=main)](https://app.travis-ci.com/GREEB/trakr.app)
 [![issues](https://github.com/GREEB/ForzaPointCloud/workflows/todo2issue/badge.svg)](https://github.com/GREEB/trakr.app/actions?query=workflow:"todo2issue")
 
-WIP
+# Data
+
+We save the full telemetry bytes, frontend does parsing. Maybe implement [Draco](https://google.github.io/draco/)
 
 ## Features
 

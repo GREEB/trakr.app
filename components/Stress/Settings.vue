@@ -240,10 +240,10 @@ export default {
       if (!this.full) {
         this.interval = setInterval(() => {
           for (let index = 0; index < this.points2add; index++) {
-            this.$stage.parsePoint([
-              Math.random() * this.spread,
-              Math.random() * this.spread,
-              Math.random() * this.spread]
+            this.$stage.parsePointStress([
+              -Math.abs(Math.random() * this.spread),
+              -Math.abs(Math.random() * this.spread),
+              -Math.abs(Math.random() * this.spread)]
             )
           }
           this.countofpoint = this.$stage.pointsCount
@@ -257,7 +257,7 @@ export default {
         ; g++) {
         for (let index = 0; index < Math.sqrt(this.max / 3 / 100 * percentage * 200)
           ; index++) {
-          this.$stage.parsePoint({
+          this.$stage.parsePointStress({
             x: Math.random() * 1000,
             y: Math.random() * 1000,
             z: g * 10

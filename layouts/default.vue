@@ -1,28 +1,29 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      temporary
-    >
-      <AppBarMenu />
-    </v-navigation-drawer>
-    <v-app-bar
-      app
-      dense
-    >
-      <v-app-bar-nav-icon class="d-sm-none" @click="drawer = !drawer" />
-      <AppBarLogo />
-      <NuxtLink to="/" class="adaptiveText text-decoration-none">
-        <v-toolbar-title v-text="title" />
-      </NuxtLink>
-      <AppBarMenu class="d-none d-sm-flex" />
-      <v-spacer />
-
-      <AppBarSettings />
-      <AppBarLogin v-if="showLogin" />
-    </v-app-bar>
     <v-main>
+      <v-navigation-drawer
+        v-model="drawer"
+        app
+        temporary
+      >
+        <AppBarMenu />
+      </v-navigation-drawer>
+      <v-app-bar
+        app
+        dense
+      >
+        <v-app-bar-nav-icon class="d-sm-none" @click="drawer = !drawer" />
+        <AppBarLogo />
+        <NuxtLink to="/" class="adaptiveText text-decoration-none">
+          <v-toolbar-title v-text="title" />
+        </NuxtLink>
+        <AppBarMenu class="d-none d-sm-flex" />
+        <v-spacer />
+
+        <AppBarSettings />
+        <AppBarLogin v-if="showLogin" />
+      </v-app-bar>
+
       <div class="stage" />
       <Gui />
       <Nuxt />

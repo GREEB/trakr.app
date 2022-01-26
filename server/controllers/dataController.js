@@ -1,34 +1,37 @@
 import { pack } from 'msgpackr'
-// import consola from 'consola'
+import consola from 'consola'
 import { io } from '../listeners/socketServer'
 import models from '../models/indexModel'
 import { lastSeen } from '../helpers/users'
 import { users, idFromIp } from './userController.js'
 
-export const throttledWrite2 = (msg, rinfo, gameId) => {
+export const throttledWrite2 = async (msg, rinfo, gameId) => {
   const userId = idFromIp(rinfo.address)
   if (users[userId].udp === undefined) { return }
 
   // if (users[userId] === undefined || users[userId].udp === undefined || users[userId].udp.known === false || Object.keys(users[userId].udp).length === 0) { return }
 
-  // // this is basically throttling itself not sure if good option
-  if (Date.now() - users[userId].udp.lastSeen >= 50) {
+  // this is basically throttling itself not sure if good option
+  // let user change this means lot more data
+  if (Date.now() - users[userId].udp.lastSeen >= 250) {
     lastSeen(users[userId])
   } else {
     return
   }
-  // await models.position.create({
-  //   raw: msg,
-  //   userId: users[userId].udp.known.id
-  // }).catch(function (err) {
-  //   consola.error(err)
-  // })
-
-  // we create a parser for menu for each game
+  // send raw telemetry to user
   if (('socket' in users[userId])) {
     io.to(users[userId].socket.id).emit('chord', msg)
   }
-  // io.to('home').emit('chord', msg)
+  // If we know client save data
+  await models.position.create({
+    raw: msg,
+    userId: users[userId].udp.known.id
+  }).catch(function (err) {
+    consola.error(err)
+  })
+
+  // send any data to global room
+  io.to('gameName').emit('chord', msg)
   // const parsed = games[gameId].parser.parse(Buffer.from(msg, 'hex'))
   // console.log(parsed)
 }

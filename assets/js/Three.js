@@ -1,33 +1,60 @@
 // Import librarys
-import {
-  AxesHelper,
-  BufferGeometry,
-  Color,
-  PerspectiveCamera,
-  Scene,
-  Vector3,
-  WebGLRenderer
-} from 'three'
+import { PointLight, AmbientLight, BufferGeometry, Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, Object3D, Clock } from 'three'
 import { bindAll } from 'lodash-es'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { initGui } from '~/assets/js/Gui'
+import { initGui, initCarGui } from '~/assets/js/Gui'
 import { EventBus } from '~/assets/js/utils/event.js'
 
 // import local
-import { createEmptyPoints, addPoint, parsePoint, parseChordPack } from '~/assets/js/Points.js'
-import { addCar, animateCar } from '~/assets/js/Car'
+
+import { createEmptyPoints, addPoint, parsePoint, parseChordPack, computeBoundings, setBoundingBox, updateMaterial, parsePointStress } from '~/assets/js/Points.js'
+import { addCar, animateCar, carLoaded, smoothCar } from '~/assets/js/Car'
 import { setBackgroundColor } from '~/assets/js/Helpers'
-import { orbit } from '~/assets/js/Camera'
+import { orbit, setFollowCam, setOrbitCam, simpleFollow, smoothFollow, setSmoothCam, cam2Car, secondaryFollow, setFirstPerson, fpc } from '~/assets/js/Camera'
 export default class Stage {
   constructor (opts = {}) {
+    // oh no redo this
+    this.app = opts.app
     this.geometry = new BufferGeometry()
+    this.scene = new Scene()
     this.maxParticle = 1000000 // This gets 3x later performance depends on this maybe fixable
     this.pointsCount = null
     this.points = null
+    this.material = 0
+    this.carCam = new Object3D()
+    this.tempCarCam = new Vector3()
     this.PointsMaterial = null
     this.container = opts.container || document.body
     this.guiContainer = opts.guiContainer || document.body
     this.controls = null
+    this.packOffset = null
+    this.packClock = new Clock()
+    this.frameRate = 0
+    this.car = null
+    this.cameraSettings = { type: 2 }
+    this.lastCompute = null
+    this.stats = null
+    this.lerpSmoothing = 0.16 // reduce slerp steps to smooth even more this could be auto scaled to packOffset
+    this.slerpTime = 0
+    this.fromPosition = 0
+    this.steerFl = 0
+    this.steerFr = 0
+    this.toPosition = 0
+    this.fromRotation = 0
+    this.toRotation = 0
+    this.lastPos = 0
+    this.goalCam = new Object3D()
+    this.tempCam = new Vector3()
+    this.lastCarPos = 0
+    this.sco = { // smooth cam object
+      aCamera: new Vector3(),
+      bCamera: new Vector3(),
+      directionCamera: new Vector3(),
+      goalCamera: new Object3D(),
+      followCamera: new Object3D(),
+      tempCamera: new Vector3()
+    }
+
     this.addListeners()
     this.init()
     this.onResize()
@@ -45,44 +72,44 @@ export default class Stage {
   }
 
   init () {
-    // Object3D.DefaultUp = new Vector3(0, 0, 1)
+    Object3D.DefaultUp = new Vector3(0, 0, 1)
+
+    this.camera = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 10000)
+    this.sco.goalCamera.add(this.camera)
+
+    this.createEmptyPoints()
+    // this.setBoundingBox()
     const pixelRatio = window.devicePixelRatio
     const AA = pixelRatio <= 1
     /* Init renderer and canvas */
-    this.renderer = new WebGLRenderer({
-      antialias: AA,
-      alpha: true
-    })
+    this.renderer = new WebGLRenderer({ preserveDrawingBuffer: false, antialias: AA })
     this.renderer.setPixelRatio(pixelRatio)
     this.renderer.setClearColor(new Color(0x121212))
 
     this.renderer.powerPreference = 'high-performance'
 
-    this.container.style.overflow = 'hidden'
-    this.container.style.margin = 0
+    // this.container.style.overflow = 'hidden'
+    // this.container.style.margin = 0
     this.container.appendChild(this.renderer.domElement)
 
     /* Main scene and camera */
-    this.scene = new Scene()
-    this.camera = new PerspectiveCamera(
-      32,
-      window.innerWidth / window.innerHeight,
-      1,
-      20000
-    )
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-
-    this.camera.position.y = 5
-    this.camera.position.z = 200
-
-    this.camera.lookAt(new Vector3(0, 0, 0))
-
-    // this.controls = new OrbitControls(this.camera, this.container);
-    //
-    this.scene.add(new AxesHelper(100))
-    this.createEmptyPoints()
+    this.controls = new OrbitControls(this.camera, this.container)
+    this.camera.position.set(-0.16198904908582307, 0.3551316000009279, 0.22134693608538228)
+    // this.orbit()
+    const light = new PointLight(0x7138DB, 2)
+    light.position.set(0, 600, 500)
+    this.scene.add(light)
+    const light2 = new PointLight(0xE8AF6F, 2)
+    light2.position.set(0, 0, 500)
+    this.scene.add(light2)
+    // const light3 = new PointLight(0xFFFFFF, 2)
+    // light3.position.set(0, 0, 1000)
+    // this.scene.add(light3)
+    const ambient = new AmbientLight(0x404040) // soft white light
+    this.scene.add(ambient)
+    // this.scene.add(new AxesHelper(100))
     this.initGui()
-    // this.addCar()
+    this.addCar()
   }
 
   onResize () {
@@ -93,44 +120,66 @@ export default class Stage {
   }
 
   render ({ mouse }) {
-    this.controls.update()
-    this.stats.update()
+    if (this.car !== undefined && this.fromPosition && this.toPosition && this.toRotation) {
+      this.smoothCar()
+      if (this.cameraSettings.type === 1) {
+        // Simple follow
+        this.controls.enabled = true
 
-    if (this.fromPostion && this.fromRotation && this.toPosition && this.toRotation && this.lastPos) {
-      this.car.position.lerpVectors(this.fromPostion, this.toPosition, 0.1)
-      this.car.quaternion.slerpQuaternions(this.fromRotation, this.toRotation, 0.1)
-
-      this.car.needsUpdate = true
-      // this.camera.position.z = 5
-      this.aCamera.lerp(this.car.position, 0.4)
-      this.bCamera.copy(this.goalCamera.position)
-
-      this.directionCamera.copy(this.aCamera).sub(this.bCamera).normalize()
-
-      const dis = this.aCamera.distanceTo(this.bCamera) - 2.5
-
-      this.goalCamera.position.addScaledVector(this.directionCamera, dis)
-
-      this.goalCamera.position.lerp(this.tempCamera, 0.02)
-      this.tempCamera.setFromMatrixPosition(this.followCamera.matrixWorld)
-
-      this.camera.lookAt(this.car.position)
-      // this.controls.target.copy(this.car.position)
-
-      this.camera.position.lerp(new Vector3(this.camera.position.x, this.camera.position.y, this.car.position.z - 5.5), 0.01)
-      this.camera.needsUpdate = true
+        this.simpleFollow()
+      } else if (this.cameraSettings.type === 2) {
+        // First try at a smooth 3rd person game like follow cam you know what i mean
+        this.secondaryFollow()
+        this.controls.enabled = false
+      } else if (this.cameraSettings.type === 3) {
+        this.fpc()
+      } else {
+        this.controls.enabled = true
+      }
     }
+    this.controls.update()
 
+    this.lastPos = this.fromPosition
+    this.stats.update()
     this.renderer.clear()
     this.renderer.render(this.scene, this.camera)
   }
 }
+// Point functions
 Stage.prototype.createEmptyPoints = createEmptyPoints
 Stage.prototype.addPoint = addPoint
 Stage.prototype.parsePoint = parsePoint
 Stage.prototype.parseChordPack = parseChordPack
-Stage.prototype.initGui = initGui
+Stage.prototype.updateMaterial = updateMaterial
+Stage.prototype.parsePointStress = parsePointStress
+
+// Misc
+Stage.prototype.setBoundingBox = setBoundingBox
+Stage.prototype.computeBoundings = computeBoundings
 Stage.prototype.setBackgroundColor = setBackgroundColor
-Stage.prototype.orbit = orbit
-Stage.prototype.addCar = addCar
+
+// init functions
+Stage.prototype.initGui = initGui
+Stage.prototype.initCarGui = initCarGui
+
+// Car functions
 Stage.prototype.animateCar = animateCar
+Stage.prototype.carLoaded = carLoaded
+Stage.prototype.addCar = addCar
+
+// Set camera functions
+Stage.prototype.setFollowCam = setFollowCam
+Stage.prototype.setOrbitCam = setOrbitCam
+Stage.prototype.setSmoothCam = setSmoothCam
+Stage.prototype.setFirstPerson = setFirstPerson
+Stage.prototype.cam2Car = cam2Car
+
+// Camera render functions
+Stage.prototype.smoothCar = smoothCar
+Stage.prototype.simpleFollow = simpleFollow
+Stage.prototype.smoothFollow = smoothFollow
+Stage.prototype.secondaryFollow = secondaryFollow
+Stage.prototype.fpc = fpc
+
+// Camera do functions
+Stage.prototype.orbit = orbit

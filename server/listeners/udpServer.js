@@ -1,8 +1,8 @@
 import dgram from 'dgram'
 import consola from 'consola'
-import { games } from '../../assets/js/games'
 import { makeUDPuser } from '../controllers/userController'
 import { throttledWrite2 } from '../controllers/dataController' // udp6 for ipv6 support
+import { games } from '../../assets/js/games' // ewww path
 
 const servers = {}
 export function makeServers () {

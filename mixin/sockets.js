@@ -41,10 +41,25 @@ export default {
       })
       this.socket
         .on('chord', (msg, cb) => {
-          if (this.udpGame.game !== undefined) {
+          if (this.udpGame && this.udpGame.game !== undefined) {
             const parsed = games[this.udpGame.game].parser.parse(Buffer.from(msg, 'hex'))
-            this.$stage.parsePoint([parsed.Position[0], parsed.Position[1], parsed.Position[2]])
-            // this.$stage.animateCar(parsed.Position)
+            // console.log(Buffer.from(msg, 'hex').toString('hex'))
+            // console.log(parsed.PositionX, parsed.PositionY, parsed.PositionZ)
+            const data = [
+              parsed.PositionX / 20,
+              parsed.PositionY / 20,
+              parsed.PositionZ / 20,
+              parsed.YawPitchRoll[0],
+              parsed.YawPitchRoll[1],
+              parsed.YawPitchRoll[2],
+              parsed.Steer
+            ]
+            // data = data.map(function (el) {
+            //   return Number(el.toFixed(2))
+            // })
+            this.$stage.parsePoint(data)
+
+            this.$stage.animateCar(data)
             // this.$stage.followCam(parsed.Position)
           }
         })

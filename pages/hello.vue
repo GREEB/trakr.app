@@ -27,7 +27,7 @@
               1. Login
             </v-card-title>
 
-            <v-card-text>Because of limitations we need to authenticate user to be able to moderate bad actors. For now we only support auth over discord oauth.</v-card-text>
+            <v-card-text>Because of limitations we need to authenticate user to be able to moderate bad actors. For now we only support auth over discord oauth. You can still use trakr.app without a login, data will just be passed to you and not saved </v-card-text>
 
             <v-card-actions>
               <AppBarLogin v-if="!$auth.loggedIn" />
