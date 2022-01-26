@@ -2,7 +2,7 @@ import { EventBus } from '~/assets/js/utils/event'
 import Stage from '~/assets/js/Three'
 const position = require('touch-position')()
 
-export default ({ route }, inject) => {
+export default ({ app, route }, inject) => {
   const doc = document.documentElement
   let size, stage
   const onResize = () => {
@@ -49,6 +49,7 @@ export default ({ route }, inject) => {
 
   const initStage = () => {
     stage = new Stage({
+      app,
       container: document.querySelector('.stage'),
       guiContainer: document.querySelector('.gui')
     })
