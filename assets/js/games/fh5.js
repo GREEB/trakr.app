@@ -83,11 +83,14 @@ export default {
       .int8('CarPerformanceIndex')
       .int8('DriveTrain')
       .int8('NumCylinders')
-      .seek(31)
-      .array('Position', {
-        type: 'floatle',
-        length: 3
-      })
+      .seek(27) // 27?
+      .floatle('PositionX')
+      .floatle('PositionZ')
+      .floatle('PositionY')
+      // .array('Position', { // this somehow is xzy or yzx z is [1] in array idk y
+      //   type: 'floatle',   // so implementing Position"X,Y,Z" so we can set right chords on parse i guess
+      //   length: 3
+      // })
       .floatle('Speed')
       .floatle('Power')
       .floatle('Torque')
@@ -95,5 +98,22 @@ export default {
         type: 'floatle',
         length: 4
       })
+      .floatle('Boost')
+      .floatle('Fuel')
+      .floatle('Distance')
+      .floatle('BestLapTime')
+      .floatle('LastLapTime')
+      .floatle('CurrentLapTime')
+      .floatle('CurrentRaceTime')
+      .int16('Lap')
+      .int8('RacePosition')
+      .int8('Accelerator')
+      .int8('Brake')
+      .int8('Clutch')
+      .int8('Handbrake')
+      .int8('Gear')
+      .int8('Steer')
+      .int8('NormalDrivingLine')
+      .int8('NormalAiBrakeDifference')
   }
 }
