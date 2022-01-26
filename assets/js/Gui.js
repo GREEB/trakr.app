@@ -1,6 +1,6 @@
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js'
+import { GUI } from 'lil-gui'
 import { Color } from 'three'
-import Stats from 'three/examples/jsm/libs/stats.module.js'
+import Stats from '~/assets/js/utils/stats'
 
 // TODO: Gui on mobile is broken/too big
 //  category=lilgui
@@ -16,7 +16,9 @@ export function initGui () {
     colorSchema: 'Height',
     backgroundColor: this.lastBgColor,
     pointsCount: 0,
-    pps: 0
+    pps: 0,
+    camMode: false,
+    slerpSmooth: this.lerpSmoothing
   }
   this.gui = new GUI({ autoPlace: false })
   this.stats = new Stats()
@@ -33,10 +35,15 @@ export function initGui () {
   // optionFolder.add(this.material, 'size', 0.1, 10).listen()
   // optionFolder.addColor(this.guiLet, 'backgroundColor').name('Background').onChange(function (value) { setBackgroundColor(value) })
   // optionFolder.add(this.guiLet, 'boxVisible').name('Bounding box').onChange(function (value) { this.box.visible = value })
+  const shaderFolder = this.gui.addFolder('Shaders')
+  shaderFolder.add(this.material, 'vertexShader').listen()
+
   const cameraFolder = this.gui.addFolder('Camera')
+
   cameraFolder.add(this.camera.position, 'x').listen()
   cameraFolder.add(this.camera.position, 'y').listen()
   cameraFolder.add(this.camera.position, 'z').listen()
+  cameraFolder.add(this.cameraSettings, 'type').listen()
 
   const statsFolder = this.gui.addFolder('FPS')
   statsFolder.domElement.children[1].appendChild(this.stats.dom)
@@ -50,16 +57,48 @@ export function initGui () {
 
   // document.body.appendChild()
 }
-export function initQuadGui () {
-  const cubeFolder = this.gui.addFolder('Scene')
-  cubeFolder.add(this.cube.quaternion, 'x', 0, Math.PI).listen()
-  cubeFolder.add(this.cube.quaternion, 'y', 0, Math.PI).listen()
-  cubeFolder.add(this.cube.quaternion, 'z', 0, Math.PI).listen()
-  const cameraFolder = this.gui.addFolder('Camera')
-  cameraFolder.add(this.cube.position, 'z', 0, 1000).listen()
-  cameraFolder.add(this.cube.position, 'x', 0, 1000).listen()
-  cameraFolder.add(this.cube.position, 'y', 0, 1000).listen()
+export function cameraSettings () {
+
 }
+export function initCarGui () {
+  const wheels = this.gui.addFolder('wheels')
+  wheels.add(this.car.children[0].children[3].rotation, 'y', -10, 10).listen()
+
+  const goalCamera = this.gui.addFolder('GoalCam')
+
+  goalCamera.add(this.goalCam.position, 'x', -1, 1).listen()
+  goalCamera.add(this.goalCam.position, 'y', -1, 1).listen()
+  goalCamera.add(this.goalCam.position, 'z', 0, 1).listen()
+  const carFolder = this.gui.addFolder('Car')
+  carFolder.add(this, 'lerpSmoothing', 0.00000001, 1).listen()
+  carFolder.add(this, 'slerpTime').listen()
+
+  carFolder.add(this.car.rotation, 'x', -10, 10).listen()
+  carFolder.add(this.car.rotation, 'y', -10, 10).listen()
+  carFolder.add(this.car.rotation, 'z', -10, 10).listen()
+  // carFolder.add(this.car.quaternion, 'x').listen()
+  // carFolder.add(this.car.quaternion, 'y').listen()
+  // carFolder.add(this.car.quaternion, 'z').listen()
+  // carFolder.add(this.car.quaternion, 'w').listen()
+
+  // const carAnimation = this.gui.addFolder('Car animate to')
+  // carAnimation.add(this.toRotation, '_x').listen()
+  // carAnimation.add(this.toRotation, '_y').listen()
+  // carAnimation.add(this.toRotation, '_z').listen()
+  // carAnimation.add(this.toRotation, '_w').listen()
+}
+
+// export function initQuadGui () {
+//   const cubeFolder = this.gui.addFolder('Scene')
+//   cubeFolder.add(this.cube.quaternion, 'x', 0, Math.PI).listen()
+//   cubeFolder.add(this.cube.quaternion, 'y', 0, Math.PI).listen()
+//   cubeFolder.add(this.cube.quaternion, 'z', 0, Math.PI).listen()
+//   const cameraFolder = this.gui.addFolder('Camera')
+//   cameraFolder.add(this.cube.position, 'z', 0, 1000).listen()
+//   cameraFolder.add(this.cube.position, 'x', 0, 1000).listen()
+//   cameraFolder.add(this.cube.position, 'y', 0, 1000).listen()
+
+// }
 export function setBackgroundColor (arrayRGB) {
   this.lastBgColor = arrayRGB
   this.renderer.setClearColor(new Color().setRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]))
