@@ -1,9 +1,9 @@
 import {
   Float32BufferAttribute,
   ShaderMaterial,
-  Points,
-  Vector3
+  Points
 } from 'three'
+
 import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
 
 export function createEmptyPoints () {
@@ -67,40 +67,7 @@ export function parsePointStress (posData) {
   ]
   this.addPoint(xyz)
 }
-// Not sure about this, but to stop the need to calulate bounding boxes we could load min max from file/db for each game
-export function setBoundingBox () {
-  this.geometry.computeBoundingBox()
 
-  const min = new Vector3(-5000, 5000, 500)
-  const max = new Vector3(5000, -5000, -500)
-
-  this.geometry.boundingBox.set(min, max)
-  this.geometry.computeBoundingSphere()
-  // const box = new Box3(min, max)
-}
-
-/**
- * FIXME: Bounding boxes are calculated every 100 points for now
- * category=threejs
- * This can't be optimal this should only be done when necessary idk how to check for that tho
- */
-export function computeBoundings () {
-  if (this.pointsCount - this.lastCompute > 1000) {
-    this.app.$toast.info('computeBoundingSphere, may lag')
-    // this.geometry.computeBoundingBox()
-    this.geometry.computeBoundingSphere()
-
-    this.lastCompute = this.pointsCount
-  }
-}
-export function perlin2Points () {
-  // const perlin = new Perlin(Math.random())
-  // for (let a = 0; a < 100; a++) {
-  //   for (let b = 0; b < 100; b++) {
-  //     this.parsePoint({ x: a * 100, z: b * 100, y: 200 + perlin.get3(new Vector3(a / 100, b / 100, 0)) * 100 })
-  //   }
-  // }
-}
 export function parseChordPack (val) {
   // const now = new Date()
   for (let i = 0; i < val.alluserPos.length; i++) {

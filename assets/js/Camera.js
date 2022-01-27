@@ -41,7 +41,7 @@ export function simpleFollow () {
 export function secondaryFollow () {
   this.tempCam.setFromMatrixPosition(this.goalCam.matrixWorld)
 
-  this.camera.position.lerp(this.tempCam, this.slerpTime * this.packOffset)
+  this.camera.position.lerp(this.tempCam, this.slerpTime)
   this.camera.lookAt(this.car.position)
 }
 export function smoothFollow () {

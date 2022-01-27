@@ -70,7 +70,7 @@ export function initCarGui () {
   goalCamera.add(this.goalCam.position, 'y', -1, 1).listen()
   goalCamera.add(this.goalCam.position, 'z', 0, 1).listen()
   const carFolder = this.gui.addFolder('Car')
-  carFolder.add(this, 'lerpSmoothing', 0.00000001, 1).listen()
+  carFolder.add(this, 'lerpSmoothing', 0.00000001, 0.5).listen()
   carFolder.add(this, 'slerpTime').listen()
 
   carFolder.add(this.car.rotation, 'x', -10, 10).listen()

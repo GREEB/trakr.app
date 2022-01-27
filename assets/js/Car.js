@@ -1,4 +1,4 @@
-import { Vector3, Quaternion, MeshPhysicalMaterial } from 'three'
+import { Vector3, Quaternion, MeshPhysicalMaterial, BoxGeometry, MeshBasicMaterial, Mesh } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 export function addCar () {
@@ -6,17 +6,27 @@ export function addCar () {
   const self = this
   loader.load(
   // resource URL
-    'models/race.glb',
+    '../models/race.glb',
     function (gltf) { self.carLoaded(gltf) }
   )
 }
 export function carLoaded (gltf) {
   gltf.scene.children[0].scale.set(0.1, 0.1, 0.1) // getting right scale would help
   gltf.scene.children[0].rotation.x = Math.PI / 2
+  gltf.scene.traverse((child) => {
+    if (child.material) { child.material.metalness = 0 }
+  })
   this.car = gltf.scene
   this.car.getObjectByName('Mesh_body').material = new MeshPhysicalMaterial({
-    color: 0x8441D9, metalness: 0.6, roughness: 0.4, clearcoat: 0.05, clearcoatRoughness: 0.05
+    color: 0x4D4D4D, metalness: 1.0, roughness: 0.7, clearcoat: 0.05, clearcoatRoughness: 0.05
   })
+  const geometry = new BoxGeometry(1, 1, 1)
+  const material = new MeshBasicMaterial({ color: 0xFF0000 })
+  this.breakLight = new Mesh(geometry, material)
+  this.breakLight.scale.set(0.02, 0.005, 0.002)
+  this.breakLight.position.set(0, -0.128, 0.025)
+  this.car.add(this.breakLight)
+
   this.goalCam.position.set(0, -0.5, 0.299)
   this.car.add(this.goalCam)
 
@@ -36,7 +46,8 @@ export function animateCar (val) {
     this.packOffset = this.packClock.getDelta()
     this.fromPosition = this.car.position
     this.toPosition = new Vector3(val[0], val[1], val[2])
-
+    this.isBreaking = val[7]
+    console.log(this.isBreaking)
     this.fromRotation = new Quaternion()
     this.fromRotation.copy(this.car.quaternion)
 
@@ -91,7 +102,11 @@ export function smoothCar () {
   // 1 / 36 = 0.027
   // console.log(this.stats.fps, this.packOffset * 1000, 1 / ((this.stats.fps / 1000) * (this.packOffset * 1000)))
   // we would need to add 0.027 to the slerp every frame to get full animation
-
+  if (this.isBreaking === 0) {
+    this.breakLight.material.color.setHex(0x000000)
+  } else {
+    this.breakLight.material.color.setHex(0xFF0000)
+  }
   // Frist try
   this.lerpAlpha += 1 / ((this.stats.fps / 1000) * (this.packOffset * 1000))
   this.slerpTime = this.lerpSmoothing * (1 / ((this.stats.fps / 1000) * (this.packOffset * 1000)))

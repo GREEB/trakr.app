@@ -14,6 +14,9 @@
 </template>
 
 <script>
+/**
+ * Make this smarter and faster
+ */
 export default {
   data () {
     return {

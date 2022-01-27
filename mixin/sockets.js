@@ -42,17 +42,18 @@ export default {
       this.socket
         .on('chord', (msg, cb) => {
           if (this.udpGame && this.udpGame.game !== undefined) {
-            const parsed = games[this.udpGame.game].parser.parse(Buffer.from(msg, 'hex'))
+            const parsed = games[this.udpGame.game].parsers.full.parse(Buffer.from(msg, 'hex'))
             // console.log(Buffer.from(msg, 'hex').toString('hex'))
             // console.log(parsed.PositionX, parsed.PositionY, parsed.PositionZ)
             const data = [
-              parsed.PositionX / 20,
-              parsed.PositionY / 20,
-              parsed.PositionZ / 20,
+              (parsed.PositionX / 20).toFixed(3),
+              (parsed.PositionY / 20).toFixed(3),
+              (parsed.PositionZ / 20).toFixed(3),
               parsed.YawPitchRoll[0],
               parsed.YawPitchRoll[1],
               parsed.YawPitchRoll[2],
-              parsed.Steer
+              parsed.Steer,
+              parsed.Brake
             ]
             // data = data.map(function (el) {
             //   return Number(el.toFixed(2))

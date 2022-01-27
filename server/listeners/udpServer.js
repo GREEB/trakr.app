@@ -1,7 +1,7 @@
 import dgram from 'dgram'
 import consola from 'consola'
 import { makeUDPuser } from '../controllers/userController'
-import { throttledWrite2 } from '../controllers/dataController' // udp6 for ipv6 support
+import { throttledWrite } from '../controllers/dataController' // udp6 for ipv6 support
 import { games } from '../../assets/js/games' // ewww path
 
 const servers = {}
@@ -14,7 +14,7 @@ export function makeServers () {
       servers[gameId].on('message', (msg, rinfo) => {
         if (rinfo !== undefined) {
           makeUDPuser(rinfo.address, gameId)
-          throttledWrite2(msg, rinfo, gameId)
+          throttledWrite(msg, rinfo, gameId)
         }
       })
       servers[gameId].bind(gameId + 1024)

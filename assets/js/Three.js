@@ -7,7 +7,7 @@ import { EventBus } from '~/assets/js/utils/event.js'
 
 // import local
 
-import { createEmptyPoints, addPoint, parsePoint, parseChordPack, computeBoundings, setBoundingBox, updateMaterial, parsePointStress } from '~/assets/js/Points.js'
+import { createEmptyPoints, addPoint, parsePoint, parseChordPack, updateMaterial, parsePointStress } from '~/assets/js/Points.js'
 import { addCar, animateCar, carLoaded, smoothCar } from '~/assets/js/Car'
 import { setBackgroundColor } from '~/assets/js/Helpers'
 import { orbit, setFollowCam, setOrbitCam, simpleFollow, smoothFollow, setSmoothCam, cam2Car, secondaryFollow, setFirstPerson, fpc } from '~/assets/js/Camera'
@@ -31,10 +31,12 @@ export default class Stage {
     this.packClock = new Clock()
     this.frameRate = 0
     this.car = null
+    this.isBreaking = null
     this.cameraSettings = { type: 2 }
     this.lastCompute = null
     this.stats = null
-    this.lerpSmoothing = 0.16 // reduce slerp steps to smooth even more this could be auto scaled to packOffset
+    this.breakLight = null
+    this.lerpSmoothing = 0.18 // reduce slerp steps to smooth even more this could be auto scaled to packOffset
     this.slerpTime = 0
     this.fromPosition = 0
     this.steerFl = 0
@@ -96,16 +98,16 @@ export default class Stage {
     this.controls = new OrbitControls(this.camera, this.container)
     this.camera.position.set(-0.16198904908582307, 0.3551316000009279, 0.22134693608538228)
     // this.orbit()
-    const light = new PointLight(0x7138DB, 2)
-    light.position.set(0, 600, 500)
+    const light = new PointLight(0xFFFFFF, 1)
+    light.position.set(0, 600, 1000)
     this.scene.add(light)
-    const light2 = new PointLight(0xE8AF6F, 2)
+    const light2 = new PointLight(0xFFFFFF, 1)
     light2.position.set(0, 0, 500)
     this.scene.add(light2)
     // const light3 = new PointLight(0xFFFFFF, 2)
     // light3.position.set(0, 0, 1000)
     // this.scene.add(light3)
-    const ambient = new AmbientLight(0x404040) // soft white light
+    const ambient = new AmbientLight(0xFFFFFF, 0.1) // soft white light
     this.scene.add(ambient)
     // this.scene.add(new AxesHelper(100))
     this.initGui()
@@ -154,8 +156,6 @@ Stage.prototype.updateMaterial = updateMaterial
 Stage.prototype.parsePointStress = parsePointStress
 
 // Misc
-Stage.prototype.setBoundingBox = setBoundingBox
-Stage.prototype.computeBoundings = computeBoundings
 Stage.prototype.setBackgroundColor = setBackgroundColor
 
 // init functions

@@ -53,14 +53,14 @@ export default {
   computed: {
     fragmentShader () {
       if (this.$stage !== undefined) {
-        return this.$stage.defaultFragment
+        return this.$stage.material.fragmentShader
       } else {
         return 0
       }
     },
     vertexShader () {
       if (this.$stage !== undefined) {
-        return this.$stage.defaultVertex
+        return this.$stage.material.vertexShader
       } else {
         return 0
       }

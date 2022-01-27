@@ -22,7 +22,8 @@ export const registerUDPuser = async (data, socket) => {
   if (socket.decoded !== false) {
     const findUDPclient = await models.udp.findOne({ where: { mid } })
     if (findUDPclient) {
-      users[userId].udp.known = findUDPclient.userId
+      console.log(findUDPclient)
+      users[userId].udp.known = findUDPclient.dataValues
       // send back that we already have registered
       consola.info(`userController.js:registerUDPuser() client already registered ${findUDPclient.id}`)
     } else {
@@ -30,12 +31,13 @@ export const registerUDPuser = async (data, socket) => {
         userId: parseInt(socket.decoded.id),
         mid: idFromSocket(socket),
         game: 0,
-        usage: 0,
-        visibility: 0
+        usage: data.data.usage,
+        mode: data.data.mode,
+        visibility: data.data.visibility
       }).then(function (item) {
         io.to(users[userId].socket.id).emit('udpRegister', 'success')
         // send back to client
-        users[userId].udp.known = { id: item.id }
+        users[userId].udp.known = item.dataValues
       }).catch(function (err) {
         consola.error(err)
         io.to(users[userId].socket.id).emit('udpRegister', 'error')
@@ -48,6 +50,7 @@ export const addUDPUser = async (ip, gameId) => {
   const userId = idFromIp(ip).toString()
 
   consola.info(`userController.js:addUDPUser() adding user with id ${userId}`)
+
   if (!(userId in users)) { users[userId] = {} }
   if (users[userId].udp === undefined) { users[userId].udp = {} }
   if (('socket' in users[userId])) { // If online on frontend, send udpConnect ping
@@ -57,14 +60,10 @@ export const addUDPUser = async (ip, gameId) => {
 
   const udpClient = await models.udp.findOne({ where: { mid: userId } }) // Check if we know this ip
   if (udpClient) { // if we know
-    users[userId].udp.known = udpClient.userId
+    users[userId].udp.known = udpClient.dataValues
     consola.info(`userController.js:addUDPUser() client found in db ${udpClient.id}`)
-    users[userId].udp.visibility = udpClient.visibility
-    users[userId].udp.usage = udpClient.usage
   } else { // if we dont know ip
     users[userId].udp.known = false
-    users[userId].udp.visibility = false
-    users[userId].udp.usage = false
     if ((userId in users) && users[userId].socket !== undefined) {
       io.to(users[userId].socket.id).emit('udpRegister', 'new')
     }
@@ -124,7 +123,6 @@ export const makeUDPuser = (ip, gameId) => {
 }
 
 export const idFromSocket = (socket) => {
-  console.log(socket.handshake.headers)
   if (socket.handshake.headers.origin === 'http://localhost:3000') {
     return 127001
   }

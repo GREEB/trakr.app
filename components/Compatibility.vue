@@ -22,16 +22,17 @@
           <tbody>
             <tr
               v-for="(item, key) in games"
-              :key="item.slug"
+              :key="key"
             >
               <td>
                 {{ item.gameName }}
               </td>
               <td>
-                <code @click="copy2clip(item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024))">{{ item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024) }}</code>
+                <code @click="copy2clip('trakr.app' + ':' + (parseInt(key) + 1024))">{{ 'trakr.app' + ':' + (parseInt(key) + 1024) }}</code>
+                <!-- <code @click="copy2clip(item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024))">{{ item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024) }}</code> -->
               </td>
               <td>
-                n/a
+                <a :href="`https://github.com/greeb/trakr.app/blob/main/assets/js/games/${item.slug}.js`">Check out parser file on github</a>
               </td>
             </tr>
           </tbody>

@@ -4,7 +4,7 @@
       <img
         class="logo mr-3"
         style="width: 25px; height: 25px;"
-        src="image/logo.png"
+        src="~/assets/image/logo.png"
       >
     </NuxtLink>
   </div>

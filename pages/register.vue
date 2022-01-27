@@ -18,8 +18,8 @@
           <v-btn
             v-if="$auth.loggedIn"
             x-large
-            :disabled="(settings.confirm === undefined || settings.usage === undefined || settings.visibility === undefined)"
-            :class="(settings.confirm === undefined || settings.usage === undefined || settings.visibility === undefined) ? 'error--text darken-2' : 'success--text darken-2' + 'text-h5'"
+            :disabled="(settings.confirm === undefined || settings.usage === undefined || settings.visibility === undefined || settings.mode === undefined)"
+            :class="(settings.confirm === undefined || settings.usage === undefined || settings.visibility === undefined || settings.mode === undefined) ? 'error--text darken-2' : 'success--text darken-2' + 'text-h5'"
             @click="save()"
           >
             Save
@@ -54,7 +54,7 @@
                   </v-list-item-action>
 
                   <v-list-item-content>
-                    <v-list-item-title>Game: Forza Horizon 5</v-list-item-title>
+                    <v-list-item-title>Game: {{ games[udpGame.game].gameName }}</v-list-item-title>
                     <v-list-item-subtitle>Make sure you are sending data from this game</v-list-item-subtitle>
                   </v-list-item-content>
                 </template>
@@ -132,7 +132,7 @@
               Visibility / Contributing
             </v-card-title>
             <v-card-subtitle>
-              Choose visibility/contribution
+              Choose visibility/contribution we would like to encourage everyone to share
             </v-card-subtitle>
             <v-list-item-group
               v-model="settings.visibility"
@@ -163,13 +163,71 @@
             </v-list-item-group>
           </v-card>
         </v-col>
+        <v-col>
+          <v-card
+            elevation="5"
+          >
+            <v-card-title
+              class="text-h5"
+              :class="(settings.mode === undefined) ? 'error--text darken-2' : 'success--text darken-2' + 'text-h5'"
+            >
+              Mode
+            </v-card-title>
+            <v-card-subtitle>
+              For now we only support mapping
+            </v-card-subtitle>
+            <v-list-item-group
+              v-model="settings.mode"
+            >
+              <v-list-item>
+                <template #default="{ active }">
+                  <v-list-item-action>
+                    <v-checkbox :input-value="active" />
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title>Mapping</v-list-item-title>
+                    <v-list-item-subtitle>We only save xyz data (maybe surface rumble) </v-list-item-subtitle>
+                  </v-list-item-content>
+                </template>
+              </v-list-item>
+              <v-list-item disabled>
+                <template #default="{ active }">
+                  <v-list-item-action>
+                    <v-checkbox disabled :input-value="active" />
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title>Light</v-list-item-title>
+                    <v-list-item-subtitle>Choose from a few parameters of your telemetry for saving (max x bytes) </v-list-item-subtitle>
+                  </v-list-item-content>
+                </template>
+              </v-list-item>
+              <v-list-item disabled>
+                <template #default="{ active }">
+                  <v-list-item-action>
+                    <v-checkbox disabled :input-value="active" />
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title>Raw</v-list-item-title>
+                    <v-list-item-subtitle>We save every byte, we get up to 500bytes every few ms (use if f1 team)</v-list-item-subtitle>
+                  </v-list-item-content>
+                </template>
+              </v-list-item>
+            </v-list-item-group>
+          </v-card>
+        </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 <script>
+// TODO: Refactor register page and fix direct load bug
+// category=nuxt
+// because of data implementation site can't be loaded directly without first getting the new udp pack, fix that
+import { games } from '~/assets/js/games'
 export default {
   data: () => ({
+    games,
+    game: null,
     settings: {},
     dialog: true
 
@@ -188,6 +246,9 @@ export default {
     usage () {
       return this.settings.usage
     },
+    udpGame () {
+      return this.$store.state.udp.game
+    },
     udpRegister () {
       return this.$store.state.udp.register
     }
@@ -204,12 +265,15 @@ export default {
         this.$toast.success('Successfully regitered client')
         this.$router.push('/')
       }
+    },
+    udpGame (val) {
+      this.game = val.game
     }
   },
-
   mounted () {
     if (this.udpRegister !== 'new') {
-      // this.$router.push('/')
+      // user got here not the right way, fix this: site breaks when going directly to register or make register a modal not a site
+      this.$router.push('/')
     }
   },
   methods: {

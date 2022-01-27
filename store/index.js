@@ -60,7 +60,7 @@ export const actions = {
     commit('SET_DISCONNECT')
   },
   FORMAT_CHORDPACK ({ commit }, msg) {
-    commit('SET_CHORDPACK', buffer)
+    commit('SET_CHORDPACK', msg)
   },
   UDPDISCONNECT ({ commit }) {
     commit('SET_UDPDISCONNECT')
@@ -74,11 +74,11 @@ export const actions = {
 
 }
 
-function toBuffer (ab) {
-  const buf = Buffer.alloc(ab.byteLength)
-  const view = new Uint8Array(ab)
-  for (let i = 0; i < buf.length; ++i) {
-    buf[i] = view[i]
-  }
-  return buf
-}
+// function toBuffer (ab) {
+//   const buf = Buffer.alloc(ab.byteLength)
+//   const view = new Uint8Array(ab)
+//   for (let i = 0; i < buf.length; ++i) {
+//     buf[i] = view[i]
+//   }
+//   return buf
+// }
