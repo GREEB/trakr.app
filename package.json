@@ -20,6 +20,7 @@
     "binary-parser": "^2.0.2",
     "conventional-changelog": "^3.1.25",
     "cookie-universal-nuxt": "^2.1.5",
+    "core-js": "^3.20.3",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "lil-gui": "^0.16.0",
