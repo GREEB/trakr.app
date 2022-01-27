@@ -1,5 +1,6 @@
 import dgram from 'dgram'
 import consola from 'consola'
+import tx2 from 'tx2'
 import { makeUDPuser } from '../controllers/userController'
 import { throttledWrite } from '../controllers/dataController' // udp6 for ipv6 support
 import { games } from '../../assets/js/games' // ewww path
@@ -9,9 +10,14 @@ export function makeServers () {
   Object.entries(games).forEach(
     ([gameIdString, game]) => {
       const gameId = parseInt(gameIdString)
-
+      const meter = tx2.meter({
+        name: 'udp for game:' + gameId + ' inc req/sec',
+        samples: 1,
+        timeframe: 60
+      })
       servers[gameId] = dgram.createSocket('udp4')
       servers[gameId].on('message', (msg, rinfo) => {
+        meter.mark()
         if (rinfo !== undefined) {
           makeUDPuser(rinfo.address, gameId)
           throttledWrite(msg, rinfo, gameId)

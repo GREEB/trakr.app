@@ -1,19 +1,26 @@
-import consola from 'consola'
+// import consola from 'consola'
+import tx2 from 'tx2'
 import { io } from '../listeners/socketServer'
-import models from '../models/indexModel'
+// import models from '../models/indexModel'
 import { lastSeen } from '../helpers/users'
 import { games } from '../../assets/js/games'
 import { users, idFromIp } from './userController.js'
 // only data mode implemented for now will be mapping, so only xyz and maybe rumble/surface for each point?
 // we check what mode user is in
 // set throttle based on mode and only save data we need, maybe send full telemetry to frontend
-export const throttledWrite = async (msg, rinfo, gameId) => {
+
+const meter = tx2.meter({
+  name: 'sending io out /sec',
+  samples: 1,
+  timeframe: 60
+})
+export const throttledWrite = (msg, rinfo, gameId) => {
   // Checks
   const userId = idFromIp(rinfo.address)
   if (users[userId].udp === undefined) { return }
 
   // throttle
-  if (Date.now() - users[userId].udp.lastSeen >= 1000 / 12.69) {
+  if (Date.now() - users[userId].udp.lastSeen >= 1000 / 12.69) { // sending 12 cuz stop motion idk native is about 160
     lastSeen(users[userId])
   } else {
     return
@@ -28,6 +35,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
     // what are we sending back? default xyz data for game?
     // parse only xyz and surface here
     // io.to('gameName').emit('chord', msg) // maybe dont send raw tel of everyone to global map
+    meter.mark()
     io.to(users[userId].socket.id).emit('chord', msg)
   }
 
