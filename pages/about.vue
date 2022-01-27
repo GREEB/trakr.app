@@ -1,25 +1,12 @@
 <template>
   <div class="contaner">
     <vue-scroll :ops="ops">
-      <v-alert
-        style="
-          position: absolute;
-          top: 4em;
-          left: 0;
-          z-index: 1;
-          left: 1em;"
-        dense
-        outlined
-        color="accent"
-      >
-        This is a very early version that may <strong>crash</strong> your browser or even <strong>Computer</strong>
-      </v-alert>
       <section class="intro">
         <div class="content">
           <h1 class="text-wrap">
             Track car telemetry in
             <img
-              src="/image/3d-dynamic-gradient.png"
+              src="~/assets/image/3d-dynamic-gradient.png"
               alt="3D"
             >
             space
@@ -50,50 +37,50 @@
         <div class="content">
           <ul>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/roll-brush-dynamic-gradient.png"
+                src="~/assets/image/roll-brush-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>GLSL Shaders for efficient visualization</h3>
               <p>
                 Custom Vertex and Fragment shader support, pre made shader library
               </p>
             </li>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/wifi-dynamic-gradient.png"
+                src="~/assets/image/wifi-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>Realtime visuals in a browser</h3>
               <p>Monitor Data from anywhere in the world with your browser</p>
             </li>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/flag-dynamic-gradient.png"
+                src="~/assets/image/flag-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>Race and compare data</h3>
               <p>Compare Lap times and look at corresponding telemetry</p>
             </li>
           </ul>
           <ul>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/zoom-dynamic-gradient.png"
+                src="~/assets/image/zoom-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>YDIY fully download raw data at anytime</h3>
               <p>
                 Your data is Yours, you can do whatever you want we are simple a
@@ -101,24 +88,24 @@
               </p>
             </li>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/scissor-dynamic-gradient.png"
+                src="~/assets/image/scissor-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>Custom Input</h3>
               <p>Use custom inputs to visualize data from anywhere</p>
             </li>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/target-dynamic-gradient.png"
+                src="~/assets/image/target-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>Collaborative Mapping</h3>
               <p>Many different clients can make up one map invite other users</p>
             </li>
@@ -129,13 +116,13 @@
           </p>
           <ul>
             <li>
-              <v-img
+              <img
                 max-height="65"
                 max-width="91"
                 contain
-                src="image/key-dynamic-gradient.png"
+                src="~/assets/image/key-dynamic-gradient.png"
                 alt=""
-              />
+              >
               <h3>Open Source</h3>
               <p>Fully open source ready to selfhost</p>
             </li>
