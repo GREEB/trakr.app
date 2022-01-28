@@ -105,6 +105,20 @@ export default {
   ],
 
   modules: [
+    ['nuxt-social-meta',
+      {
+        url: 'https://trakr.app',
+        title: 'Trakr.app',
+        site_name: 'Site name',
+        description: 'Track car telemetry in 3D space ',
+        img: 'header.png',
+        img_size: { width: '1421', height: '499' },
+        locale: 'en_US',
+        twitter: '@tr4krapp',
+        twitter_card: 'summary_large_image',
+        theme_color: '#theme-color'
+      }
+    ],
     ['nuxt-highlightjs', {
       style: 'night-owl'
     }],
