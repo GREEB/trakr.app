@@ -15,7 +15,7 @@ export function createEmptyPoints () {
     vertexShader: defaultVertex,
     fragmentShader: defaultFragment,
     vertexColors: true,
-    depthWrite: false
+    depthWrite: true
   })
   this.material.needsUpdate = true
   // this.material = new PointsMaterial({ color: 0x888888, size: 1 }) // Don't delete handy to debug/disable shaders
@@ -69,19 +69,19 @@ export function parsePointStress (posData) {
 }
 
 export function parseChordPack (val) {
-  // const now = new Date()
+  const now = new Date()
   for (let i = 0; i < val.alluserPos.length; i++) {
-    this.parsePoint(val.alluserPos[i], 'pack')
+    this.parsePoint([val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, val.alluserPos[i].z / 20])
 
     if ((val.alluserPos.length - 1) === i) {
-      // this.car.position = new Vector3(val.alluserPos[i].x / 20, val.alluserPos[i].z / 20, val.alluserPos[i].y / 20)
+      // this.car.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].z / 20, val.alluserPos[i].y / 20)
       // this.controls.target.copy(this.car.position)
 
       // this.camera.lookAt(this.car.position)
       // this.car.needsUpdate = true
-      this.geometry.computeBoundingSphere()
-      this.geometry.computeBoundingBox()
-      // this.$toast.info(`${val.alluserPos.length} points drawn in ${(new Date() - now)} ms`)
+      // this.geometry.computeBoundingSphere()
+      // this.geometry.computeBoundingBox()
+      this.app.$toast.info(`${val.alluserPos.length} points drawn in ${(new Date() - now)} ms`)
     }
   }
 }

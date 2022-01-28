@@ -1,15 +1,8 @@
 import consola from 'consola'
-import tx2 from 'tx2'
 import { users, maxClientTimeout, watchedObject } from '../controllers/userController'
 import { age } from '../helpers/defaults.js'
 import { io } from '../listeners/socketServer'
 
-tx2.metric({
-  name: 'Realtime user',
-  value () {
-    return Object.keys(users).length
-  }
-})
 export const sessionWatcher = () => {
   setInterval(() => {
     Object.keys(users).forEach((id) => {
@@ -29,3 +22,4 @@ export const sessionWatcher = () => {
 }
 
 export const lastSeen = (obj) => { obj.udp.lastSeen = Date.now() }
+export const lastSaved = (obj) => { obj.lastSaved = Date.now() }
