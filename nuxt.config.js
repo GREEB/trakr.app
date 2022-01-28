@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import colors from 'vuetify/es5/util/colors'
 import pkg from './package.json'
+
 export default {
   head: {
     titleTemplate: '%s - Trakr.app',
@@ -135,7 +136,7 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: process.env.URL || 'https://localhost:3000',
+        url: process.env.URL || 'http://localhost:' + process.env.IOPORT || 3001,
         default: true,
         vuex: {
           actions: [
