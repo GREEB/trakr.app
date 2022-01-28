@@ -14,13 +14,14 @@ export default {
     udpGame () { return this.$store.state.udp.game }
   },
   // Watch for change Store and do stuff
+  /**
+   * TODO: Keep track of different pointbuffers so we can hide and show when switching pages
+   * category=threejs
+   */
   watch: {
     chordPack (val) {
       if (val.length === 0) { return }
       this.$stage.parseChordPack(val)
-    },
-    udpGame (val) {
-      console.log(val)
     }
   },
   // init Three when mounted

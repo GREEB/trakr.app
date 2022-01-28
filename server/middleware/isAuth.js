@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 
 export default function (req, res, next) {
-  console.log('isauth')
   const authHeader = req.get('Authorization')
   if (!authHeader) {
     const error = new Error('Not authenticated.')

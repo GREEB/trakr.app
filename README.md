@@ -4,69 +4,26 @@
 [![Build Status](https://app.travis-ci.com/GREEB/trakr.app.svg?branch=main)](https://app.travis-ci.com/GREEB/trakr.app)
 [![issues](https://github.com/GREEB/ForzaPointCloud/workflows/todo2issue/badge.svg)](https://github.com/GREEB/trakr.app/actions?query=workflow:"todo2issue")
 
-# Data
+### Data
 
-We save the full telemetry bytes, frontend does parsing. Maybe implement [Draco](https://google.github.io/draco/)
+Really not sure how to do data atm we parse on server and on client to get nice data to animate car. Saving raw bytes would be 200MB/h at ~160 packets/second. So for now to test we only save XYZ to build worldmaps saved every 1000/2 ms. Frontend still gets full telemetry at 12 packets/second.
+~~We save the full telemetry bytes, frontend does parsing. Maybe implement [Draco](https://google.github.io/draco/)~~
 
 ## Features
 
-- [x]  Three: Dynamic point cloud
-- [x]  Nuxt: Discord login
-- [x]  Nuxt: Ok Frontend
-- [x]  Three: Little stress site
-- [x]  Start of modular system for input data
+- [x]  Three: Dynamic point rendering
+- [x]  Nuxt: Discord oauth
+- [x]  Nuxt: Usable Frontend
+- [x]  Three: Little "stress" page
+- [x]  Nuxt: Start of modular system for input data
+- [x]  Nuxt/Three: Custom Shader frontend
+- [x]  Nuxt: Simple Camera System
+- [x]  Nuxt: Simple Global maps 
 
-## Todo
-
-- Accessibility everything
-- TS everything
-- Three js code splitting making it more modular and smarter, bufferattribute system
-- Better car representation 
-- Camera System, support for multiple cameras
-- Session System
-- Friends System
-- Custom Shader frontend
-- Race System
-- Replay System
-- Download System
-- Custom input api
-- Custom model
-- Progressive images with vue-loader
-- much more
-
-
-## Bugs
-
-Big bugs/features to fix/create
- - Nuxt with three js is a bit big should be 600kb minified 
- - Camera System
- - Session System
- - Social System
 
 ## Contributing
 
 Contributions are always welcome!
-
-```
-type(category): description [flags]
-```
-
-Where `type` is one of the following:
-
-* `breaking`
-* `build`
-* `ci`
-* `chore`
-* `docs`
-* `feat`
-* `fix`
-* `other`
-* `perf`
-* `refactor`
-* `revert`
-* `style`
-* `test`
-
 
 
 ## Development
@@ -86,15 +43,9 @@ Read "Environment Variables" below
   yarn Install
   yarn dev
 ```
-    
+## Games
 
-## [Flow Diagram](https://asciiflow.com/#/share/eJytkktOwzAQhq8ymnUVJCRUyDIs2LBEYuONSabBNHEi24VWVXccAYW7IE7DSXCKIiXUbuKCZckea%2F5vHp4tSl4SxnJVFDMs%2BIYUxrhluGYYX13MZww39nY%2Bv7Q3Q2tjDYY3VqOjJ11JyERquCENv9fX2%2BfEzZh8eeQG8pYKXBGIsi6oJGkoGwDhTvGlinhdW%2FP99ZBzkIVjtZx7etDCUGf%2BHJ1%2BYtpOcoB2GLHX0oCYw6eTawgh%2B1r63%2FomvDJwOjSeigP%2BqZ%2FH6Cx3jhHJZ7ek%2BWiZ15VciNyD3LskPF2SzODsNunn4lNAXWmTK9J%2F6ZZvPoK6NZE%2BMhUjc9JFmoQ4lkVztKbQMMlKFBksVFVCuv%2FhE4ue2HMHHXe4%2BwZ70bxY)
-
-Games.json is not yet implemented
-
-`Games.json` will be read by front/backend to see what games are implemented
-full implementation of udp packet parsing could be done in single json object for each game in games.json
-goal is to have uniform data and an easy way to enable disable a game on the app
+This basically implements games ```assets/js/games```
 
 ## Url
 
@@ -103,8 +54,6 @@ Not really sure about this but for now, x is a uuid
 ### Map
 - `/map/x`
   -  `/map/x/x`
-
-  
 
 ### User
 - `/user/x`

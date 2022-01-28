@@ -15,6 +15,11 @@ export default {
   },
   head: {
     title: 'Home'
+  },
+  mounted () {
+    setTimeout(() => {
+      this.$store.commit('room/home', 'data')
+    }, 0)
   }
 }
 </script>

@@ -39,6 +39,10 @@ export function carLoaded (gltf) {
   this.initCarGui()
   // this.car.position = new THREE.Vector3(val.alluserPos[i].x / 20, val.alluserPos[i].z / 20, val.alluserPos[i].y / 20)
 }
+/**
+ * TODO: Add fake demo data, maybe a fake loop
+ * category=three
+ */
 // fh5 steering is from -127+127
 export function animateCar (val) {
   if (val[0] + val[1] + val[2] === 0) { return }
@@ -47,7 +51,6 @@ export function animateCar (val) {
     this.fromPosition = this.car.position
     this.toPosition = new Vector3(val[0], val[1], val[2])
     this.isBreaking = val[7]
-    console.log(this.isBreaking)
     this.fromRotation = new Quaternion()
     this.fromRotation.copy(this.car.quaternion)
 
@@ -88,11 +91,6 @@ export function animateCar (val) {
  * For now this works but real lerping should lerp between packets so its actually always smooth
  */
 
-/**
- * TODO: Implement car pitch&roll
- * category=threejs
- * For now we only animate yaw of car or z axis we should implement the rest
- */
 export function smoothCar () {
   // this.packOffset // we have ms of last packet
   // this.stats //may have fps

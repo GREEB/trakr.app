@@ -19,6 +19,11 @@ export default {
     height: '3px'
   },
   auth: {
+    cookie: {
+      options: {
+        sameSite: 'lax'
+      }
+    },
     strategies: {
       local: {
         scheme: 'refresh',
@@ -45,6 +50,10 @@ export default {
       }
     }
   },
+  /**
+   * TODO: Fix server middleware loading before frontend and breaking on hot reload in dev
+   * category=nuxt
+   */
   serverMiddleware: [
     { path: '/', handler: '~/server/server.js' }
   ],
@@ -133,7 +142,10 @@ export default {
 
           ],
           emitBacks: [
-            'sockets/game'
+            'register/game',
+            'room/join',
+            'room/leave',
+            'room/home'
           ]
         }
       }
