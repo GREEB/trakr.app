@@ -2,7 +2,7 @@
   <v-speed-dial
     v-model="car"
     direction="right"
-    style="width: fit-content;"
+    style="width: fit-content"
     :close-on-content-click="false"
   >
     <template #activator>
@@ -26,28 +26,60 @@
       </v-tooltip>
     </template>
     <v-container class="shaderContainer">
-      <v-card>
-        <v-card-title>Shaders</v-card-title>
-        <v-card-subtitle>Customize the running shader if it fails to run you won't see anything</v-card-subtitle>
-        <v-card-text>
-          Read more about shaders <a href="https://thebookofshaders.com/">here</a>. This is VWIP, in the future there will be a api reference and you will be able to use every parameter to build whatever you want.
-          <pre @click.stop="">
-        <code v-highlight contenteditable="true" class="javascript" @input="onInputFragment">{{ inputFragment }}</code>
-      </pre>
-          <pre @click.stop="">
-        <code v-highlight contenteditable="true" class="javascript" @input="onInputVertex">{{ inputVertex }}</code>
-      </pre>
-        </v-card-text>
-      </v-card>
+      <div class="scrollContainer">
+        <vue-scroll :ops="ops">
+          <v-card>
+            <v-card-title>Shaders</v-card-title>
+            <v-card-subtitle>
+              Customize the running shader in real time, buggy atm
+            </v-card-subtitle>
+            <v-card-text>
+              Read more about shaders
+              <a href="https://thebookofshaders.com/">here</a>. This is VWIP, in
+              the future there will be a api reference and you will be able to
+              use every parameter to build whatever you want.
+            </v-card-text>
+
+            <pre class="mx-4" @click.stop="">
+              <p class="codetitle">fragment.glsl</p>
+              <code v-highlight spellcheck="false" contenteditable="true" class="c" @input="onInputFragment">{{ inputFragment }}</code>
+              </pre>
+            <pre class="mx-4" @click.stop="">
+              <p class="codetitle">vertex.glsl</p>
+                <code v-highlight spellcheck="false" contenteditable="true" class="c" @input="onInputVertex">{{ inputVertex }}</code>
+            </pre>
+            <v-card-actions>
+              <v-btn @click="save()">
+                save
+              </v-btn>
+              <v-btn @click="reset()">
+                reset
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </vue-scroll>
+      </div>
     </v-container>
   </v-speed-dial>
 </template>
 <script>
 export default {
   data: () => ({
+    ops: {
+      bar: {
+        onlyShowBarOnScroll: true,
+        keepShow: false,
+        background: '#151515 ',
+        opacity: 1,
+        minSize: 0,
+        size: '6px'
+      }
+    },
     car: null,
     inputFragment: null,
     inputVertex: null,
+    defaultFragment: null,
+    defaultVertex: null,
     code: 'null'
   }),
   computed: {
@@ -67,8 +99,10 @@ export default {
     }
   },
   mounted () {
-    this.inputFragment = this.fragmentShader
-    this.inputVertex = this.vertexShader
+    this.inputFragment = this.$stage.material.fragmentShader
+    this.inputVertex = this.$stage.material.vertexShader
+    this.defaultFragment = this.$stage.material.fragmentShader
+    this.defaultVertex = this.$stage.material.vertexShader
   },
   methods: {
     onInputFragment (val) {
@@ -78,26 +112,45 @@ export default {
     onInputVertex (val) {
       this.$stage.material.vertexShader = val.target.innerText
       this.$stage.updateMaterial()
+    },
+    save () {
+      this.inputFragment = this.$stage.material.fragmentShader
+      this.inputVertex = this.$stage.material.vertexShader
+    },
+    reset () {
+      this.inputFragment = this.defaultFragment
+      this.inputVertex = this.defaultVertex
+      this.$stage.updateMaterial()
     }
   }
 }
 </script>
 <style scoped>
-.shaderContainer .v-card{
-    background-color: rgba(0, 0, 0, 0.418);
+.codetitle {
+  position: absolute;
+  font-size: 10px;
 }
-.shaderContainer{
-    position: absolute;
-    top:0;
-    left:0;
-    width: fit-content
+.shaderContainer .v-card {
+  background-color: rgba(0, 0, 0, 0.418);
 }
-pre{
-width: fit-content;
+.scrollContainer {
+  position: relative;
+  height: calc(100vh - 200px);
+}
+.shaderContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: fit-content;
+  height: calc(100vh - 200px);
+}
+pre {
+  width: fit-content;
+}
+code {
+  resize: both;
+  max-width: 1101px;
 
-}
-code{
-        background: rgba(0, 0, 0, 0.418);
-
+  background: rgba(0, 0, 0, 0.418);
 }
 </style>

@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 makeServers()
 
 app.listen(3002, () => {
-  consola.info('Api listening on 3002')
+  consola.success('API listening on 3002')
 })
 
 export default app

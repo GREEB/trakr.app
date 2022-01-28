@@ -15,7 +15,7 @@
 
 <script>
 /**
- * Make this smarter and faster
+ * Make this smarter and faster ;)
  */
 export default {
   data () {
@@ -30,7 +30,6 @@ export default {
   mounted () {
     if (this.$route.query.code) {
       // check origin?
-      console.log(this.$route.query.code)
       this.loginData.code = this.$route.query.code
       this.login()
     } else {
@@ -46,7 +45,6 @@ export default {
         const cookieRes = this.$cookies.get('firstLogin')
         if (cookieRes === undefined) {
           this.$router.push('/hello')
-          console.log('First Login show something')
           this.$cookies.set('firstLogin', Date.now(), {
             path: '/',
             maxAge: 60 * 60 * 24 * 7 * 191
@@ -55,7 +53,6 @@ export default {
           this.$router.push('/')
         }
       } catch (err) {
-        console.log(err)
         this.loadingText = err.response.data.error
         setTimeout(() => {
           this.$router.push('/')

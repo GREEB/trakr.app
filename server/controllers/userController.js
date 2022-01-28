@@ -22,7 +22,6 @@ export const registerUDPuser = async (data, socket) => {
   if (socket.decoded !== false) {
     const findUDPclient = await models.udp.findOne({ where: { mid } })
     if (findUDPclient) {
-      console.log(findUDPclient)
       users[userId].udp.known = findUDPclient.dataValues
       // send back that we already have registered
       consola.info(`userController.js:registerUDPuser() client already registered ${findUDPclient.id}`)

@@ -1,3 +1,5 @@
+import path from 'path'
+import fs from 'fs'
 import colors from 'vuetify/es5/util/colors'
 import pkg from './package.json'
 export default {
@@ -19,6 +21,11 @@ export default {
     height: '3px'
   },
   auth: {
+    cookie: {
+      options: {
+        sameSite: 'lax'
+      }
+    },
     strategies: {
       local: {
         scheme: 'refresh',
@@ -45,12 +52,20 @@ export default {
       }
     }
   },
+  /**
+   * TODO: Fix server middleware loading before frontend and breaking on hot reload in dev
+   * category=nuxt
+   */
   serverMiddleware: [
     { path: '/', handler: '~/server/server.js' }
   ],
   server: {
     host: process.env.URL ? '0' : 'localhost',
-    port: process.env.PORT || 3000
+    port: process.env.PORT || 3000,
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? 'privkey.pem' : 'localhost.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? 'cert.pem' : 'localhost.crt'))
+    }
   },
   publicRuntimeConfig: {
     port: process.env.PORT,
@@ -120,7 +135,7 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: process.env.URL || 'http://localhost:' + process.env.IOPORT || 3001,
+        url: process.env.URL || 'https://localhost:3000',
         default: true,
         vuex: {
           actions: [
@@ -133,7 +148,10 @@ export default {
 
           ],
           emitBacks: [
-            'sockets/game'
+            'register/game',
+            'room/join',
+            'room/leave',
+            'room/home'
           ]
         }
       }

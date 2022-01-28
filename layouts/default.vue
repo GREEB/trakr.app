@@ -19,11 +19,9 @@
         </NuxtLink>
         <AppBarMenu class="d-none d-sm-flex" />
         <v-spacer />
-
         <AppBarSettings />
         <AppBarLogin v-if="showLogin" />
       </v-app-bar>
-
       <div class="stage" />
       <Gui />
       <Nuxt />

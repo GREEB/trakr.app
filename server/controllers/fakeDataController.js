@@ -18,7 +18,6 @@ const createFakeData = () => {
     })
   }
   sendFakeDataInterval()
-  console.log('created 1000 fake points')
 }
 
 // io.sockets.on('connection', (socket) => {
@@ -29,7 +28,6 @@ let index = 0
 const sendFakeDataInterval = () => {
   const interval = setInterval(() => {
     if (index === 1000) {
-      console.log('send 1000 nodes restart')
       clearInterval(interval)
       fakeData()
       index = 0
