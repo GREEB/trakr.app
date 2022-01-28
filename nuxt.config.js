@@ -136,7 +136,7 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: process.env.URL || 'http://localhost:' + process.env.IOPORT || 3001,
+        url: process.env.URL ? process.env.URL + ':' + process.env.IOPORT : 'https://localhost:' + process.env.IOPORT || 3001,
         default: true,
         vuex: {
           actions: [
