@@ -18,7 +18,7 @@ export const httpServer = https.createServer({
 
 export const io = new Server(httpServer, {
   cors: {
-    origin: 'https://localhost:3000',
+    origin: process.env.NODE_ENV !== 'production' ? process.env.URL + ':' + process.env.PORT : 'https://localhost' + ':' + process.env.PORT,
     methods: ['GET', 'POST'],
     credentials: true
   }
