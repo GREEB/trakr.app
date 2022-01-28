@@ -17,6 +17,8 @@ export const httpServer = https.createServer({
 })
 
 export const io = new Server(httpServer, {
+  secure: true,
+  transports: ['websocket'],
   cors: {
     origin: process.env.NODE_ENV === 'production' ? process.env.URL : 'https://localhost' + ':' + process.env.PORT,
     methods: ['GET', 'POST'],
