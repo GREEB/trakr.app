@@ -36,6 +36,8 @@ export default {
       this.socket = this.$nuxtSocket({
         withCredentials: true,
         teardown: false,
+        secure: true,
+        transports: ['websocket'],
         extraHeaders: {
           path: this.$nuxt.$route.path
         }
