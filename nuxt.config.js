@@ -110,7 +110,7 @@ export default {
         url: 'https://trakr.app',
         title: 'Trakr.app',
         site_name: 'Trakr.app',
-        description: 'Track car telemetry in 3D space ',
+        description: 'Track car telemetry in 3D space',
         img: 'https://trakr.app/social.png',
         img_size: { width: '1200', height: '630' },
         locale: 'en_US',
@@ -151,7 +151,7 @@ export default {
       {
         name: 'main',
         // Set localhost with port, on prod we do that with nginx so just pass URL
-        url: process.env.URL || 'https://localhost:3001',
+        url: process.env.NODE_ENV !== 'production' ? process.env.URL + ':' + process.env.IOPORT : 'https://localhost' + ':' + process.env.IOPORT,
         default: true,
         vuex: {
           actions: [

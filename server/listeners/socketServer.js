@@ -1,4 +1,6 @@
-import http from 'http'
+import https from 'https'
+import path from 'path'
+import fs from 'fs'
 import dotenv from 'dotenv'
 import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
@@ -9,14 +11,14 @@ import { sendInitData } from '../controllers/dataController'
 import config from '../config/auth.config'
 dotenv.config()
 
-export const httpServer = http.createServer()
-httpServer.listen(process.env.IOPORT, () => {
-  consola.success(`Sockets listening on ${process.env.IOPORT}`)
+export const httpServer = https.createServer({
+  key: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../privkey.pem' : '../../localhost.key')),
+  cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../cert.pem' : '../../localhost.crt'))
 })
 
 export const io = new Server(httpServer, {
   cors: {
-    origin: process.env.URL || 'https://localhost:3000',
+    origin: 'https://localhost:3000',
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -57,3 +59,6 @@ io.use(function (socket, next) {
       removeIOuser(socket, reason)
     })
   })
+httpServer.listen(process.env.IOPORT, () => {
+  consola.success(`Sockets listening on ${process.env.IOPORT}`)
+})
