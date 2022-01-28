@@ -1,3 +1,5 @@
+import { unpack } from 'msgpackr'
+
 export const getters = {
   isAuthenticated (state) {
     return state.auth.loggedIn // auth object as default will be added in vuex state, when you initialize nuxt auth
@@ -60,7 +62,8 @@ export const actions = {
     commit('SET_DISCONNECT')
   },
   FORMAT_CHORDPACK ({ commit }, msg) {
-    commit('SET_CHORDPACK', msg)
+    const buffer = unpack(toBuffer(msg))
+    commit('SET_CHORDPACK', buffer)
   },
   UDPDISCONNECT ({ commit }) {
     commit('SET_UDPDISCONNECT')
@@ -74,11 +77,11 @@ export const actions = {
 
 }
 
-// function toBuffer (ab) {
-//   const buf = Buffer.alloc(ab.byteLength)
-//   const view = new Uint8Array(ab)
-//   for (let i = 0; i < buf.length; ++i) {
-//     buf[i] = view[i]
-//   }
-//   return buf
-// }
+function toBuffer (ab) {
+  const buf = Buffer.alloc(ab.byteLength)
+  const view = new Uint8Array(ab)
+  for (let i = 0; i < buf.length; ++i) {
+    buf[i] = view[i]
+  }
+  return buf
+}

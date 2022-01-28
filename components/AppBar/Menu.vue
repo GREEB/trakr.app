@@ -22,7 +22,7 @@
     >
       Getting Started
     </v-btn>
-    <!-- <AppBarMapsMenu /> -->
+    <AppBarMapsMenu />
     <AppBarMoreMenu />
   </div>
 </template>

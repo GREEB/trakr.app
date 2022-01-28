@@ -1,4 +1,3 @@
-</script>
 <template>
   <LazyToolBar />
 </template>
@@ -19,8 +18,22 @@ export default {
       interval: null
     }
   },
-  head: {
-    title: 'Home'
+  head () {
+    return {
+      title: this.params.slug + ' Map'
+    }
+  },
+  beforeDestroy () {
+    this.$store.commit('room/leave', this.params)
+    this.$stage.orbit(false)
+    this.$stage.createEmptyPoints()
+  },
+  mounted () {
+    setTimeout(() => {
+      this.$stage.camera.position.set(52, 29, 202)
+      this.$store.commit('room/join', this.params)
+    }, 0)
   }
+
 }
 </script>
