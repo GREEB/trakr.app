@@ -3,6 +3,7 @@
     <v-tooltip bottom>
       <template #activator="{ on, attrs }">
         <v-btn
+          disabled
           icon
           v-bind="attrs"
           target="_blank"
@@ -12,7 +13,7 @@
           <v-icon>mdi-bug</v-icon>
         </v-btn>
       </template>
-      <span>Report Bug</span>
+      <span>Disabled for now, check out issues on github</span>
     </v-tooltip>
   </div>
 </template>
