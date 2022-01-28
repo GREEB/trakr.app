@@ -69,6 +69,7 @@ export default {
     }
   },
   publicRuntimeConfig: {
+    ca: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? 'chain.pem' : 'localhost.crt')),
     port: process.env.PORT,
     ioPort: process.env.IOPORT,
     baseURL: process.env.URL,

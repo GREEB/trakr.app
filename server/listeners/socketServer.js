@@ -13,7 +13,8 @@ dotenv.config()
 
 export const httpServer = https.createServer({
   key: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../privkey.pem' : '../../localhost.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../cert.pem' : '../../localhost.crt'))
+  cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../cert.pem' : '../../localhost.crt')),
+  ca: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../chain.pem' : '../../localhost.crt'))
 })
 
 export const io = new Server(httpServer, {
