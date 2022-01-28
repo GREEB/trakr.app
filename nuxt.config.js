@@ -109,14 +109,14 @@ export default {
       {
         url: 'https://trakr.app',
         title: 'Trakr.app',
-        site_name: 'Site name',
+        site_name: 'Trakr.app',
         description: 'Track car telemetry in 3D space ',
-        img: 'header.png',
-        img_size: { width: '1421', height: '499' },
+        img: 'https://trakr.app/social.png',
+        img_size: { width: '1200', height: '630' },
         locale: 'en_US',
         twitter: '@tr4krapp',
         twitter_card: 'summary_large_image',
-        theme_color: '#theme-color'
+        theme_color: '#724ade'
       }
     ],
     ['nuxt-highlightjs', {
