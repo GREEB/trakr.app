@@ -1,5 +1,3 @@
-import path from 'path'
-import fs from 'fs'
 import colors from 'vuetify/es5/util/colors'
 import pkg from './package.json'
 
@@ -62,14 +60,9 @@ export default {
   ],
   server: {
     host: process.env.URL ? '0' : 'localhost',
-    port: process.env.PORT || 3000,
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? 'privkey.pem' : 'localhost.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? 'cert.pem' : 'localhost.crt'))
-    }
+    port: process.env.PORT || 3000
   },
   publicRuntimeConfig: {
-    ca: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? 'chain.pem' : 'localhost.crt')),
     port: process.env.PORT,
     ioPort: process.env.IOPORT,
     baseURL: process.env.URL,
@@ -130,7 +123,6 @@ export default {
     'nuxt-socket-io'
   ],
   axios: {
-    https: true,
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/'
   },
@@ -153,7 +145,7 @@ export default {
       {
         name: 'main',
         // Set localhost with port, on prod we do that with nginx so just pass URL
-        url: process.env.NODE_ENV === 'production' ? process.env.URL + ':' + process.env.IOPORT : 'https://localhost' + ':' + process.env.IOPORT,
+        url: process.env.NODE_ENV === 'production' ? process.env.URL + ':' + process.env.IOPORT : 'http://localhost:' + process.env.IOPORT,
         default: true,
         vuex: {
           actions: [

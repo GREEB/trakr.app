@@ -43,6 +43,7 @@ export function addPoint (xyz) {
   this.geometry.setDrawRange(0, this.pointsCount / 3)
   this.pointsCount += 3
   this.guiLet.pointsCount = this.pointsCount
+  this.points.needsUpdate = true
 }
 
 export function parsePoint (posData) {

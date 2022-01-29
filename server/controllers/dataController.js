@@ -11,7 +11,7 @@ import { users, idFromIp } from './userController.js'
 // set throttle based on mode and only save data we need, maybe send full telemetry to frontend
 /**
  * TODO: Cache each map and maybe only sync db and cache to stop async calls in main function
- * category=data
+ * category=nuxt
  */
 
 export const throttledWrite = async (msg, rinfo, gameId) => {
@@ -57,14 +57,15 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
         }).catch(function (err) {
           consola.error(err)
         })
+        if (users[userId].udp.known.visibility === 1) { return }
+        io.to(id2GameSlug(gameId)).emit('globalChord', parsed)
         lastSaved(users[userId])
       }
       if ('socket' in users[userId]) {
         io.to(users[userId].socket.id).emit('chord', msg)
       }
       // Visibility check
-      if (users[userId].udp.known.visibility === 1) { return }
-      io.to(id2GameSlug(gameId)).emit('chord', parsed)
+      // console.log('visibility; ' + users[userId].udp.known.visibility)
     }
   }
 }
@@ -107,7 +108,7 @@ function gameSlug2Id (slug) {
 
 function id2GameSlug (originalKey) {
   for (const [key, value] of Object.entries(games)) {
-    if (key === originalKey) {
+    if (parseInt(key) === parseInt(originalKey)) {
       return value.slug
     }
   }

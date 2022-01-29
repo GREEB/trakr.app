@@ -41,7 +41,7 @@ export function carLoaded (gltf) {
 }
 /**
  * TODO: Add fake demo data, maybe a fake loop
- * category=three
+ * category=threejs
  */
 // fh5 steering is from -127+127
 export function animateCar (val) {
