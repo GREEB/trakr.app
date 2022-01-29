@@ -22,9 +22,7 @@ httpServer.listen(process.env.IOPORT, () => {
 export const io = new Server(httpServer, {
   rejectUnauthorized: false,
   secure: true,
-  key: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../privkey.pem' : '../../localhost.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../cert.pem' : '../../localhost.crt')),
-  ca: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../chain.pem' : '../../localhost.crt')),
+  transports: ['websocket'],
   cors: {
     origin: process.env.NODE_ENV === 'production' ? process.env.URL : 'https://localhost' + ':' + process.env.PORT,
     methods: ['GET', 'POST'],
