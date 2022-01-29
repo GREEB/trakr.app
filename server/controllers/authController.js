@@ -6,7 +6,7 @@ import config from '../config/auth.config'
 import models from '../models/indexModel'
 
 const createToken = async (user) => {
-  consola.log('authController.js:createToken() creating token for id: ', user.id)
+  consola.info('authController.js:createToken() creating token for id: ', user.id)
 
   const expiredAt = new Date()
   expiredAt.setSeconds(expiredAt.getSeconds() + config.jwtRefreshExpiration)
