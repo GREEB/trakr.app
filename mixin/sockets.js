@@ -35,12 +35,8 @@ export default {
 
     if (!this.connected) {
       this.socket = this.$nuxtSocket({
-        ca: this.$config.ca,
         withCredentials: true,
-        teardown: false,
         secure: true,
-        transports: ['websocket'],
-        rejectUnauthorized: false,
         extraHeaders: {
           path: this.$nuxt.$route.path
         }

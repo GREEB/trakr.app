@@ -16,10 +16,15 @@ export const httpServer = https.createServer({
   cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../cert.pem' : '../../localhost.crt')),
   ca: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../chain.pem' : '../../localhost.crt'))
 })
-
+httpServer.listen(process.env.IOPORT, () => {
+  consola.success(`Sockets listening on ${process.env.IOPORT}`)
+})
 export const io = new Server(httpServer, {
+  rejectUnauthorized: false,
   secure: true,
-  transports: ['websocket'],
+  key: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../privkey.pem' : '../../localhost.key')),
+  cert: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../cert.pem' : '../../localhost.crt')),
+  ca: fs.readFileSync(path.resolve(__dirname, (process.env.NODE_ENV === 'production') ? '../../chain.pem' : '../../localhost.crt')),
   cors: {
     origin: process.env.NODE_ENV === 'production' ? process.env.URL : 'https://localhost' + ':' + process.env.PORT,
     methods: ['GET', 'POST'],
@@ -62,6 +67,3 @@ io.use(function (socket, next) {
       removeIOuser(socket, reason)
     })
   })
-httpServer.listen(process.env.IOPORT, () => {
-  consola.success(`Sockets listening on ${process.env.IOPORT}`)
-})
