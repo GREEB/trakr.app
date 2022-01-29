@@ -16,7 +16,7 @@ httpServer.listen(process.env.IOPORT, () => {
 export const io = new Server(httpServer, {
   rejectUnauthorized: false,
   cors: {
-    origin: process.env.NODE_ENV === 'production' ? process.env.URL + ':' + process.env.PORT : 'http://localhost:' + process.env.PORT,
+    origin: process.env.NODE_ENV === 'production' ? process.env.URL : 'http://localhost:' + process.env.PORT,
     methods: ['GET', 'POST'],
     credentials: true
   }
