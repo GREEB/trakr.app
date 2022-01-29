@@ -13,7 +13,7 @@
           </h1>
           <p class="text-wrap">
             <span>How this works:</span> The Games we support can deliver
-            telemetry over UDP, we save parse and display this data.
+            telemetry over UDP, we save parse and display this data. <a class="text-caption" href="#">Demo Video</a>
           </p>
         </div>
         <div>

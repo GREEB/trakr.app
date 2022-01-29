@@ -200,6 +200,14 @@ export default {
       }
     }
   },
+  mounted () {
+    const gui = this.$cookies.get('gui')
+    if (gui === true) {
+      this.gui = true
+    } else {
+      this.gui = false
+    }
+  },
   methods: {
     setThreeBG () {
       if (this.$vuetify.theme.dark) {

@@ -70,25 +70,26 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
   }
 }
 export const sendInitData = async (socket, gameSlug) => {
+  // visibility  not implemented yet
   // Send init data
   let gameId
   // Send map data
-  if (gameSlug !== undefined) {
-    gameId = gameSlug2Id(gameSlug)
+  if (gameSlug === 'home' && socket.decoded !== false) {
+    // Send User only data
     const alluserPos = await models.position.findAll({
       where: {
-        gameId
+        userId: socket.decoded.id
       },
       raw: true,
       attributes: ['x', 'y', 'z']
     })
     const serializedAsBuffer = pack({ alluserPos })
     io.to(socket.id).emit('chordPack', serializedAsBuffer)
-  } else if (socket.decoded !== false) {
-    // Send User only data
+  } else if (typeof gameSlug === 'string' && gameSlug !== 'home') {
+    gameId = gameSlug2Id(gameSlug)
     const alluserPos = await models.position.findAll({
       where: {
-        userId: socket.decoded.id
+        gameId
       },
       raw: true,
       attributes: ['x', 'y', 'z']

@@ -29,13 +29,12 @@ export default {
     this.$stage.createEmptyPoints()
   },
   mounted () {
-    setTimeout(() => {
+    this.$nextTick(() => {
       this.$stage.createEmptyPoints()
-
       this.$stage.setOrbitCam()
       this.$stage.camera.position.set(52, 29, 202)
       this.$store.commit('room/join', this.params)
-    }, 0)
+    })
   }
 
 }

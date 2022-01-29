@@ -41,7 +41,7 @@
         <AppBarSocial />
       </v-list-item>
       <v-list-item>
-        <NuxtLink class="version" to="/changelog">
+        <NuxtLink class="version text-decoration-none" to="/changelog">
           <v-subheader>
             v.{{ $config.version }}
           </v-subheader>

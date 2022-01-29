@@ -225,6 +225,7 @@
 // TODO: Refactor register page and fix direct load bug
 // category=nuxt
 // because of data implementation site can't be loaded directly without first getting the new udp pack, fix that
+
 import { games } from '~/assets/js/games'
 export default {
   data: () => ({

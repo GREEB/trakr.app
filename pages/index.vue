@@ -16,13 +16,16 @@ export default {
   head: {
     title: 'Home'
   },
+  beforeDestroy () {
+    this.$stage.orbit(false)
+    this.$stage.createEmptyPoints()
+  },
   mounted () {
-    setTimeout(() => {
+    this.$nextTick(() => {
       this.$stage.setSmoothCam()
-      this.$stage.camera.position.set(-0.16198904908582307, 0.3551316000009279, 0.22134693608538228)
-
-      this.$store.commit('room/home', 'data')
-    }, 0)
+      this.$stage.camera.position.set(-0.16198904908582307, 0.3551316000009279, 0.22134693608538228) // our default view this needs a function
+      this.$store.commit('room/home', Date.now()) // if commiting same twice wont trigger sockets again so time as unique value hack
+    })
   }
 }
 </script>

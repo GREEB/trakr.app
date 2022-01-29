@@ -69,16 +69,22 @@ export function parsePointStress (posData) {
   this.addPoint(xyz)
 }
 
-export function parseChordPack (val) {
+export function parseChordPack (val, home) {
   const now = new Date()
   for (let i = 0; i < val.alluserPos.length; i++) {
     this.parsePoint([val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, val.alluserPos[i].z / 20])
 
     if ((val.alluserPos.length - 1) === i) {
-      // this.car.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].z / 20, val.alluserPos[i].y / 20)
-      // this.controls.target.copy(this.car.position)
+      if (home) {
+        this.car.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, val.alluserPos[i].z / 20)
+        this.cam2Car()
+        // this.camera.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, (val.alluserPos[i].z / 20) + 1)
 
-      // this.camera.lookAt(this.car.position)
+        this.controls.target.copy(this.car.position)
+
+        this.camera.lookAt(this.car.position)
+      }
+
       // this.car.needsUpdate = true
       // this.geometry.computeBoundingSphere()
       // this.geometry.computeBoundingBox()

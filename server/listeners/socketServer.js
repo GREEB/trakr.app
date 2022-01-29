@@ -22,6 +22,7 @@ export const io = new Server(httpServer, {
   }
 })
 // TODO: Check for multitple tabs and only run one for each ip for now
+// category=nuxt
 io.use(function (socket, next) {
   const authtoken = socket.handshake.headers.cookie
   const token = cookie.parse(authtoken)
@@ -49,7 +50,7 @@ io.use(function (socket, next) {
       sendInitData(socket, data.data.slug)
     })
     socket.on('room/home', (data) => {
-      sendInitData(socket)
+      sendInitData(socket, 'home')
     })
     socket.on('room/leave', (data) => {
       socket.leave(data.data.slug)

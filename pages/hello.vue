@@ -4,17 +4,47 @@
       <v-row>
         <v-col>
           <h1 class="text-h3 mt-5 mb-2">
-            Welcome to Trakr.app
+            Getting Started
           </h1>
-          <p>
-            This is work in progress and you may find bugs, please consider contributing to this project.
+          <p class="mb-0">
+            <strong>Testing:</strong>
+            If you just want to test this, enter the url and port for your game from the list below into the Data out settings. <br>
           </p>
-          <p>
-            You can browse maps without being logged in. You will also receive global data in realtime, a login is only required for us to save data.
+          <p class=" ma-0 pa-0 text-caption">
+            Data will apear on <NuxtLink to="/">
+              home
+            </NuxtLink>
           </p>
         </v-col>
       </v-row>
 
+      <v-row>
+        <v-col>
+          <h5 class="text-h5">
+            Compatibility list
+          </h5>
+          <p>For now this is very limited but if you want a game supported consider contributing on github</p>
+          <LazyCompatibility />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <p class="text-caption warning--text">
+            This is work in progress and you may find bugs, please consider contributing to this project.
+          </p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <h5 class="text-h5">
+            Saving Data
+          </h5>
+
+          <p>
+            This only applies if you want to save telemetry to our database
+          </p>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <v-card
@@ -76,13 +106,6 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <h2>Compatibility list</h2>
-          <p>For now this is very limited but if you want a game supported consider contributing on github</p>
-          <LazyCompatibility />
         </v-col>
       </v-row>
     </v-container>

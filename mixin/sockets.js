@@ -23,7 +23,11 @@ export default {
   watch: {
     chordPack (val) {
       if (val.length === 0) { return }
-      this.$stage.parseChordPack(val)
+      if (this.currentSlug === undefined) {
+        this.$stage.parseChordPack(val, true)
+      } else {
+        this.$stage.parseChordPack(val, false)
+      }
     }
   },
   methods: {

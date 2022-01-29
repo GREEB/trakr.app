@@ -19,6 +19,7 @@ export default {
   0: { // id helps to have it as obj key so we can port - 1024 to get game id and object
     gameName: 'Forza Horizon 5',
     slug: 'fh5',
+    video: 'https://youtu.be/6e_MtHs6ANg',
     parsers: {
       xyz: new Parser().endianess('little')
         .seek(244)

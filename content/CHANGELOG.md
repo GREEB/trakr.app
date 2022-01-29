@@ -1,3 +1,10 @@
+### [0.0.18](https://github.com/GREEB/trakr.app/compare/v0.0.17...v0.0.18) (2022-01-29)
+
+
+### Features
+
+* **gameMap:** implemented global map ([adc96e1](https://github.com/GREEB/trakr.app/commit/adc96e1cfcbea78b3907ac28159aee4710ea76d1))
+
 ### [0.0.17](https://github.com/GREEB/trakr.app/compare/v0.0.16...v0.0.17) (2022-01-26)
 
 
