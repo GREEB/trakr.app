@@ -8,12 +8,12 @@ import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
 
 export function createEmptyPoints () {
   this.pointsCount = 0
-  const positions = new Float32Array(this.maxParticle * 3)
-  this.geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+  this.positions = new Float32Array(this.maxParticle * 3)
+  this.geometry.setAttribute('position', new Float32BufferAttribute(this.positions, 3))
   this.geometry.frustumCulled = false
   this.material = new ShaderMaterial({
-    vertexShader: defaultVertex,
-    fragmentShader: defaultFragment,
+    vertexShader: this.material.vertexShader || defaultVertex,
+    fragmentShader: this.material.fragmentShader || defaultFragment,
     vertexColors: true,
     depthWrite: true
   })

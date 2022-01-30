@@ -31,6 +31,7 @@ export default class Stage {
     this.packClock = new Clock()
     this.frameRate = 0
     this.car = null
+    this.positions = 0
     this.isBreaking = null
     this.cameraSettings = { type: 2 }
     this.lastCompute = null
