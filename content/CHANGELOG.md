@@ -1,3 +1,10 @@
+### [0.0.20](https://github.com/GREEB/trakr.app/compare/v0.0.19...v0.0.20) (2022-01-30)
+
+
+### Features
+
+* **mapping:** mapping now tracks NormSuspensionTravel, WheelInPuddle & SurfaceRumble ([b6c9cfb](https://github.com/GREEB/trakr.app/commit/b6c9cfbb4d6a3ae0b10b1967865d47adaab8da83))
+
 ### [0.0.19](https://github.com/GREEB/trakr.app/compare/v0.0.17...v0.0.19) (2022-01-30)
 
 
