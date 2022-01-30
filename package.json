@@ -1,7 +1,7 @@
 {
   "name": "trakr.app",
   "license": "MIT",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
