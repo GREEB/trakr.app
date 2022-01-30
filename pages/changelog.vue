@@ -1,7 +1,7 @@
 <template>
   <div class="fhContainer">
     <v-container>
-      <h1 class="mb-4 mt-4 text-h3">
+      <h1 class="mb-4 mt-4 text-h4">
         Changelog
       </h1>
       <p>Github commits will be shown here</p>

@@ -25,7 +25,7 @@ export const state = () => ({
 export const mutations = {
   // Socket.io connect
   SET_CONNECT (state) {
-    state.connected = true
+    state.sio.connected = true
   },
   // Socket.io disconnect
   SET_DISCONNECT (state) {

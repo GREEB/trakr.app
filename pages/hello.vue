@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <h1 class="text-h3 mt-5 mb-2">
+          <h1 class="text-h4 mt-5 mb-2">
             Getting Started
           </h1>
           <p class="mb-0">

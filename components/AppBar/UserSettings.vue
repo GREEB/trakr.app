@@ -1,19 +1,6 @@
 <template>
   <v-card offset-x="true">
     <v-card-title>User Settings</v-card-title>
-    <v-card-subtitle>
-      <v-chip-group
-        column
-      >
-        <v-chip outlined small :color="IOconnected ? 'success darken-2' : 'accent'">
-          Socket.io
-        </v-chip>
-        <v-chip outlined small :color="udpConnected ? 'success darken-2' : 'accent'">
-          UDP
-        </v-chip>
-      </v-chip-group>
-    </v-card-subtitle>
-
     <v-card-actions>
       <v-btn
         block

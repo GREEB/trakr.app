@@ -24,7 +24,11 @@
       </v-app-bar>
       <div class="stage" />
       <Gui />
-      <Nuxt />
+      <div class="scrollContainer">
+        <vue-scroll :ops="ops">
+          <Nuxt />
+        </vue-scroll>
+      </div>
     </v-main>
     <!-- Inject sockets into the template maybe not the best way? -->
   </v-app>
@@ -35,7 +39,17 @@ export default {
   mixins: [sockets],
   data: () => ({
     title: 'trakr.app',
-    drawer: null
+    drawer: null,
+    ops: {
+      bar: {
+        onlyShowBarOnScroll: true,
+        keepShow: false,
+        background: '#151515 ',
+        opacity: 1,
+        minSize: 0,
+        size: '6px'
+      }
+    }
   }),
   // not sure if needed but first thing we call is theme
   created () {
@@ -84,5 +98,9 @@ export default {
 .lil-gui .title{
  font-size: 1em !important;
  line-height: 1.7em;
+}
+.scrollContainer {
+  position: relative;
+  height: calc(100vh - 48px);
 }
 </style>

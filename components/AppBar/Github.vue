@@ -3,7 +3,6 @@
     <v-tooltip bottom>
       <template #activator="{ on, attrs }">
         <v-btn
-          disabled
           icon
           v-bind="attrs"
           target="_blank"
@@ -13,7 +12,7 @@
           <v-icon>mdi-bug</v-icon>
         </v-btn>
       </template>
-      <span>Disabled for now, check out issues on github</span>
+      <span>Report bug</span>
     </v-tooltip>
   </div>
 </template>
@@ -24,7 +23,7 @@ export default {
   }),
   computed: {
     bugurl () {
-      return this.gitIssueUrl + encodeURIComponent('Issue on: /' + this.$route.name)
+      return this.gitIssueUrl + encodeURIComponent('Issue on: /' + this.$route.name + ' READ OPEN ISSUES FIRST, THANKS')
     }
   }
 }

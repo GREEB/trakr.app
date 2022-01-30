@@ -2,7 +2,6 @@
   <v-menu
     v-model="menu"
     :close-on-content-click="false"
-    :nudge-width="100"
     offset-y
   >
     <template #activator="{ on, attrs }">
@@ -34,7 +33,39 @@
         <v-toolbar-title class="text-h6 white--text pl-0">
           Settings
         </v-toolbar-title>
+        <v-spacer />
 
+        <v-chip-group
+          class="ml-4"
+          column
+        >
+          <v-tooltip bottom>
+            <template #activator="{ on, attrs }">
+              <v-chip
+                v-bind="attrs"
+                small
+                :color="IOconnected ? 'success darken-2' : 'accent'"
+                v-on="on"
+              >
+                Socket.io
+              </v-chip>
+            </template>
+            <span>{{ IOconnected ? 'Successfully connected to trakr.app sockets' : 'Not connected to trakr.app sockets' }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template #activator="{ on, attrs }">
+              <v-chip
+                v-bind="attrs"
+                small
+                :color="udpConnected ? 'success darken-2' : ''"
+                v-on="on"
+              >
+                Game
+              </v-chip>
+            </template>
+            <span>{{ udpConnected ? 'UDP client connected' : 'UDP client not connected' }}</span>
+          </v-tooltip>
+        </v-chip-group>
         <v-spacer />
         <AppBarGithub />
 
@@ -164,6 +195,7 @@ export default {
     gui: false
   }),
   computed: {
+    IOconnected () { return this.$store.state.connected },
     udpRegister () { return this.$store.state.udp.register },
     udpConnected () { return this.$store.state.udp.connected },
     showUDPbadge () {
