@@ -164,12 +164,8 @@ export default {
     gui: false
   }),
   computed: {
-    udpRegister () {
-      return this.$store.state.udp.register
-    },
-    udpConnected () {
-      return this.$store.state.udp.connected
-    },
+    udpRegister () { return this.$store.state.udp.register },
+    udpConnected () { return this.$store.state.udp.connected },
     showUDPbadge () {
       if (this.$store.state.udp.register === 'new' && this.$route.name !== 'register') {
         return 1

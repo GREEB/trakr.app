@@ -3,7 +3,7 @@ import { users } from '../controllers/userController'
 tx2.metric({
   name: 'Realtime user',
   value () {
-    return Object.keys(users).length
+    return users !== undefined ? Object.keys(users).length : 0
   }
 })
 

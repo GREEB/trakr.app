@@ -12,7 +12,7 @@
               Register UDP client
             </h1>
             <p>
-              {{ $auth.loggedIn ? "We've detected a client on your IP sending us UDP data" : "Unfortunately an authentication is required for us to save data this is to prevent bad actors, you can still use the site the data won't be saved" }}
+              {{ $auth.loggedIn ? "We've detected a client on your IP sending us UDP data" : "Unfortunately an authentication is required for us to save data this is to prevent bad actors, you can still use the site the data won't be saved." }}
             </p>
           </v-col>
           <v-col class="d-flex justify-end  align-center ">
@@ -250,6 +250,9 @@ export default {
     usage () {
       return this.settings.usage
     },
+    udpGame () {
+      return this.$store.state.udp.game
+    },
     udpRegister () {
       return this.$store.state.udp.register
     }
@@ -266,7 +269,7 @@ export default {
         this.$toast.success('Successfully regitered client')
         this.$router.push('/')
       } else if (val === 'new') {
-        this.gameName = games[this.$store.state.udp.game.game].gameName
+        this.gameName = games[this.udpGame].gameName
       }
     },
     udpGame (val) {
@@ -275,7 +278,7 @@ export default {
   },
   mounted () {
     if (this.udpRegister === 'new') {
-      this.gameName = games[this.$store.state.udp.game.game].gameName
+      this.gameName = games[this.$store.state.udp.game].gameName
     }
   },
   methods: {

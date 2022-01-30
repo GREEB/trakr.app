@@ -54,9 +54,7 @@ export default {
         }
       } catch (err) {
         this.loadingText = err.response.data.error
-        setTimeout(() => {
-          this.$router.push('/')
-        }, 1000)
+        this.$router.push('/')
       }
     }
   }

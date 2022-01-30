@@ -17,7 +17,88 @@
           </p>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col>
+          <p class="mt-10">
+            <strong> Saving Data:</strong>
 
+            This only applies if you want to save telemetry to our database
+          </p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card
+            dark
+            class="mr-3"
+            height="100%"
+          >
+            <v-card-title class="text-h5">
+              1. Login
+            </v-card-title>
+
+            <v-card-text>Because of limitations we need to authenticate users to be able to moderate bad actors. For now we only support auth over discord oauth. You can still use trakr.app without a login, data will just be passed to you and not saved. </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card
+            dark
+            class="mr-3"
+            height="100%"
+          >
+            <v-card-title class="text-h5">
+              2. Register Client
+            </v-card-title>
+            <v-card-text>
+              Set your games UDP data out to a UDP url from the list below and go to the website on the same IP.
+              In your settings you'll see a notification: <v-badge
+                overlap
+                color="warning"
+                dot
+              >
+                <v-btn small icon>
+                  <v-icon x-small>
+                    mdi-wrench
+                  </v-icon>
+                </v-btn>
+              </v-badge>
+              or a button will appear bellow.
+            </v-card-text>
+            <v-card-actions>
+              <AppBarRegisterClient v-if="udpRegister === 'new'" />
+
+              <v-progress-circular
+                v-if="udpRegister !== 'new'"
+                :size="20"
+                indeterminate
+                color="white"
+                class="mx-3"
+              />
+              <span class="ma-2">
+                {{ udpRegister !== 'new' ? 'Looking for client' : 'Client found!' }}
+              </span>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card
+            dark
+            height="100%"
+          >
+            <v-card-title class="text-h5">
+              3. Enjoy
+            </v-card-title>
+
+            <v-card-text>You should be good to go, we will track your clients data and you don't need to be on the website ever again.</v-card-text>
+
+            <v-card-actions>
+              <v-btn class="mt-8" text to="/">
+                Go home
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <h5 class="text-h5">
@@ -34,80 +115,6 @@
           </p>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
-          <h5 class="text-h5">
-            Saving Data
-          </h5>
-
-          <p>
-            This only applies if you want to save telemetry to our database
-          </p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-card
-            elevation="5"
-            color="#724fe0"
-            dark
-            class="mr-3"
-          >
-            <v-card-title class="text-h5">
-              1. Login
-            </v-card-title>
-
-            <v-card-text>Because of limitations we need to authenticate user to be able to moderate bad actors. For now we only support auth over discord oauth. You can still use trakr.app without a login, data will just be passed to you and not saved </v-card-text>
-
-            <v-card-actions>
-              <AppBarLogin v-if="!$auth.loggedIn" />
-            </v-card-actions>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card
-            color="#d35ebb"
-            elevation="5"
-            dark
-            class="mr-3"
-          >
-            <v-card-title class="text-h5">
-              2. Register Client
-            </v-card-title>
-            <v-card-text>Set your games UDP data out to a UDP url from the list below and go to the website on the same IP, a prompt will appear asking you to register your client.</v-card-text>
-            <v-card-actions>
-              <v-progress-circular
-                :size="20"
-                indeterminate
-                color="white"
-                class="mx-3"
-              />
-              <span class="my-2">
-                Looking for client
-              </span>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card
-            elevation="5"
-            color="#e8b36d"
-            dark
-          >
-            <v-card-title class="text-h5">
-              3. Enjoy
-            </v-card-title>
-
-            <v-card-text>You should be good to go, we will track your clients data and you don't need to be on the website ever again</v-card-text>
-
-            <v-card-actions>
-              <v-btn text to="/">
-                Go home
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
     </v-container>
   </div>
 </template>
@@ -115,7 +122,22 @@
 export default {
   head: {
     title: 'Hello'
+  },
+  computed: {
+    udpConnected () { return this.$store.state.udp.connected },
+    udpRegister () {
+      return this.$store.state.udp.register
+    }
   }
+  // watch: {
+  //   udpConnected (val) {
+  //     if (val) {
+  //       this.$toast.success('UDP client connected')
+  //     } else {
+  //       this.$toast.error('UDP client disconnected')
+  //     }
+  //   }
+  // }
 }
 </script>
 <style scoped>

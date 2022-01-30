@@ -47,9 +47,6 @@ export const mutations = {
   SET_UDPCONNECT (state, msg) {
     state.udp.game = msg
     state.udp.connected = true
-    if (msg) {
-      state.udpGame = msg
-    }
   }
 }
 

@@ -5,6 +5,7 @@ import { io } from '../listeners/socketServer'
 
 export const sessionWatcher = () => {
   setInterval(() => {
+    // console.log(JSON.stringify(users))
     Object.keys(users).forEach((id) => {
       if ('udp' in users[id]) {
         if (age(users[id]) > maxClientTimeout) {

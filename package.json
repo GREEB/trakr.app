@@ -23,6 +23,7 @@
     "core-js": "^3.20.3",
     "express": "^4.17.2",
     "fs": "^0.0.1-security",
+    "ipaddr.js": "^2.0.1",
     "jsonwebtoken": "^8.5.1",
     "lil-gui": "^0.16.0",
     "lodash-es": "^4.17.21",
