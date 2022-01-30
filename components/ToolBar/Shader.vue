@@ -64,6 +64,9 @@
 </template>
 <script>
 export default {
+  // TODO: Actually implement real code editor for shaders don't use this v-menu actual dialog should be used
+  // category=nuxt
+  // Also this needs saving to db and sharing and much more a pre made library...
   data: () => ({
     ops: {
       bar: {

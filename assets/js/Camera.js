@@ -63,3 +63,7 @@ export function smoothFollow () {
   this.camera.position.lerp(new Vector3(this.camera.position.x, this.camera.position.y, this.car.position.z - 5.5), this.slerpTime)
   this.camera.needsUpdate = true
 }
+
+// TODO: implement raycasting to point
+// category=threejs
+// https://github.com/GREEB/fPointcloud/commit/434985f62cb002d0433cd6c79df3af7a60392949#diff-7b12be43febc6e18259dd77c004315b4143d570234e0f15acf5f9d7b79c371b5

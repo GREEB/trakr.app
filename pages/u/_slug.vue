@@ -19,7 +19,7 @@ export default {
   },
   head () {
     return {
-      title: this.params.slug + ' Map'
+      title: this.params.slug
     }
   },
   beforeDestroy () {

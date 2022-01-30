@@ -10,7 +10,7 @@ import { users, idFromIp } from './userController.js'
 // we check what mode user is in
 // set throttle based on mode and only save data we need, maybe send full telemetry to frontend
 /**
- * TODO: Cache each map and maybe only sync db and cache to stop async calls in main function
+ * TODO: Cache each map and maybe, only sync db and cache to stop async calls in main function
  * category=nuxt
  */
 
@@ -83,6 +83,17 @@ export const sendInitData = async (socket, gameSlug) => {
     const alluserPos = await models.position.findAll({
       where: {
         userId: socket.decoded.id
+      },
+      raw: true,
+      attributes: ['x', 'y', 'z']
+    })
+    const serializedAsBuffer = pack({ alluserPos })
+    io.to(socket.id).emit('chordPack', serializedAsBuffer)
+  } else if (/^-?\d+$/.test(gameSlug)) {
+    const uid = parseInt(gameSlug)
+    const alluserPos = await models.position.findAll({
+      where: {
+        userId: uid
       },
       raw: true,
       attributes: ['x', 'y', 'z']

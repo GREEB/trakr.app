@@ -21,7 +21,7 @@ export const io = new Server(httpServer, {
     credentials: true
   }
 })
-// TODO: Check for multitple tabs and only run one for each ip for now
+// TODO: Check for multiple tabs and only run one for each ip for now
 // category=nuxt
 io.use(function (socket, next) {
   const authtoken = socket.handshake.headers.cookie

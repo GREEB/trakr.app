@@ -40,7 +40,7 @@ export function carLoaded (gltf) {
   // this.car.position = new THREE.Vector3(val.alluserPos[i].x / 20, val.alluserPos[i].z / 20, val.alluserPos[i].y / 20)
 }
 /**
- * TODO: Add fake demo data, maybe a fake loop
+ * TODO: Add fake demo data, maybe a fake loop, or at least a video
  * category=threejs
  */
 // fh5 steering is from -127+127
