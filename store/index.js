@@ -10,6 +10,7 @@ export const getters = {
 }
 
 export const state = () => ({
+  connectionLog: [],
   chord: {},
   chordPack: [],
   sio: {
@@ -26,10 +27,12 @@ export const mutations = {
   // Socket.io connect
   SET_CONNECT (state) {
     state.sio.connected = true
+    state.connectionLog.push(Date.now() + ' - Socket.io connected\n')
   },
   // Socket.io disconnect
   SET_DISCONNECT (state) {
-    state.connected = false
+    state.sio.connected = false
+    state.connectionLog.push(Date.now() + ' - Socket.io disconnected\n')
   },
   // Socket.io sending chord pack
   SET_CHORDPACK (state, msg) {
@@ -38,15 +41,18 @@ export const mutations = {
   // Socket.io sending UDP register
   SET_UDPREGISTER (state, msg) {
     state.udp.register = msg
+    state.connectionLog.push(Date.now() + ' - got UDP register\n')
   },
   // Socket.io sending UDP disconnect just use udpconnect with false?
   SET_UDPDISCONNECT (state) {
-    state.udp.connected = true
+    state.udp.connected = false
+    state.connectionLog.push(Date.now() + ' - UDP disconnected\n')
   },
   // Socket.io sending UDP connect
   SET_UDPCONNECT (state, msg) {
     state.udp.game = msg
     state.udp.connected = true
+    state.connectionLog.push(Date.now() + ' - UDP connected\n')
   }
 }
 

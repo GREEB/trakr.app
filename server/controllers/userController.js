@@ -119,7 +119,7 @@ export const makeUDPuser = (ip, gameId) => {
   }
   watchedObject[ip] = ip
 }
-// TODO: check for forwarded ip to not block full companies and stuff
+// TODO: check for forwarded ip to not block full companies/institutes and stuff
 // category=nuxt
 export const idFromSocket = (socket) => {
   if (socket.handshake.headers.origin === 'http://localhost:3000') {

@@ -11,7 +11,7 @@ export default {
 
   computed: {
     chordPack () { return this.$store.state.chordPack },
-    connected () { return this.$store.state.connected },
+    connected () { return this.$store.state.sio.connected },
     udpGame () { return this.$store.state.udp.game },
     currentSlug () { return this.$route.params.slug },
     loggedIn () { return this.$auth.loggedIn }

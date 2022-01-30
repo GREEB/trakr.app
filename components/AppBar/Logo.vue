@@ -9,26 +9,6 @@
     </NuxtLink>
   </div>
 </template>
-<script>
-export default {
-  data: () => ({
-    onlineClass: 'online',
-
-    showConnectionTooltip: null
-  }),
-  computed: {
-    isAuthenticated () {
-      return this.$store.getters.isAuthenticated
-    },
-    IOconnected () {
-      return this.$store.state.connected
-    },
-    udpConnected () {
-      return this.$store.state.udp.connected
-    }
-  }
-}
-</script>
 <style lang="sass" scoped>
 // .about.theme--dark.v-btn--active:hover::before, .about.theme--dark.v-btn--active::before
 //     opacity: 0

@@ -29,7 +29,7 @@
                 {{ item.gameName }}
               </td>
               <td>
-                <code @click="copy2clip('trakr.app' + ':' + (parseInt(key) + 1024))">{{ 'trakr.app' + ':' + (parseInt(key) + 1024) }}</code>
+                <code v-highlight @click="copy2clip('trakr.app' + ':' + (parseInt(key) + 1024))">{{ 'trakr.app' + ':' + (parseInt(key) + 1024) }}</code>
                 <!-- <code @click="copy2clip(item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024))">{{ item.slug + '.trakr.app' + ':' + (parseInt(key) + 1024) }}</code> -->
               </td>
               <td>

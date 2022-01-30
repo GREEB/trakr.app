@@ -15,6 +15,9 @@
       </v-btn>
     </template>
     <v-list dense class="pa-0">
+      <v-list-item link to="/hello">
+        <v-list-item-title>Getting Started</v-list-item-title>
+      </v-list-item>
       <v-list-item link to="/compatibility">
         <v-list-item-title>
           Compatibility

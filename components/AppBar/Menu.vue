@@ -7,6 +7,8 @@
     >
       home
     </v-btn>
+    <AppBarMapsMenu />
+
     <v-btn
       text
       class="about"
@@ -15,14 +17,7 @@
     >
       About
     </v-btn>
-    <v-btn
-      text
-      small
-      to="/hello"
-    >
-      Getting Started
-    </v-btn>
-    <AppBarMapsMenu />
+
     <AppBarMoreMenu />
   </div>
 </template>

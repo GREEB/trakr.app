@@ -19,6 +19,7 @@
         </NuxtLink>
         <AppBarMenu class="d-none d-sm-flex" />
         <v-spacer />
+        <AppBarLogs />
         <AppBarSettings />
         <AppBarLogin v-if="showLogin()" />
       </v-app-bar>
@@ -48,6 +49,19 @@ export default {
       }
     }
   }),
+  computed: {
+    udpConnected () { return this.$store.state.udp.connected }
+
+  },
+  watch: {
+    udpConnected (val) {
+      if (val) {
+        this.$toast.info('UDP client connected')
+      } else {
+        this.$toast.error('UDP client disconnected')
+      }
+    }
+  },
   // not sure if needed but first thing we call is theme
   created () {
     const theme = this.$cookies.get('theme')
@@ -95,9 +109,5 @@ export default {
 .lil-gui .title{
  font-size: 1em !important;
  line-height: 1.7em;
-}
-.scrollContainer {
-  position: relative;
-  height: calc(100vh - 48px);
 }
 </style>

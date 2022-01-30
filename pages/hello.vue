@@ -29,7 +29,6 @@
       <v-row>
         <v-col>
           <v-card
-            dark
             class="mr-3"
             height="100%"
           >
@@ -42,7 +41,6 @@
         </v-col>
         <v-col>
           <v-card
-            dark
             class="mr-3"
             height="100%"
           >
@@ -51,7 +49,7 @@
             </v-card-title>
             <v-card-text>
               Set your games UDP data out to a UDP url from the list below and go to the website on the same IP.
-              In your settings you'll see a notification: <v-badge
+              In your settings: <v-badge
                 overlap
                 color="warning"
                 dot
@@ -61,8 +59,28 @@
                     mdi-wrench
                   </v-icon>
                 </v-btn>
+              </v-badge> you'll see a notification:
+              <v-badge
+                overlap
+                color="warning"
+                dot
+              >
+                <v-btn
+                  class="mx-1"
+                  dark
+                  icon
+                  small
+                  color="accent"
+                >
+                  <v-icon
+                    color="warning"
+                    class="udpRegister pulse"
+                  >
+                    mdi-car-light-high
+                  </v-icon>
+                </v-btn>
               </v-badge>
-              or a button will appear bellow.
+              or a button will appear below. Here are also connection logs: <AppBarLogs />
             </v-card-text>
             <v-card-actions>
               <AppBarRegisterClient v-if="udpRegister === 'new'" />
@@ -82,7 +100,6 @@
         </v-col>
         <v-col>
           <v-card
-            dark
             height="100%"
           >
             <v-card-title class="text-h5">

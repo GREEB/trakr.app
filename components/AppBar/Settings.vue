@@ -35,38 +35,8 @@
         </v-toolbar-title>
         <v-spacer />
 
-        <v-chip-group
-          class="ml-4"
-          column
-        >
-          <v-tooltip bottom>
-            <template #activator="{ on, attrs }">
-              <v-chip
-                v-bind="attrs"
-                small
-                :color="IOconnected ? 'success darken-2' : 'accent'"
-                v-on="on"
-              >
-                Socket.io
-              </v-chip>
-            </template>
-            <span>{{ IOconnected ? 'Successfully connected to trakr.app sockets' : 'Not connected to trakr.app sockets' }}</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <template #activator="{ on, attrs }">
-              <v-chip
-                v-bind="attrs"
-                small
-                :color="udpConnected ? 'success darken-2' : ''"
-                v-on="on"
-              >
-                Game
-              </v-chip>
-            </template>
-            <span>{{ udpConnected ? 'UDP client connected' : 'UDP client not connected' }}</span>
-          </v-tooltip>
-        </v-chip-group>
         <v-spacer />
+
         <AppBarGithub />
 
         <v-badge
@@ -185,6 +155,7 @@
 export default {
 
   data: () => ({
+    logs: '',
     zIndex: 0,
     overlay: true,
     settings: [],
@@ -195,9 +166,7 @@ export default {
     gui: false
   }),
   computed: {
-    IOconnected () { return this.$store.state.connected },
     udpRegister () { return this.$store.state.udp.register },
-    udpConnected () { return this.$store.state.udp.connected },
     showUDPbadge () {
       if (this.$store.state.udp.register === 'new' && this.$route.name !== 'register') {
         return 1
@@ -216,15 +185,6 @@ export default {
       set (val) {
         this.$vuetify.theme.themes.dark.accent = val
         this.$vuetify.theme.themes.light.accent = val
-      }
-    }
-  },
-  watch: {
-    udpConnected (val) {
-      if (val) {
-        this.$toast.success('UDP client connected')
-      } else {
-        this.$toast.error('UDP client disconnected')
       }
     }
   },
