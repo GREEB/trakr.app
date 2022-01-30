@@ -16,7 +16,7 @@ export function makeServers () {
         samples: 1,
         timeframe: 60
       })
-      servers[gameId] = dgram.createSocket('udp4')
+      servers[gameId] = dgram.createSocket('udp6')
       servers[gameId].on('message', (msg, rinfo) => {
         meter.mark()
         if (rinfo !== undefined) {

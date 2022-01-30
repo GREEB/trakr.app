@@ -1,12 +1,12 @@
 import consola from 'consola'
+import ipaddr from 'ipaddr.js'
 import { io } from '../listeners/socketServer'
 import models from '../models/indexModel.js'
 import { sessionWatcher } from '../helpers/users'
+import { hash } from '../helpers/crypto' // Object for session but really simple and needs redoing
 export const users = {}
-
 export const maxClientTimeout = 2 // UDP client "timeout" in seconds
-export const watchedObject = {} // Object for session but really simple and needs redoing
-
+export const watchedObject = {}
 /**
  * Really dumb loop that looks at clients last pack send needs redoing
  */
@@ -15,12 +15,11 @@ sessionWatcher()
 // User send back to register call here
 export const registerUDPuser = async (data, socket) => {
   const userId = idFromSocket(socket)
-  const mid = userId.toString()
-
-  consola.info(`userController.js:registerUDPuser() Register client with id ${userId}`)
 
   if (socket.decoded !== false) {
-    const findUDPclient = await models.udp.findOne({ where: { mid } })
+    consola.info(`userController.js:registerUDPuser() Register client with id ${userId}`)
+
+    const findUDPclient = await models.udp.findOne({ where: { mid: hash(userId) } })
     if (findUDPclient) {
       users[userId].udp.known = findUDPclient.dataValues
       // send back that we already have registered
@@ -28,13 +27,14 @@ export const registerUDPuser = async (data, socket) => {
     } else {
       await models.udp.create({
         userId: parseInt(socket.decoded.id),
-        mid: idFromSocket(socket),
+        mid: hash(userId),
         game: 0,
         usage: data.data.usage,
         mode: data.data.mode,
         visibility: data.data.visibility
       }).then(function (item) {
         io.to(users[userId].socket.id).emit('udpRegister', 'success')
+        consola.info(`userController.js:registerUDPuser() client successfully registered sending udpRegister/success to ${users[userId].socket.id}`)
         // send back to client
         users[userId].udp.known = item.dataValues
       }).catch(function (err) {
@@ -47,17 +47,16 @@ export const registerUDPuser = async (data, socket) => {
 
 export const addUDPUser = async (ip, gameId) => {
   const userId = idFromIp(ip).toString()
-
   consola.info(`userController.js:addUDPUser() adding user with id ${userId}`)
 
   if (!(userId in users)) { users[userId] = {} }
   if (users[userId].udp === undefined) { users[userId].udp = {} }
   if (('socket' in users[userId])) { // If online on frontend, send udpConnect ping
     consola.info(`userController.js:addIOuser() emiting connectUdp to ${users[userId].socket.id}`)
-    io.to(users[userId].socket.id).emit('udpConnect', users[userId].udp) // connect does not register client, connect just gives metadata to the connection
+    io.to(users[userId].socket.id).emit('udpConnect', gameId) // connect does not register client, connect just gives metadata to the connection
   }
 
-  const udpClient = await models.udp.findOne({ where: { mid: userId } }) // Check if we know this ip
+  const udpClient = await models.udp.findOne({ where: { mid: hash(userId) } }) // Check if we know this ip
   if (udpClient) { // if we know
     users[userId].udp.known = udpClient.dataValues
     consola.info(`userController.js:addUDPUser() client found in db ${udpClient.id}`)
@@ -92,7 +91,7 @@ export const addIOuser = (socket) => {
   if (('udp' in users[userId])) {
     if (('game' in users[userId].udp)) {
       consola.info(`userController.js:addIOuser() emiting connectUdp to ${socket.id}`)
-      io.to(socket.id).emit('udpConnect', users[userId].udp)
+      io.to(socket.id).emit('udpConnect', users[userId].udp.game)
     }
   }
 
@@ -123,11 +122,11 @@ export const makeUDPuser = (ip, gameId) => {
 
 export const idFromSocket = (socket) => {
   if (socket.handshake.headers.origin === 'http://localhost:3000') {
-    return 127001
+    return '127.0.0.1'
   }
   let clientIp = '0.0.0.0'
   if ('x-real-ip' in socket.handshake.headers) {
-    clientIp = socket.handshake.headers['x-real-ip'].toString()
+    clientIp = idFromIp(socket.handshake.headers['x-real-ip'])
   } else {
     clientIp = socket.handshake.address.split(':').pop().toString()
   }
@@ -135,5 +134,13 @@ export const idFromSocket = (socket) => {
 }
 
 export const idFromIp = (ip) => {
+  if (ipaddr.IPv6.isValid(ip)) {
+    const addr = ipaddr.IPv6.parse(ip)
+    if (addr.isIPv4MappedAddress()) {
+      return addr.toIPv4Address().toString()
+    } else {
+      return addr.toString()
+    }
+  }
   return parseInt(ip.split('.').reduce((a, b) => a + b, 0))
 }

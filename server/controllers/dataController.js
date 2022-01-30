@@ -17,7 +17,7 @@ import { users, idFromIp } from './userController.js'
 export const throttledWrite = async (msg, rinfo, gameId) => {
   // Checks
   const userId = idFromIp(rinfo.address)
-  if (users[userId].udp === undefined) { return }
+  if (users[userId] === undefined || users[userId].udp === undefined) { return }
 
   // throttle
   if (Date.now() - users[userId].udp.lastSeen >= 1000 / 12.69) { // sending 12 cuz stop motion idk native is about 160
