@@ -1,4 +1,4 @@
-### [0.0.18](https://github.com/GREEB/trakr.app/compare/v0.0.17...v0.0.18) (2022-01-30)
+### [0.0.19](https://github.com/GREEB/trakr.app/compare/v0.0.17...v0.0.19) (2022-01-30)
 
 
 ### Features
