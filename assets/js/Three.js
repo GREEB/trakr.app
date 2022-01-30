@@ -20,7 +20,7 @@ export default class Stage {
     this.maxParticle = 1000000 // This gets 3x later performance depends on this maybe fixable
     this.pointsCount = null
     this.points = null
-    this.material = 0
+    this.material = null
     this.carCam = new Object3D()
     this.tempCarCam = new Vector3()
     this.PointsMaterial = null

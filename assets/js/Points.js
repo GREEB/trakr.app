@@ -1,7 +1,8 @@
 import {
   Float32BufferAttribute,
   ShaderMaterial,
-  Points
+  Points,
+  BufferGeometry
 } from 'three'
 
 import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
@@ -9,18 +10,27 @@ import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
 export function createEmptyPoints () {
   this.pointsCount = 0
   this.positions = new Float32Array(this.maxParticle * 3)
+  this.geometry = new BufferGeometry()
+  if (this.scene.getObjectByName('points') !== undefined) {
+    this.scene.remove(this.scene.getObjectByName('points'))
+  }
+
   this.geometry.setAttribute('position', new Float32BufferAttribute(this.positions, 3))
   this.geometry.frustumCulled = false
-  this.material = new ShaderMaterial({
-    vertexShader: this.material.vertexShader || defaultVertex,
-    fragmentShader: this.material.fragmentShader || defaultFragment,
-    vertexColors: true,
-    depthWrite: true
-  })
+  if (this.material === null) {
+    this.material = new ShaderMaterial({
+      vertexShader: defaultVertex,
+      fragmentShader: defaultFragment,
+      vertexColors: true,
+      depthWrite: true
+    })
+  }
+
   this.material.needsUpdate = true
   // this.material = new PointsMaterial({ color: 0x888888, size: 1 }) // Don't delete handy to debug/disable shaders
   this.points = new Points(this.geometry, this.material)
   this.points.frustumCulled = false
+  this.points.name = 'points'
 
   this.scene.add(this.points)
   this.geometry.setDrawRange(0, 0)
