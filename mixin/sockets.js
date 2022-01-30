@@ -13,7 +13,8 @@ export default {
     chordPack () { return this.$store.state.chordPack },
     connected () { return this.$store.state.connected },
     udpGame () { return this.$store.state.udp.game },
-    currentSlug () { return this.$route.params.slug }
+    currentSlug () { return this.$route.params.slug },
+    loggedIn () { return this.$auth.loggedIn }
   },
   // Watch for change Store and do stuff
   /**
@@ -21,6 +22,13 @@ export default {
    * category=threejs
    */
   watch: {
+    // watch for logged in change and commit these changes to socket this will help when logging in to delay socket connection in so sockets gets auth
+
+    loggedIn (val) {
+      if (val && this.$route.name === 'callback') {
+        this.createSocketConnection()
+      }
+    },
     chordPack (val) {
       if (val.length === 0) { return }
       if (this.currentSlug === undefined) {
@@ -31,13 +39,34 @@ export default {
     }
   },
   methods: {
+    createSocketConnection () {
+      if (!this.connected) {
+        this.socket = this.$nuxtSocket({
+          withCredentials: true,
+          extraHeaders: {
+            path: this.$nuxt.$route.path
+          }
+        })
+        this.socket
+          .on('chord', (msg) => {
+            if (this.currentSlug === undefined) {
+              this.parseUserData(msg)
+            }
+          })
+        this.socket.on('globalChord', (msg) => {
+          if (this.currentSlug !== undefined) {
+            this.parseGlobalChord(msg)
+          }
+        })
+      }
+    },
     parseGlobalChord (msg) {
       this.$stage.parsePoint([(msg.PositionX / 20).toFixed(3), (msg.PositionY / 20).toFixed(3), (msg.PositionZ / 20).toFixed(3)])
     },
     parseUserData (msg) {
       // eslint-disable-next-line no-lonely-if
-      if (this.udpGame && this.udpGame.game !== undefined) {
-        const parsed = games[this.udpGame.game].parsers.full.parse(Buffer.from(msg, 'hex'))
+      if (this.udpGame !== undefined) {
+        const parsed = games[this.udpGame].parsers.full.parse(Buffer.from(msg, 'hex'))
         // console.log(Buffer.from(msg, 'hex').toString('hex'))
         // console.log(parsed.PositionX, parsed.PositionY, parsed.PositionZ)
         const data = [
@@ -63,30 +92,12 @@ export default {
   // init Three when mounted
   mounted () {
     /**
-     *  Init socket here so we can on 'chord' in here running this a lot over vuex is not cool could be fixed by freezing but didnt work
+     *  Init socket here so we can on 'chord' in here running this a lot over VueX is not cool could be fixed by freezing but didnt work
      *  also need to do this because of weird component implementation putting this in layouts does fix loading it everytime but introduces bug on first login (send empty token, loads sockets before auth)
      *
      */
-    if (!this.connected) {
-      this.socket = this.$nuxtSocket({
-        withCredentials: true,
-        extraHeaders: {
-          path: this.$nuxt.$route.path
-        }
-      })
-      this.socket
-        .on('chord', (msg) => {
-          if (this.currentSlug === undefined) {
-            this.parseUserData(msg)
-          }
-        })
-      this.socket.on('globalChord', (msg) => {
-        if (this.currentSlug !== undefined) {
-          this.parseGlobalChord(msg)
-        }
-      })
-    }
-
+    if (this.$route.name === 'callback') { return }
+    this.createSocketConnection()
     // const buffer = unpack(this.toBuffer(msg))
 
     /* Handle event */
