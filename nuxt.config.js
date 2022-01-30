@@ -68,7 +68,7 @@ export default {
     baseURL: process.env.URL,
     discordId: process.env.DISCORDID,
     githubURL: process.env.DISCORDID,
-    version: pkg.version
+    version: process.env.VERSION || pkg.version + 'dev'
   },
   privateRuntimeConfig: {
     port: process.env.PORT,
