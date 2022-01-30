@@ -128,9 +128,9 @@ export const idFromSocket = (socket) => {
   if ('x-real-ip' in socket.handshake.headers) {
     clientIp = idFromIp(socket.handshake.headers['x-real-ip'])
   } else {
-    clientIp = socket.handshake.address.split(':').pop().toString()
+    clientIp = idFromIp(socket.handshake.address)
   }
-  return parseInt(clientIp.split('.').reduce((a, b) => a + b, 0))
+  return clientIp
 }
 
 export const idFromIp = (ip) => {
@@ -142,5 +142,4 @@ export const idFromIp = (ip) => {
       return addr.toString()
     }
   }
-  return parseInt(ip.split('.').reduce((a, b) => a + b, 0))
 }
