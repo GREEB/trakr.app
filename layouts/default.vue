@@ -24,11 +24,8 @@
       </v-app-bar>
       <div class="stage" />
       <Gui />
-      <div class="scrollContainer">
-        <vue-scroll :ops="ops">
-          <Nuxt />
-        </vue-scroll>
-      </div>
+
+      <Nuxt />
     </v-main>
     <!-- Inject sockets into the template maybe not the best way? -->
   </v-app>
