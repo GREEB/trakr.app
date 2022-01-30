@@ -126,7 +126,9 @@ export const idFromSocket = (socket) => {
     return '127.0.0.1'
   }
   let clientIp = '0.0.0.0'
-  if ('x-real-ip' in socket.handshake.headers) {
+  if ('x-forwarded-for' in socket.handshake.headers) {
+    clientIp = idFromIp(socket.handshake.headers['x-forwarded-for'])
+  } else if ('x-real-ip' in socket.handshake.headers) {
     clientIp = idFromIp(socket.handshake.headers['x-real-ip'])
   } else {
     clientIp = idFromIp(socket.handshake.address)
