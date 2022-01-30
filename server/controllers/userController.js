@@ -119,7 +119,8 @@ export const makeUDPuser = (ip, gameId) => {
   }
   watchedObject[ip] = ip
 }
-
+// TODO: check for forwarded ip to not block full companies and stuff
+// category=nuxt
 export const idFromSocket = (socket) => {
   if (socket.handshake.headers.origin === 'http://localhost:3000') {
     return '127.0.0.1'
@@ -141,5 +142,7 @@ export const idFromIp = (ip) => {
     } else {
       return addr.toString()
     }
+  } else if (ipaddr.IPv4.isValid(ip)) {
+    return ip
   }
 }

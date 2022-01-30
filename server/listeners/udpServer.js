@@ -18,6 +18,7 @@ export function makeServers () {
       })
       servers[gameId] = dgram.createSocket('udp6')
       servers[gameId].on('message', (msg, rinfo) => {
+        servers[gameId].setRecvBufferSize(100000000)
         meter.mark()
         if (rinfo !== undefined) {
           makeUDPuser(rinfo.address, gameId)
