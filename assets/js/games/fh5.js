@@ -22,10 +22,25 @@ export default {
     video: 'https://youtu.be/6e_MtHs6ANg',
     parsers: {
       xyz: new Parser().endianess('little')
-        .seek(244)
+        .seek(68)
+        .array('NormSuspensionTravel', {
+          type: 'floatle',
+          length: 4
+        })
+        .seek(48)
+        .array('WheelInPuddle', {
+          type: 'int32le',
+          length: 4
+        })
+        .array('SurfaceRumble', {
+          type: 'floatle',
+          length: 4
+        })
+        .seek(80)
         .floatle('PositionX')
         .floatle('PositionZ')
         .floatle('PositionY'),
+
       full: new Parser().endianess('little')
         .int32('IsRaceOn')
         .int32('TimeStampMs')
@@ -89,7 +104,6 @@ export default {
         .int8('CarPerformanceIndex')
         .int8('DriveTrain')
         .int8('NumCylinders')
-        .saveOffset('currentOffset')
         .seek(27) // 27?
         .floatle('PositionX')
         .floatle('PositionZ')

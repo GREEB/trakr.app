@@ -187,7 +187,7 @@
                     </v-list-item-action>
                     <v-list-item-content>
                       <v-list-item-title>Mapping</v-list-item-title>
-                      <v-list-item-subtitle>We only save xyz data (maybe surface rumble) </v-list-item-subtitle>
+                      <v-list-item-subtitle>We only save xyz data (with basic metadata for filtering) </v-list-item-subtitle>
                     </v-list-item-content>
                   </template>
                 </v-list-item>

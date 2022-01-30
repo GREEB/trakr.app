@@ -28,6 +28,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
 
   // parse
   const parsed = games[gameId].parsers.xyz.parse(Buffer.from(msg, 'hex'))
+  // const parseFull = games[gameId].parsers.full.parse(Buffer.from(msg, 'hex'))
   if (parsed.PositionX === 0 || parsed.PositionY === 0 || parsed.PositionZ === 0) { return }
 
   // See if user is known or not if not just send back chord
@@ -52,6 +53,9 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
           x: parsed.PositionX,
           y: parsed.PositionY,
           z: parsed.PositionZ,
+          inPuddleSum: parsed.WheelInPuddle.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
+          surfaceRumbleSum: parsed.SurfaceRumble.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
+          normSuspensionTravelSum: parsed.NormSuspensionTravel.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           gameId,
           userId: users[userId].udp.known.id
         }).catch(function (err) {
