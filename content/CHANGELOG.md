@@ -1,9 +1,15 @@
-### [0.0.18](https://github.com/GREEB/trakr.app/compare/v0.0.17...v0.0.18) (2022-01-29)
+### [0.0.18](https://github.com/GREEB/trakr.app/compare/v0.0.17...v0.0.18) (2022-01-30)
 
 
 ### Features
 
 * **gameMap:** implemented global map ([adc96e1](https://github.com/GREEB/trakr.app/commit/adc96e1cfcbea78b3907ac28159aee4710ea76d1))
+
+
+### Bug Fixes
+
+* **clientMatching:** matching for client and frontend ([b8cc076](https://github.com/GREEB/trakr.app/commit/b8cc0762a14db58af33fc93e95b950ae0f5c8cae))
+* **login:** sockets getting called on auth before we have token ([92d3269](https://github.com/GREEB/trakr.app/commit/92d32697a789881f819af58382b63b10277588b0))
 
 ### [0.0.17](https://github.com/GREEB/trakr.app/compare/v0.0.16...v0.0.17) (2022-01-26)
 
