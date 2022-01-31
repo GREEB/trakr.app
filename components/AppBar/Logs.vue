@@ -23,12 +23,12 @@
         </v-icon>
       </v-btn>
     </template>
-    <v-card offset-x="true" color="accent">
+    <v-card offset-x="true">
       <v-app-bar
         flat
         color="rgba(0, 0, 0, 0)"
       >
-        <v-toolbar-title class="text-h6 white--text pl-0">
+        <v-toolbar-title class="text-h6 pl-0">
           Connection
         </v-toolbar-title>
 

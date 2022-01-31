@@ -179,7 +179,7 @@ export default {
       themes: {
         dark: {
           primary: colors.blue.darken2,
-          accent: '#303030',
+          accent: '#8e2eff',
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
@@ -190,7 +190,7 @@ export default {
         },
         light: {
           primary: colors.blue.darken2,
-          accent: '#303030',
+          accent: '#8e2eff',
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,

@@ -3,7 +3,7 @@
     <v-alert
       v-model="cookieConsent"
       class="ma-0 cookie"
-      color="info"
+      color="accent"
     >
       <h3 class="text-h5">
         Cookies

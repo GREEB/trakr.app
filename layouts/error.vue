@@ -52,7 +52,7 @@ export default {
   bottom: 0
 .v-container
   height: 100%
-  background: #121212
+  // background: #121212
   z-index: 1
   position: relative
 h1
