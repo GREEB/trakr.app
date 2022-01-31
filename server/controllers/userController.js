@@ -2,10 +2,11 @@ import consola from 'consola'
 import ipaddr from 'ipaddr.js'
 import { io } from '../listeners/socketServer'
 import models from '../models/indexModel.js'
-import { sessionWatcher } from '../helpers/users'
+import { sessionWatcher, age } from '../helpers/users'
+import { sleep } from '../helpers/defaults'
 import { hash } from '../helpers/crypto' // Object for session but really simple and needs redoing
 export const users = {}
-export const maxClientTimeout = 2 // UDP client "timeout" in seconds
+export const maxClientTimeout = process.env.UDPTIMEOUT || 2 // UDP client "timeout" in seconds
 export const watchedObject = {}
 /**
  * Really dumb loop that looks at clients last pack send needs redoing
@@ -73,15 +74,49 @@ export const addUDPUser = async (ip, gameId) => {
   users[userId].udp.firstSeen = Date.now()
 }
 
-// Add io users to local object to match udp and socket
+/**
+ * Removes io user from session manager
+ * @param {Object} socket Socket to remove
+ */
 export const removeIOuser = (socket) => {
   const userId = idFromSocket(socket) // Create ID
   if ((userId in users)) {
     consola.info(`userController.js:removeIOuser() removing IO user ${userId}`)
-    delete users[userId].socket
+    if ('udp' in users[userId]) {
+      delete users[userId].socket
+      delete users[userId].auth
+    } else {
+      delete users[userId]
+    }
   }
   // remove user
 }
+/**
+ * Removes UDP user from session manager
+ * @param {String} id id of user in session manager
+ */
+export const removeUDPuser = async (id) => {
+  consola.info(`userController.js:removeUDPuser() trying to deleting UDP ${id}`)
+  // dumb fix but we wait a few ticks and recheck before deleting
+  await sleep(100)
+  if (users[id].udp.lastSeen !== null && age(users[id]) > maxClientTimeout) {
+    consola.success(`userController.js:removeUDPuser() deleting UDP ${id}`)
+    if ('socket' in users[id]) { // send disconnect ping
+      io.to(users[id].socket.id).emit('udpDisconnect')
+      delete watchedObject[users[id].udp.ip]
+      delete users[id].udp
+    } else {
+      delete watchedObject[users[id].udp.ip]
+      delete users[id]
+    }
+  } else {
+    consola.info(`userController.js:removeUDPuser() not deleting UDP still here after recheck ${id}`)
+  }
+}
+/**
+ * Add socket to session manager
+ * @param {Object} socket - Socket to add from
+ */
 export const addIOuser = (socket) => {
   const userId = idFromSocket(socket) // Create ID
 
@@ -113,14 +148,25 @@ export const addIOuser = (socket) => {
   users[userId].socket.firstSeen = Date.now()
 }
 
+/**
+ * Dumb udp session manager adds ip = ip to an object
+ * @param {String} ip - user's ip address in ipv6
+ * @param {Integer} gameId - game id as in port - 1024
+ */
 export const makeUDPuser = (ip, gameId) => {
   if (watchedObject[ip] === undefined) {
     addUDPUser(ip, gameId)
   }
   watchedObject[ip] = ip
 }
+
 // TODO: check for forwarded ip to not block full companies/institutes and stuff
 // category=nuxt
+/**
+ * Getting id from socket basically ip
+ * @param {*} socket - socket to extract ip from
+ * @returns Ip as a string
+ */
 export const idFromSocket = (socket) => {
   if (socket.handshake.headers.origin === 'http://localhost:3000') {
     return '127.0.0.1'
@@ -136,6 +182,11 @@ export const idFromSocket = (socket) => {
   return clientIp
 }
 
+/**
+ *
+ * @param {String} ip - ip in ipv6 format as string
+ * @returns ip in ipv4 or ipv6
+ */
 export const idFromIp = (ip) => {
   if (ipaddr.IPv6.isValid(ip)) {
     const addr = ipaddr.IPv6.parse(ip)

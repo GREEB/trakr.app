@@ -10,13 +10,13 @@ import config from '../config/auth.config'
 dotenv.config()
 
 export const httpServer = http.createServer()
-httpServer.listen(process.env.IOPORT, () => {
-  consola.success(`Sockets listening on ${process.env.IOPORT}`)
+httpServer.listen(process.env.IOPORT || 3001, () => {
+  consola.success(`Sockets listening on ${process.env.IOPORT || 3001}`)
 })
 export const io = new Server(httpServer, {
   rejectUnauthorized: false,
   cors: {
-    origin: process.env.NODE_ENV === 'production' ? process.env.URL : 'http://localhost:' + process.env.PORT,
+    origin: process.env.NODE_ENV === 'production' ? process.env.URL : 'http://localhost:' + process.env.PORT || 3000,
     methods: ['GET', 'POST'],
     credentials: true
   }

@@ -1,8 +1,5 @@
 import fs from 'fs'
-import consola from 'consola'
-import { users, maxClientTimeout, watchedObject } from '../controllers/userController'
-import { age } from '../helpers/defaults.js'
-import { io } from '../listeners/socketServer'
+import { users, maxClientTimeout, removeUDPuser } from '../controllers/userController'
 
 export const sessionWatcher = () => {
   setInterval(() => {
@@ -14,19 +11,14 @@ export const sessionWatcher = () => {
     })
     Object.keys(users).forEach((id) => {
       if ('udp' in users[id]) {
-        if (age(users[id]) > maxClientTimeout) {
-          consola.info(`deleting UDP ${id}`)
-
-          if ('socket' in users[id]) { // send disconnect ping
-            io.to(users[id].socket.id).emit('udpDisconnect')
-          }
-          delete watchedObject[users[id].udp.ip]
-          delete users[id].udp
+        if (users[id].udp.lastSeen !== null && age(users[id]) > maxClientTimeout) {
+          removeUDPuser(id)
         }
       }
     })
-  }, 1000)
+  }, 500)
 }
 
+export const age = (obj) => { return (Date.now() - obj.udp.lastSeen) / 1000 }
 export const lastSeen = (obj) => { obj.udp.lastSeen = Date.now() }
 export const lastSaved = (obj) => { obj.lastSaved = Date.now() }

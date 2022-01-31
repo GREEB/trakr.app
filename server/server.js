@@ -29,8 +29,8 @@ app.use((req, res, next) => {
 
 makeServers()
 
-app.listen(3002, () => {
-  consola.success('API listening on 3002')
+app.listen(process.env.APIPORT || 3002, () => {
+  consola.success(`API listening on ${process.env.APIPORT || 3002}`)
 })
 
 export default app
