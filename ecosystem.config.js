@@ -8,6 +8,12 @@ module.exports = {
       args: 'start',
       env: {
         VERSION: pkg.version
+      },
+      env_production: {
+        NODE_ENV: 'production'
+      },
+      env_development: {
+        NODE_ENV: 'development'
       }
     }
   ]

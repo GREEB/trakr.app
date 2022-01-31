@@ -1,12 +1,29 @@
 import tx2 from 'tx2'
 import { users } from '../controllers/userController'
 tx2.metric({
-  name: 'Realtime user',
+  name: 'io users',
   value () {
-    return users !== undefined ? Object.keys(users).length : 0
+    let io = 0
+    Object.keys(users).forEach((id) => {
+      if ('socket' in users[id]) {
+        io++
+      }
+    })
+    return io
   }
 })
-
+tx2.metric({
+  name: 'udp users',
+  value () {
+    let udp = 0
+    Object.keys(users).forEach((id) => {
+      if ('udp' in users[id]) {
+        udp++
+      }
+    })
+    return udp
+  }
+})
 export default {
   ioOut: tx2.meter({
     name: 'sending io out /sec',

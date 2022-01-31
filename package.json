@@ -7,11 +7,13 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "prod": "git pull && yarn install && yarn build && pm2 delete trakr && pm2 start ecosystem.config.js && pm2 monit",
+    "prod": "git pull && yarn install && yarn build && pm2 delete trakr && pm2 start ecosystem.config.js --env production && pm2 monit",
     "release": "conventional-changelog -p conventionalcommits -i ./content/CHANGELOG.md -s -r 0",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
-    "lintfix": "yarn lint:js --fix"
+    "lintfix": "yarn lint:js --fix",
+    "pm2:prod": "pm2 start ecosystem.config.js --env production",
+    "pm2:dev": "pm2 restart ecosystem.config.js --env development"
   },
   "dependencies": {
     "@nuxt/content": "^1.15.1",
