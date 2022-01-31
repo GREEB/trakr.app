@@ -14,7 +14,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.toolbarToolTips 
+.toolbarToolTips
   background: rgba(34, 34, 34, 0.9)
   color: #FFFFFF
   border-radius: 4px
@@ -29,7 +29,7 @@ export default {
   opacity: 0
   pointer-events: none
   margin: 0 auto
-.toolbars .v-speed-dial__list 
+.toolbars .v-speed-dial__list
   height: 100%
   top: 0
   padding: 0

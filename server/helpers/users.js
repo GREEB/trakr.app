@@ -1,11 +1,12 @@
 import fs from 'fs'
+import consola from 'consola'
 import { users, maxClientTimeout, removeUDPuser } from '../controllers/userController'
 
 export const sessionWatcher = () => {
   setInterval(() => {
     fs.writeFile('./users.json', JSON.stringify(users), (err) => {
       if (err) {
-        console.error(err)
+        consola.error(err)
       }
       // file written successfully
     })

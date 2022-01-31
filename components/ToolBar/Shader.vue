@@ -129,15 +129,15 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.codetitle 
+.codetitle
   position: absolute
   font-size: 10px
-.shaderContainer .v-card 
+.shaderContainer .v-card
   background-color: rgba(0, 0, 0, 0.418)
-.scrollContainer 
+.scrollContainer
   position: relative
   height: calc(100vh - 200px)
-.shaderContainer 
+.shaderContainer
   position: absolute
   top: 0
   left: 0
