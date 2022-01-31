@@ -106,10 +106,8 @@ export default {
   }
 }
 </script>
-<style>
-
-.lil-gui .title{
- font-size: 1em !important;
- line-height: 1.7em;
-}
+<style lang="sass" scoped>
+.lil-gui .title
+  font-size: 1em !important
+  line-height: 1.7em
 </style>

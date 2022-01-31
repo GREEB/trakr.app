@@ -293,11 +293,11 @@ export default {
   }
 }
 </script>
-<style scoped>
-.v-container{
-  height: 100%;
-  background: #121212;
-  z-index: 1;
-  position: relative;
-}
+<style lang="sass" scoped>
+.v-container
+  height: 100%
+  background: #121212
+  z-index: 1
+  position: relative
+
 </style>

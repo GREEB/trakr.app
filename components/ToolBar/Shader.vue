@@ -128,32 +128,25 @@ export default {
   }
 }
 </script>
-<style scoped>
-.codetitle {
-  position: absolute;
-  font-size: 10px;
-}
-.shaderContainer .v-card {
-  background-color: rgba(0, 0, 0, 0.418);
-}
-.scrollContainer {
-  position: relative;
-  height: calc(100vh - 200px);
-}
-.shaderContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: fit-content;
-  height: calc(100vh - 200px);
-}
-pre {
-  width: fit-content;
-}
-code {
-  resize: both;
-  max-width: 1101px;
-
-  background: rgba(0, 0, 0, 0.418);
-}
+<style lang="sass" scoped>
+.codetitle 
+  position: absolute
+  font-size: 10px
+.shaderContainer .v-card 
+  background-color: rgba(0, 0, 0, 0.418)
+.scrollContainer 
+  position: relative
+  height: calc(100vh - 200px)
+.shaderContainer 
+  position: absolute
+  top: 0
+  left: 0
+  width: fit-content
+  height: calc(100vh - 200px)
+pre
+  width: fit-content
+code
+  resize: both
+  max-width: 1101px
+  background: rgba(0, 0, 0, 0.418)
 </style>

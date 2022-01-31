@@ -157,14 +157,12 @@ export default {
   // }
 }
 </script>
-<style scoped>
-.v-card{
-  height: fit-content;
-}
-.v-container{
-  height: 100%;
-  background: #121212;
-  z-index: 1;
-  position: relative;
-}
+<style lang="sass" scoped>
+.v-card
+  height: fit-content
+.v-container
+  height: 100%
+  background: #121212
+  z-index: 1
+  position: relative
 </style>

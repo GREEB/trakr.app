@@ -21,8 +21,7 @@
     <AppBarMoreMenu />
   </div>
 </template>
-<style scoped>
-.version{
-  text-decoration: none;
-}
+<style lang="sass" scoped>
+.version
+  text-decoration: none
 </style>

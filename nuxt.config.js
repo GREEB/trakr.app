@@ -128,7 +128,7 @@ export default {
   },
   // Toastification module configuration
   toast: {
-    cssFile: '~/assets/css/noti.css',
+    cssFile: '~/assets/css/noti.scss',
     position: 'bottom-left',
     hideProgressBar: true,
     timeout: 2194,

@@ -279,17 +279,14 @@ export default {
 }
 </script>
 
-<style scoped>
-.v-subheader{
-  height: 1em;
-}
-.tooltipfix{
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  right: 0;
-}
-.v-navigation-drawer {
-  background-color: #1E1E1E;
-}
+<style lang="sass" scoped>
+.v-subheader
+  height: 1em
+.tooltipfix
+  width: 20px
+  height: 20px
+  position: absolute
+  right: 0
+.v-navigation-drawer
+  background-color: #1E1E1E
 </style>

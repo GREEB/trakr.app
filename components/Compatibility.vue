@@ -108,8 +108,8 @@ export default {
   }
 }
 </script>
-<style scoped>
-td>code{
-  cursor: pointer;
-}
+<style lang="sass" scoped>
+td>code
+  cursor: pointer
+
 </style>
