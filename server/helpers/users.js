@@ -16,7 +16,7 @@ export const sessionWatcher = () => {
         }
       }
     })
-  }, 500)
+  }, 1000)
 }
 
 export const age = (obj) => { return (Date.now() - obj.udp.lastSeen) / 1000 }

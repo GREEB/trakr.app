@@ -27,7 +27,7 @@ export const registerUDPuser = async (data, socket) => {
       consola.info(`userController.js:registerUDPuser() client already registered ${findUDPclient.id}`)
     } else {
       await models.udp.create({
-        userId: parseInt(socket.decoded.id),
+        userId: socket.decoded.id,
         mid: hash(userId),
         game: 0,
         usage: data.data.usage,
@@ -98,7 +98,7 @@ export const removeIOuser = (socket) => {
 export const removeUDPuser = async (id) => {
   consola.info(`userController.js:removeUDPuser() trying to deleting UDP ${id}`)
   // dumb fix but we wait a few ticks and recheck before deleting
-  await sleep(100)
+  await sleep((maxClientTimeout * 1000) / 10)
   if (users[id].udp.lastSeen !== null && age(users[id]) > maxClientTimeout) {
     consola.success(`userController.js:removeUDPuser() deleting UDP ${id}`)
     if ('socket' in users[id]) { // send disconnect ping
@@ -125,7 +125,7 @@ export const addIOuser = (socket) => {
 
   if (('udp' in users[userId])) {
     if (('game' in users[userId].udp)) {
-      consola.info(`userController.js:addIOuser() emiting connectUdp to ${socket.id}`)
+      consola.success(`userController.js:addIOuser() emiting connectUdp to ${socket.id}`)
       io.to(socket.id).emit('udpConnect', users[userId].udp.game)
     }
   }
