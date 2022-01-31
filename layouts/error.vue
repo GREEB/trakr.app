@@ -3,6 +3,7 @@
   <div class="v-container d-flex justify-center align-center">
     <div>
       <v-row class="d-flex justify-center">
+        <img src="~/assets/image/travolta.gif" alt="">
         <h1 v-if="error.statusCode === 404" class="text-h1">
           {{ pageNotFound }}
         </h1>

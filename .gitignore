@@ -1,6 +1,3 @@
-#Trakr app
-users.json
-prod.env
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
@@ -90,3 +87,6 @@ sw.*
 
 # Vim swap files
 *.swp
+#Trakr app
+users.json
+prod.env
