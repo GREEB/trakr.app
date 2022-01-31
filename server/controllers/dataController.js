@@ -15,13 +15,24 @@ import { users, idFromIp } from './userController.js'
  */
 
 export const throttledWrite = async (msg, rinfo, gameId) => {
-  // Checks
+  // Checksconsole.log(1);
+
   const userId = idFromIp(rinfo.address)
   if (users[userId] === undefined || users[userId].udp === undefined) { return }
 
+  if (users[userId].udp.throttleTime === undefined) {
+    users[userId].udp.throttleTime = 1000 / 2
+  }
+
   // throttle
-  if (Date.now() - users[userId].udp.lastSeen >= 1000 / 12.69) { // sending 12 cuz stop motion idk native is about 160
+  if (Date.now() - users[userId].udp.lastSeen >= users[userId].udp.throttleTime) { // sending 12 cuz stop motion idk native is about 160
     lastSeen(users[userId])
+    // throttle user differently if on frontend or not, actually genius ifelse
+    if (('socket' in users[userId])) {
+      users[userId].udp.throttleTime = 1000 / 12.69
+    } else {
+      users[userId].udp.throttleTime = 1000 / 2
+    }
   } else {
     return
   }
@@ -45,7 +56,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
 
   if (users[userId].udp.known !== false) {
     // look at mode even tho user can only have x atm, tells us what to do with data
-    if (users[userId].udp.known.mode === 0 && typeof users[userId].udp.known.userId === 'number') {
+    if (users[userId].udp.known.mode === 0) {
       if (Date.now() - users[userId].lastSaved >= 1000 / 2 || users[userId].lastSaved === undefined) { // sending 12 cuz stop motion idk native is about 160
         metrics.data2db.mark()
         // parse only xyz and surface here
