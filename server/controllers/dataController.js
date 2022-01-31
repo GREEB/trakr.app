@@ -84,44 +84,70 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
     }
   }
 }
-export const sendInitData = async (socket, gameSlug) => {
-  // visibility  not implemented yet
-  // Send init data
+export const sendInitData = async (socket, route) => {
+  // route has route infos
+  // {                                                                                                                                                                                                                           21:08:23
+  //   slug: 'fh5',
+  //   name: 'm-slug'
+  // }
   let gameId
-  // Send map data
-  if (gameSlug === 'home' && socket.decoded !== false) {
-    // Send User only data
-    const alluserPos = await models.position.findAll({
+  if (route.name === 'index' && socket.decoded.id !== undefined) {
+    await models.position.findAll({
       where: {
         userId: socket.decoded.id
       },
       raw: true,
       attributes: ['x', 'y', 'z']
+    }).then(function (alluserPos) {
+      const serializedAsBuffer = pack({ alluserPos })
+      io.to(socket.id).emit('chordPack', serializedAsBuffer)
+    }).catch(function (err) {
+      io.to(socket.id).emit('E404', 'Data not found')
+      consola.error(err)
     })
-    const serializedAsBuffer = pack({ alluserPos })
-    io.to(socket.id).emit('chordPack', serializedAsBuffer)
-  } else if (/^-?\d+$/.test(gameSlug)) {
-    const uid = parseInt(gameSlug)
-    const alluserPos = await models.position.findAll({
+
+    // u-slug
+  } else if (route.name === 'u-slug') {
+    const isUUID = await validUUID(route.slug)
+    if (!isUUID) {
+      io.to(socket.id).emit('E404', 'Data not found')
+      return
+    }
+    const uid = route.slug
+    await models.position.findAll({
       where: {
         userId: uid
       },
       raw: true,
       attributes: ['x', 'y', 'z']
+    }).then(function (alluserPos) {
+      const serializedAsBuffer = pack({ alluserPos })
+      io.to(socket.id).emit('chordPack', serializedAsBuffer)
+    }).catch(function (err) {
+      io.to(socket.id).emit('E404', 'Data not found')
+      consola.error(err)
     })
-    const serializedAsBuffer = pack({ alluserPos })
-    io.to(socket.id).emit('chordPack', serializedAsBuffer)
-  } else if (typeof gameSlug === 'string' && gameSlug !== 'home') {
-    gameId = gameSlug2Id(gameSlug)
-    const alluserPos = await models.position.findAll({
+    // m-slug
+  } else if (route.name === 'm-slug') {
+    gameId = gameSlug2Id(route.slug)
+    if (gameId === false || gameId === undefined) {
+      io.to(socket.id).emit('E404', 'Data not found')
+      return
+    }
+
+    await models.position.findAll({
       where: {
         gameId
       },
       raw: true,
       attributes: ['x', 'y', 'z']
+    }).then(function (alluserPos) {
+      const serializedAsBuffer = pack({ alluserPos })
+      io.to(socket.id).emit('chordPack', serializedAsBuffer)
+    }).catch(function (err) {
+      io.to(socket.id).emit('E404', 'Data not found')
+      consola.error(err)
     })
-    const serializedAsBuffer = pack({ alluserPos })
-    io.to(socket.id).emit('chordPack', serializedAsBuffer)
   }
 }
 
@@ -140,7 +166,12 @@ function id2GameSlug (originalKey) {
     }
   }
 }
+function validUUID (str) {
+  // Regular expression to check if string is a valid UUID
+  const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi
 
+  return regexExp.test(str)
+}
 // function niceBytes (x) {
 //   let l = 0; let n = parseInt(x, 10) || 0
 //   const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']

@@ -12,8 +12,14 @@
         small
         v-on="on"
       >
-        <v-icon x-small>
-          mdi-wifi
+        <v-icon v-if="IOconnected && udpConnected" x-small color="success">
+          mdi-wifi-strength-4
+        </v-icon>
+        <v-icon v-else-if="IOconnected || udpConnected" x-small color="warning">
+          mdi-wifi-strength-1
+        </v-icon>
+        <v-icon v-else x-small color="error">
+          mdi-wifi-strength-outline
         </v-icon>
       </v-btn>
     </template>
@@ -58,10 +64,11 @@
           <span>{{ udpConnected ? 'Client connected' : 'no UDP client found with your IP' }}</span>
         </v-tooltip>
       </v-app-bar>
+      <v-card-subtitle>
+        Logs:
+      </v-card-subtitle>
       <v-card-text>
-        <pre>
-        <code v-highlight="connectionLog.join('')" class="logs" />
-    </pre>
+        <pre><code v-highlight="connectionLog.join('')" class="logs" /></pre>
       </v-card-text>
     </v-card>
   </v-menu>
@@ -79,7 +86,7 @@ export default {
 
   },
   watch: {
-    connectionLog (val) {
+    connectionLog (val, oldval) {
       if (val.length === 0) {
         this.logs = 'empty logs'
       } else {

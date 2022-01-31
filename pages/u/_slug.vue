@@ -23,7 +23,6 @@ export default {
     }
   },
   beforeDestroy () {
-    this.$store.commit('room/leave', this.params)
     this.$stage.orbit(false)
     this.$stage.createEmptyPoints()
   },
@@ -32,7 +31,7 @@ export default {
       this.$stage.createEmptyPoints()
       this.$stage.setOrbitCam()
       this.$stage.camera.position.set(52, 29, 202)
-      this.$store.commit('room/join', this.params)
+      this.$store.commit('room/join', { ...this.params, name: this.$route.name })
     })
   }
 

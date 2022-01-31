@@ -11,7 +11,6 @@
           <v-btn
             v-model="car"
             v-bind="attrs"
-            color="secondary"
             dark
             small
             class="pa-0 ma-0 rounded-0"

@@ -10,6 +10,7 @@ export const getters = {
 }
 
 export const state = () => ({
+  error: {},
   connectionLog: [],
   chord: {},
   chordPack: [],
@@ -53,6 +54,9 @@ export const mutations = {
     state.udp.game = msg
     state.udp.connected = true
     state.connectionLog.push(Date.now() + ' - UDP connected\n')
+  },
+  SET_404 (state, msg) {
+    state.error = { statusCode: 404, message: msg }
   }
 }
 
@@ -76,6 +80,9 @@ export const actions = {
   },
   UDPREGISTER ({ commit }, msg) {
     commit('SET_UDPREGISTER', msg)
+  },
+  E404 ({ commit }, msg) {
+    commit('SET_404', msg)
   }
 
 }

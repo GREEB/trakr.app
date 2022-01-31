@@ -46,11 +46,12 @@ io.use(function (socket, next) {
       registerUDPuser(data, socket)
     })
     socket.on('room/join', (data) => {
-      socket.join(data.data.slug)
-      sendInitData(socket, data.data.slug)
-    })
-    socket.on('room/home', (data) => {
-      sendInitData(socket, 'home')
+      const d = { ...data.data }
+      sendInitData(socket, d)
+      // we only need socket to actually join a room on global maps so we hardcode it here the other joins are pseudo just to get init data
+      if (d.name === 'm-slug') {
+        socket.join(d.slug)
+      }
     })
     socket.on('room/leave', (data) => {
       socket.leave(data.data.slug)

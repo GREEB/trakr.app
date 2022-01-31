@@ -28,13 +28,19 @@
 
       <Nuxt />
       <CookieConsent />
+      <NuxtLink class="pa-0 ma-0 version text-decoration-none" to="/changelog">
+        <v-subheader class="pa-0 ma-0">
+          v.{{ $config.version }}
+        </v-subheader>
+      </NuxtLink>
     </v-main>
   </v-app>
 </template>
 <script>
 import sockets from '../mixin/sockets'
+import error from '../mixin/error'
 export default {
-  mixins: [sockets],
+  mixins: [sockets, error],
   data: () => ({
     title: 'trakr.app',
     drawer: null,
@@ -105,6 +111,13 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.version
+  position: absolute
+  bottom: 0
+  right: 0
+  div
+    height: unset
+    font-size: 9px
 .lil-gui .title
   font-size: 1em !important
   line-height: 1.7em

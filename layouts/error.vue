@@ -3,7 +3,7 @@
   <div class="v-container d-flex justify-center align-center">
     <div>
       <v-row class="d-flex justify-center">
-        <img src="~/assets/image/travolta.gif" alt="">
+        <img class="travolta" src="~/assets/image/travolta.gif" alt="">
         <h1 v-if="error.statusCode === 404" class="text-h1">
           {{ pageNotFound }}
         </h1>
@@ -11,9 +11,10 @@
           {{ otherError }}
         </h1>
       </v-row>
+      <!-- {{ error }} -->
       <v-row class="d-flex justify-center">
-        <v-btn class="text-center" big to="/">
-          Home
+        <v-btn text class="text-center mt-10" x-large to="/">
+          Go Back Home
         </v-btn>
       </v-row>
     </div>
@@ -45,6 +46,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.travolta
+  position: absolute
+  left: 11%
+  bottom: 0
 .v-container
   height: 100%
   background: #121212
