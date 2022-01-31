@@ -1,3 +1,19 @@
+### [0.0.21](https://github.com/GREEB/trakr.app/compare/v0.0.20...v0.0.21) (2022-01-31)
+
+
+### Features
+
+* **adaptiveThrottle:** frist quick version of adaptive throttle, basically only sending 12 p/s if user is on frontend ([4ba6550](https://github.com/GREEB/trakr.app/commit/4ba65508cc308a9f24101bb5b42c6c3e473fe6ce))
+* **connectionPanel:** added simple connection panel with chips and logs ([441dbe3](https://github.com/GREEB/trakr.app/commit/441dbe316135cea75ad8126014449f6798938b91))
+
+
+### Bug Fixes
+
+* **data:** data was actually saved to wrong id ([72f02ff](https://github.com/GREEB/trakr.app/commit/72f02ff5d33087a5d8c94169b1c6965c08ae9be2))
+* **sessionManager:** We now recheck after x ms to see if udp really disconnected, this helps ([9ed29d4](https://github.com/GREEB/trakr.app/commit/9ed29d4a049c6cc0a88458b05d16a59da6d575b7))
+* **shaders:** shaders now actually save between pages ([0a2f66f](https://github.com/GREEB/trakr.app/commit/0a2f66f690bfd730aba335c660b326e08fb5cae3))
+* **three:** actually removing points from scene when getting new ones, this actually fixes shaders and double drawing points ([77f5595](https://github.com/GREEB/trakr.app/commit/77f559547c8802b7a4f7d2206bb8e71cdfb387bb))
+
 ### [0.0.20](https://github.com/GREEB/trakr.app/compare/v0.0.19...v0.0.20) (2022-01-30)
 
 
