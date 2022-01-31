@@ -155,7 +155,7 @@ export default {
     }
   },
   head: {
-    title: 'About'
+    title: 'Track Car telemetry in 3D space'
   },
   // Little fix to show and hide lil gui on page
   mounted () {

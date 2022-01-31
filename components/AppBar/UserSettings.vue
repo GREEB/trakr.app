@@ -27,6 +27,8 @@ export default {
     }
   },
   methods: {
+    // FIXME: Logout does not trigger anything in the backend so user is kinda bugged out cuz sockets still authed
+    // category=nuxt
     async logout () {
       await this.$auth.logout()
     }
