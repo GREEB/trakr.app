@@ -45,7 +45,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
 
   if (users[userId].udp.known !== false) {
     // look at mode even tho user can only have x atm, tells us what to do with data
-    if (users[userId].udp.known.mode === 0) {
+    if (users[userId].udp.known.mode === 0 && typeof users[userId].udp.known.userId === 'number') {
       if (Date.now() - users[userId].lastSaved >= 1000 / 2 || users[userId].lastSaved === undefined) { // sending 12 cuz stop motion idk native is about 160
         metrics.data2db.mark()
         // parse only xyz and surface here
@@ -57,7 +57,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
           surfaceRumbleSum: parsed.SurfaceRumble.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           normSuspensionTravelSum: parsed.NormSuspensionTravel.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           gameId,
-          userId: users[userId].udp.known.id
+          userId: users[userId].udp.known.userId
         }).catch(function (err) {
           consola.error(err)
         })
