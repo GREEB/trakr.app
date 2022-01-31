@@ -29,6 +29,7 @@
       <Nuxt />
       <CookieConsent />
     </v-main>
+    <script defer data-domain="trakr.app" src="https://plausible.io/js/plausible.js" />
     <!-- Inject sockets into the template maybe not the best way? -->
   </v-app>
 </template>

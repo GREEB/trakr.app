@@ -1,3 +1,4 @@
+import fs from 'fs'
 import consola from 'consola'
 import { users, maxClientTimeout, watchedObject } from '../controllers/userController'
 import { age } from '../helpers/defaults.js'
@@ -5,7 +6,12 @@ import { io } from '../listeners/socketServer'
 
 export const sessionWatcher = () => {
   setInterval(() => {
-    // console.log(JSON.stringify(users))
+    fs.writeFile('./users.json', JSON.stringify(users), (err) => {
+      if (err) {
+        console.error(err)
+      }
+      // file written successfully
+    })
     Object.keys(users).forEach((id) => {
       if ('udp' in users[id]) {
         if (age(users[id]) > maxClientTimeout) {

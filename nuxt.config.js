@@ -93,14 +93,10 @@ export default {
   components: true,
 
   buildModules: [
-    '@nuxtjs/google-analytics',
     '@nuxtjs/eslint-module',
     '@nuxtjs/auth-next',
     '@nuxtjs/vuetify'
   ],
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID || 'G-CVR5XFFHQJ'
-  },
   modules: [
     ['nuxt-social-meta',
       {
@@ -116,6 +112,7 @@ export default {
         theme_color: '#724ade'
       }
     ],
+
     ['nuxt-highlightjs', {
       style: 'night-owl'
     }],
