@@ -27,6 +27,7 @@
       <Gui />
 
       <Nuxt />
+      <CookieConsent />
     </v-main>
     <!-- Inject sockets into the template maybe not the best way? -->
   </v-app>
