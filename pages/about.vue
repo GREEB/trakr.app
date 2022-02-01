@@ -4,14 +4,14 @@
       <section class="intro">
         <div class="content">
           <h1 class="text-wrap">
-            Track car telemetry in
+            Track car telemetry in <span class="hide">3D</span>
             <img
               src="~/assets/image/3d-dynamic-gradient.png"
               alt="3D"
             >
             space
           </h1>
-          <p class="text-wrap">
+          <p class="text-wrap text-subtitle1">
             <span>How this works:</span> The Games we support can deliver
             telemetry over UDP, we save parse and display this data.
           </p>
