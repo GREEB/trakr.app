@@ -1,7 +1,7 @@
 {
   "name": "trakr.app",
   "license": "MIT",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -29,7 +29,6 @@
     "jsonwebtoken": "^8.5.1",
     "lil-gui": "^0.16.0",
     "lodash-es": "^4.17.21",
-    "lodash.throttle": "^4.1.1",
     "msgpackr": "^1.5.2",
     "nuxt": "^2.15.8",
     "nuxt-highlightjs": "^1.0.1",

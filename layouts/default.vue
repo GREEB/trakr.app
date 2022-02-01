@@ -25,7 +25,6 @@
       </v-app-bar>
       <div class="stage" />
       <Gui />
-
       <Nuxt />
       <CookieConsent />
       <NuxtLink class="pa-0 ma-0 version text-decoration-none" to="/changelog">

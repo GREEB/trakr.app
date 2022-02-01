@@ -133,9 +133,14 @@ export const postRefreshToken = async (req, res, next) => {
 }
 export const getUser = async (req, res, next) => {
   let id
+  if (req.headers.authorization === undefined) {
+    return res.status(404).json({ message: '...' })
+  }
   // user login from cookie check if token expired or idk if expire refresh?
   jwt.verify(req.headers.authorization.split(' ')[1], config.secret, function (err, decoded) {
-    if (err) { return next(new Error('Authentication error')) }
+    if (err) {
+      return res.status(403).json({ message: 'Auth Error' })
+    }
     id = decoded.id
   })
 
