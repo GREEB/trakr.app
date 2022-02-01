@@ -11,6 +11,7 @@
         fab
         v-bind="attrs"
         text
+        value="Settings"
         v-on="on"
       >
         <v-badge

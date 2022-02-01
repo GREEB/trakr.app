@@ -13,6 +13,7 @@
             v-bind="attrs"
             color="accent"
             dark
+            value="Camera Controls"
             small
             class="pa-0 ma-0 rounded-0"
             v-on="on"
@@ -22,7 +23,7 @@
             </v-icon>
           </v-btn>
         </template>
-        <span>Camera</span>
+        <span>Camera Controls</span>
       </v-tooltip>
     </template>
     <v-tooltip bottom content-class="toolbarToolTips">

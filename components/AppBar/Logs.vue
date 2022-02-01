@@ -9,6 +9,7 @@
         dark
         v-bind="attrs"
         icon
+        value="Connection Logs"
         small
         v-on="on"
       >

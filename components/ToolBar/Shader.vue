@@ -12,6 +12,7 @@
             v-model="car"
             v-bind="attrs"
             dark
+            value="Shader Controls"
             small
             class="pa-0 ma-0 rounded-0"
             v-on="on"

@@ -2,6 +2,7 @@
   <div>
     <NuxtLink class="tb-icon" to="/">
       <img
+        alt="trakr.app logo"
         class="logo mr-3"
         style="width: 25px; height: 25px;"
         src="~/assets/image/logo.png"

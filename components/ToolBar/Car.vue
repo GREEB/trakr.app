@@ -5,6 +5,7 @@
         v-bind="attrs"
         dark
         small
+        value="go to car"
         class="rounded-0"
         v-on="on"
         @click="$stage.cam2Car()"
