@@ -197,9 +197,10 @@ export const idFromIp = (ip) => {
   if (ipaddr.IPv6.isValid(ip)) {
     const addr = ipaddr.IPv6.parse(ip)
     if (addr.isIPv4MappedAddress()) {
-      return addr.toIPv4Address().toString()
+      // only take ipv6 up to subnet? idk need to test
+      return addr.toIPv4Address()
     } else {
-      return addr.toString()
+      return addr.toString().toString().split(':').slice(0, -4).join(':')
     }
   } else if (ipaddr.IPv4.isValid(ip)) {
     return ip
