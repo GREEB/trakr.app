@@ -4,7 +4,6 @@ export default {
   data () {
     return {
       games,
-      socketStatus: null,
       socket: {}
     }
   },
@@ -42,6 +41,7 @@ export default {
     createSocketConnection () {
       if (!this.connected) {
         this.socket = this.$nuxtSocket({
+          reconnection: true,
           withCredentials: true,
           extraHeaders: {
             path: this.$nuxt.$route.path
@@ -57,6 +57,11 @@ export default {
           if (this.currentSlug !== undefined) {
             this.parseGlobalChord(msg)
           }
+        })
+        this.socket.on('disconnect', (reason) => {
+          setTimeout(() => {
+            this.socket.connect()
+          }, 1000)
         })
       }
     },
