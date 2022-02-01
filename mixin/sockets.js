@@ -59,9 +59,12 @@ export default {
           }
         })
         this.socket.on('disconnect', (reason) => {
-          setTimeout(() => {
-            this.socket.connect()
-          }, 1000)
+          console.log(reason)
+          if (reason !== 'io server disconnect') {
+            setTimeout(() => {
+              this.socket.connect()
+            }, 1000)
+          }
         })
       }
     },
