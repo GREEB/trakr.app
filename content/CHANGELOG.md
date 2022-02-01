@@ -1,3 +1,18 @@
+### [0.0.22](https://github.com/GREEB/trakr.app/compare/v0.0.21...v0.0.22) (2022-02-01)
+
+
+### Features
+
+* **accessibility:** standard accessibility for buttons and images ([3259d88](https://github.com/GREEB/trakr.app/commit/3259d8875de4159e9ecbf0928ce967b63e83fb4f))
+* **errorHandling:** Do some error handling on slug pages ([ed4d03b](https://github.com/GREEB/trakr.app/commit/ed4d03bcad1239d665d09ef2e4cab7f606641b67))
+* **MaxConnections:** Not really a feature but helps to limit connections because we don't broadcast to every tab atm ([f8d8dc4](https://github.com/GREEB/trakr.app/commit/f8d8dc46ebbb967e8c1f9a23ae61f1ce79eb770a))
+
+
+### Bug Fixes
+
+* **flying:** flying data is hidden when serving data ([672a79d](https://github.com/GREEB/trakr.app/commit/672a79d41c3b3e0f4b357bb8b95a1d3fd8aaff95))
+* **sockets:** socket should try to autoconnect now if server restarts ([7b87886](https://github.com/GREEB/trakr.app/commit/7b87886a187ba4bc30c985fa1d87a56a0e1aa759))
+
 ### [0.0.21](https://github.com/GREEB/trakr.app/compare/v0.0.20...v0.0.21) (2022-01-31)
 
 
