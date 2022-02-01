@@ -202,11 +202,11 @@ export default {
       if (this.$vuetify.theme.dark) {
         document.getElementsByClassName('lil-gui root')[0].classList.remove('light')
         this.$stage.setBackgroundColor('#121212')
-        this.$cookies.set('theme', 'dark', { path: '/', maxAge: 60 * 60 * 24 * 7 })
+        this.$cookies.set('theme', 'dark', { path: '/', maxAge: 60 * 60 * 24 * 7 * 191 })
       } else {
         document.getElementsByClassName('lil-gui root')[0].classList.add('light')
         this.$stage.setBackgroundColor('#ffffff')
-        this.$cookies.set('theme', 'light', { path: '/', maxAge: 60 * 60 * 24 * 7 })
+        this.$cookies.set('theme', 'light', { path: '/', maxAge: 60 * 60 * 24 * 7 * 191 })
       }
     },
     toggleGui (w) {
@@ -216,10 +216,10 @@ export default {
       // For now we give a mixin to pages we want the gui that show and hide on mount/destroy
 
       if (w) {
-        this.$cookies.set('gui', true, { path: '/', maxAge: 60 * 60 * 24 * 7 })
+        this.$cookies.set('gui', true, { path: '/', maxAge: 60 * 60 * 24 * 7 * 191 })
         document.getElementsByClassName('guicontainer')[0].classList.remove('hide')
       } else {
-        this.$cookies.set('gui', false, { path: '/', maxAge: 60 * 60 * 24 * 7 })
+        this.$cookies.set('gui', false, { path: '/', maxAge: 60 * 60 * 24 * 7 * 191 })
         document.getElementsByClassName('guicontainer')[0].classList.add('hide')
       }
     }

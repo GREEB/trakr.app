@@ -59,7 +59,8 @@ export default {
       if (this.askAgain) {
         this.$cookies.set('stressaskAgain', true, {
           path: '/',
-          maxAge: 60 * 60 * 24 * 7
+          maxAge: 60 * 60 * 24 * 7 * 191
+
         })
       }
     }

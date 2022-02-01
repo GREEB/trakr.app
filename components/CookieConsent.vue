@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     accept () {
-      this.$cookies.set('cookie', true)
+      this.$cookies.set('cookie', true, { path: '/', maxAge: 60 * 60 * 24 * 7 * 191 })
       this.cookieConsent = !this.cookieConsent
     }
   }
