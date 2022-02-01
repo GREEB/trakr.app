@@ -6,8 +6,9 @@ export default {
   },
   watch: {
     error (val) {
+      console.log(val)
       if (Object.keys(val).length === 0) { return }
-      this.$nuxt.error({ statusCode: 404, message: val.message })
+      this.$nuxt.error({ statusCode: val.code, message: val.msg })
     }
   }
 }

@@ -156,7 +156,7 @@ export default {
             'udpRegister --> UDPREGISTER',
             'udpConnect --> UDPCONNECT',
             'udpDisconnect --> UDPDISCONNECT',
-            'E404 --> E404'
+            'error --> ERROR'
           ],
           emitBacks: [
             'register/game',

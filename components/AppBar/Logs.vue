@@ -9,7 +9,6 @@
         dark
         v-bind="attrs"
         icon
-        value="Connection Logs"
         small
         v-on="on"
       >
@@ -38,9 +37,9 @@
             <v-chip
               v-bind="attrs"
               small
-              :outlined="IOconnected"
+              outlined
               class="mx-3"
-              :color="IOconnected ? 'success lighten-2' : 'accent lighten-2'"
+              :color="IOconnected ? 'success' : 'error'"
               v-on="on"
             >
               Socket.io
@@ -54,9 +53,8 @@
               v-bind="attrs"
               small
               class="mr-3"
-
-              :outlined="IOconnected"
-              :color="udpConnected ? 'success lighten-2' : 'accent lighten-2'"
+              outlined
+              :color="udpConnected ? 'success' : 'error'"
               v-on="on"
             >
               Game

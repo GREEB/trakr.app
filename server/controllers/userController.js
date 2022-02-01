@@ -123,6 +123,14 @@ export const addIOuser = (socket) => {
   consola.info(`userController.js:addIOuser() adding user with id ${userId}`)
   if (!(userId in users)) { users[userId] = {} } // If empty create
 
+  if ('socket' in users[userId]) {
+    console.log('socket already found')
+    // already socket from this ip disconnect and redirect
+    io.to(socket.id).emit('error', { code: 429, msg: 'Too Many Requests; You can only have one tab open on the same connection, for now.' })
+    socket.disconnect()
+    return
+  }
+
   if (('udp' in users[userId])) {
     if (('game' in users[userId].udp)) {
       consola.success(`userController.js:addIOuser() emiting connectUdp to ${socket.id}`)

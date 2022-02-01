@@ -102,7 +102,7 @@ export const sendInitData = async (socket, route) => {
       const serializedAsBuffer = pack({ alluserPos })
       io.to(socket.id).emit('chordPack', serializedAsBuffer)
     }).catch(function (err) {
-      io.to(socket.id).emit('E404', 'Data not found')
+      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
       consola.error(err)
     })
 
@@ -110,7 +110,7 @@ export const sendInitData = async (socket, route) => {
   } else if (route.name === 'u-slug') {
     const isUUID = await validUUID(route.slug)
     if (!isUUID) {
-      io.to(socket.id).emit('E404', 'Data not found')
+      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
       return
     }
     const uid = route.slug
@@ -124,14 +124,14 @@ export const sendInitData = async (socket, route) => {
       const serializedAsBuffer = pack({ alluserPos })
       io.to(socket.id).emit('chordPack', serializedAsBuffer)
     }).catch(function (err) {
-      io.to(socket.id).emit('E404', 'Data not found')
+      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
       consola.error(err)
     })
     // m-slug
   } else if (route.name === 'm-slug') {
     gameId = gameSlug2Id(route.slug)
     if (gameId === false || gameId === undefined) {
-      io.to(socket.id).emit('E404', 'Data not found')
+      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
       return
     }
 
@@ -145,7 +145,7 @@ export const sendInitData = async (socket, route) => {
       const serializedAsBuffer = pack({ alluserPos })
       io.to(socket.id).emit('chordPack', serializedAsBuffer)
     }).catch(function (err) {
-      io.to(socket.id).emit('E404', 'Data not found')
+      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
       consola.error(err)
     })
   }
