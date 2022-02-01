@@ -8,7 +8,7 @@ import { games } from '../../assets/js/games' // ewww path
 const servers = {}
 
 export function makeServers () {
-  if (servers !== {}) { return }
+  if (Object.keys(servers).length !== 0) { return }
   Object.entries(games).forEach(
     ([gameIdString, game]) => {
       const gameId = parseInt(gameIdString)
