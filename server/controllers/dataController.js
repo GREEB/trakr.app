@@ -1,5 +1,6 @@
 import consola from 'consola'
 import { pack } from 'msgpackr'
+import { Op } from 'sequelize'
 import { io } from '../listeners/socketServer'
 import models from '../models/indexModel'
 import { lastSeen, lastSaved } from '../helpers/users'
@@ -135,9 +136,13 @@ export const sendInitData = async (socket, route) => {
       return
     }
 
+    // TODO: Get this data over its client so we can first only take clients with visibility 0 and then we can do checks on all of these
     await models.position.findAll({
       where: {
-        gameId
+        gameId,
+        normSuspensionTravelSum: { // dont display flying data on frontend helps with point from ppl teleporting even tho they shouldn't? can be undone when soft banning is on
+          [Op.gt]: process.env.MAXSUSPENSION || 0.4 // basically how much we remove points with low suspenstiontravelsum
+        }
       },
       raw: true,
       attributes: ['x', 'y', 'z']
