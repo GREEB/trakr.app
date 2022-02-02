@@ -1,4 +1,4 @@
-const pkg = require('./../package.json')
+const pkg = require('./package.json')
 require('dotenv').config()
 module.exports = {
   apps: [
