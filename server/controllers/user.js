@@ -199,7 +199,7 @@ export const idFromIp = (ip) => {
     if (addr.isIPv4MappedAddress()) {
       return addr.toIPv4Address().toString()
     } else {
-      return addr.toString()
+      return addr.toString().toString().split(':').slice(0, -4).join(':')
     }
   } else if (ipaddr.IPv4.isValid(ip)) {
     return ip
