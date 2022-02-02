@@ -1,7 +1,7 @@
 import consola from 'consola'
 import ipaddr from 'ipaddr.js'
 import { io } from '../listeners/socketServer'
-import models from '../models/indexModel.js'
+import models from '../models'
 import { sessionWatcher, age } from '../helpers/users'
 import { sleep } from '../helpers/defaults'
 import { hash } from '../helpers/crypto' // Object for session but really simple and needs redoing
@@ -20,13 +20,13 @@ export const registerUDPuser = async (data, socket) => {
   if (socket.decoded !== false) {
     consola.info(`userController.js:registerUDPuser() Register client with id ${userId}`)
 
-    const findUDPclient = await models.udp.findOne({ where: { mid: hash(userId) } })
+    const findUDPclient = await models.Clients.findOne({ where: { mid: hash(userId) } })
     if (findUDPclient) {
       users[userId].udp.known = findUDPclient.dataValues
       // send back that we already have registered
       consola.info(`userController.js:registerUDPuser() client already registered ${findUDPclient.id}`)
     } else {
-      await models.udp.create({
+      await models.Clients.create({
         userId: socket.decoded.id,
         mid: hash(userId),
         game: 0,
@@ -57,7 +57,7 @@ export const addUDPUser = async (ip, gameId) => {
     io.to(users[userId].socket.id).emit('udpConnect', gameId) // connect does not register client, connect just gives metadata to the connection
   }
 
-  const udpClient = await models.udp.findOne({ where: { mid: hash(userId) } }) // Check if we know this ip
+  const udpClient = await models.Clients.findOne({ where: { mid: hash(userId) } }) // Check if we know this ip
   if (udpClient) { // if we know
     users[userId].udp.known = udpClient.dataValues
     consola.info(`userController.js:addUDPUser() client found in db ${udpClient.id}`)
@@ -197,10 +197,9 @@ export const idFromIp = (ip) => {
   if (ipaddr.IPv6.isValid(ip)) {
     const addr = ipaddr.IPv6.parse(ip)
     if (addr.isIPv4MappedAddress()) {
-      // only take ipv6 up to subnet? idk need to test
-      return addr.toIPv4Address()
+      return addr.toIPv4Address().toString()
     } else {
-      return addr.toString().toString().split(':').slice(0, -4).join(':')
+      return addr.toString()
     }
   } else if (ipaddr.IPv4.isValid(ip)) {
     return ip

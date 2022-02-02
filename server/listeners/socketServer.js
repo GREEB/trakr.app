@@ -4,8 +4,8 @@ import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
 import consola from 'consola'
-import { addIOuser, registerUDPuser, removeIOuser } from '../controllers/userController'
-import { sendInitData } from '../controllers/dataController'
+import { addIOuser, registerUDPuser, removeIOuser } from '../controllers/user'
+import { sendInitData } from '../controllers/data'
 import config from '../config/auth.config'
 dotenv.config()
 

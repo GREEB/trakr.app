@@ -1,8 +1,8 @@
 import dgram from 'dgram'
 import consola from 'consola'
 import tx2 from 'tx2'
-import { makeUDPuser } from '../controllers/userController'
-import { throttledWrite } from '../controllers/dataController' // udp6 for ipv6 support
+import { makeUDPuser } from '../controllers/user'
+import { throttledWrite } from '../controllers/data' // udp6 for ipv6 support
 import { games } from '../../assets/js/games' // ewww path
 
 const servers = {}
@@ -19,7 +19,7 @@ export function makeServers () {
       })
       servers[gameId] = dgram.createSocket('udp6')
       servers[gameId].on('message', (msg, rinfo) => {
-        servers[gameId].setRecvBufferSize(100000000)
+      // servers[gameId].setRecvBufferSize(100000000)
         meter.mark()
         if (rinfo !== undefined) {
           makeUDPuser(rinfo.address, gameId)

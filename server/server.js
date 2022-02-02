@@ -2,13 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import consola from 'consola'
 import authRouter from './routers/authRouter'
-import { db } from './config/db.config'
 import { makeServers } from './listeners/udpServer'
-
-const wait4sync = async () => {
-  await db.sync()
-}
-wait4sync()
 
 dotenv.config()
 

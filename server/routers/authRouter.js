@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { postLogin, postRefreshToken, getUser } from '../controllers/authController.js'
+import { postLogin, postRefreshToken, getUser } from '../controllers/auth.js'
 
 export default function (app) {
   const authRouter = Router()

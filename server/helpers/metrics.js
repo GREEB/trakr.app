@@ -1,5 +1,5 @@
 import tx2 from 'tx2'
-import { users } from '../controllers/userController'
+import { users } from '../controllers/user'
 tx2.metric({
   name: 'io users',
   value () {

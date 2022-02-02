@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import fetch from 'node-fetch'
 import consola from 'consola'
 import config from '../config/auth.config'
-import models from '../models/indexModel'
+import models from '../models'
 
 const createToken = async (user) => {
   consola.info(`authController.js:createToken() creating token for id: ${user.id}`)
@@ -12,7 +12,7 @@ const createToken = async (user) => {
   expiredAt.setSeconds(expiredAt.getSeconds() + config.jwtRefreshExpiration)
 
   const _token = uuidv4()
-  const refreshToken = await models.refreshToken.create({
+  const refreshToken = await models.RefreshTokens.create({
     token: _token,
     expiryDate: expiredAt.getTime(),
     userId: user.id
@@ -69,13 +69,13 @@ export const postLogin = async (req, res, next) => {
           error: 'Invalid Token'
         })
       }
-      user = await models.user.findOne({
+      user = await models.Users.findOne({
         where: {
           email
         }
       })
       if (!user) {
-        user = await models.user.create({
+        user = await models.Users.create({
           did,
           username,
           email,
@@ -105,14 +105,14 @@ export const postRefreshToken = async (req, res, next) => {
     if (!requestToken) {
       return res.status(403).json({ message: 'Refresh Token is required!' })
     }
-    const refreshToken = await models.refreshToken.findOne({
+    const refreshToken = await models.RefreshTokens.findOne({
       where: { token: requestToken }
     })
     if (!refreshToken) {
       return res.status(403).json({ message: 'Refresh token does not exist!' })
     }
     if (refreshToken.expiryDate.getTime() < new Date().getTime()) {
-      await models.refreshToken.destroy({ where: { id: refreshToken.id } })
+      await models.RefreshTokens.destroy({ where: { id: refreshToken.id } })
 
       return res.status(403).json({
         message: 'Refresh token was expired. Please login again!'
@@ -144,7 +144,7 @@ export const getUser = async (req, res, next) => {
     id = decoded.id
   })
 
-  const user = await models.user.findOne({
+  const user = await models.Users.findOne({
     where: {
       id
     }

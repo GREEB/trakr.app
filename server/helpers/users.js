@@ -1,6 +1,6 @@
 import fs from 'fs'
 import consola from 'consola'
-import { users, maxClientTimeout, removeUDPuser } from '../controllers/userController'
+import { users, maxClientTimeout, removeUDPuser } from '../controllers/user'
 
 export const sessionWatcher = () => {
   setInterval(() => {

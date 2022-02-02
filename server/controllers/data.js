@@ -1,12 +1,11 @@
 import consola from 'consola'
-import { pack } from 'msgpackr'
-import { Op } from 'sequelize'
 import { io } from '../listeners/socketServer'
-import models from '../models/indexModel'
+import models from '../models'
 import { lastSeen, lastSaved } from '../helpers/users'
 import { games } from '../../assets/js/games'
 import metrics from '../helpers/metrics'
-import { users, idFromIp } from './userController.js'
+import { fetchFromUserId, fetchFromGameSlug } from '../helpers/fetcher'
+import { users, idFromIp } from './user.js'
 // only data mode implemented for now will be mapping, so only xyz and maybe rumble/surface for each point?
 // we check what mode user is in
 // set throttle based on mode and only save data we need, maybe send full telemetry to frontend
@@ -61,7 +60,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
       if (Date.now() - users[userId].lastSaved >= 1000 / 2 || users[userId].lastSaved === undefined) { // sending 12 cuz stop motion idk native is about 160
         metrics.data2db.mark()
         // parse only xyz and surface here
-        await models.position.create({
+        await models.Positions.create({
           x: parsed.PositionX,
           y: parsed.PositionY,
           z: parsed.PositionZ,
@@ -69,7 +68,7 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
           surfaceRumbleSum: parsed.SurfaceRumble.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           normSuspensionTravelSum: parsed.NormSuspensionTravel.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           gameId,
-          userId: users[userId].udp.known.userId
+          clientId: users[userId].udp.known.id
         }).catch(function (err) {
           consola.error(err)
         })
@@ -86,27 +85,9 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
   }
 }
 export const sendInitData = async (socket, route) => {
-  // route has route infos
-  // {                                                                                                                                                                                                                           21:08:23
-  //   slug: 'fh5',
-  //   name: 'm-slug'
-  // }
   let gameId
   if (route.name === 'index' && socket.decoded.id !== undefined) {
-    await models.position.findAll({
-      where: {
-        userId: socket.decoded.id
-      },
-      raw: true,
-      attributes: ['x', 'y', 'z']
-    }).then(function (alluserPos) {
-      const serializedAsBuffer = pack({ alluserPos })
-      io.to(socket.id).emit('chordPack', serializedAsBuffer)
-    }).catch(function (err) {
-      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
-      consola.error(err)
-    })
-
+    fetchFromUserId(socket, socket.decoded.id)
     // u-slug
   } else if (route.name === 'u-slug') {
     const isUUID = await validUUID(route.slug)
@@ -115,19 +96,7 @@ export const sendInitData = async (socket, route) => {
       return
     }
     const uid = route.slug
-    await models.position.findAll({
-      where: {
-        userId: uid
-      },
-      raw: true,
-      attributes: ['x', 'y', 'z']
-    }).then(function (alluserPos) {
-      const serializedAsBuffer = pack({ alluserPos })
-      io.to(socket.id).emit('chordPack', serializedAsBuffer)
-    }).catch(function (err) {
-      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
-      consola.error(err)
-    })
+    fetchFromUserId(socket, uid)
     // m-slug
   } else if (route.name === 'm-slug') {
     gameId = gameSlug2Id(route.slug)
@@ -135,24 +104,7 @@ export const sendInitData = async (socket, route) => {
       io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
       return
     }
-
-    // TODO: Get this data over its client so we can first only take clients with visibility 0 and then we can do checks on all of these
-    await models.position.findAll({
-      where: {
-        gameId,
-        normSuspensionTravelSum: { // dont display flying data on frontend helps with point from ppl teleporting even tho they shouldn't? can be undone when soft banning is on
-          [Op.gt]: process.env.MAXSUSPENSION || 0.4 // basically how much we remove points with low suspenstiontravelsum
-        }
-      },
-      raw: true,
-      attributes: ['x', 'y', 'z']
-    }).then(function (alluserPos) {
-      const serializedAsBuffer = pack({ alluserPos })
-      io.to(socket.id).emit('chordPack', serializedAsBuffer)
-    }).catch(function (err) {
-      io.to(socket.id).emit('error', { code: 404, msg: 'Page not found' })
-      consola.error(err)
-    })
+    fetchFromGameSlug(socket, gameId)
   }
 }
 
