@@ -69,12 +69,13 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
           normSuspensionTravelSum: parsed.NormSuspensionTravel.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           gameId,
           clientId: users[userId].udp.known.id
+        }).then(function () {
+          lastSaved(users[userId])
         }).catch(function (err) {
           consola.error(err)
         })
         if (users[userId].udp.known.visibility === 1) { return }
         io.to(id2GameSlug(gameId)).emit('globalChord', parsed)
-        lastSaved(users[userId])
       }
       if ('socket' in users[userId]) {
         io.to(users[userId].socket.id).emit('chord', msg)
