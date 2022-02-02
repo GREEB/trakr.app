@@ -1,5 +1,4 @@
 import colors from 'vuetify/es5/util/colors'
-import pkg from './package.json'
 
 export default {
   head: {
@@ -69,7 +68,7 @@ export default {
     baseURL: process.env.URL,
     discordId: process.env.DISCORDID,
     githubURL: process.env.DISCORDID,
-    version: process.env.VERSION || pkg.version + 'dev'
+    version: process.env.APP_VERSION
   },
   privateRuntimeConfig: {
     port: process.env.PORT,

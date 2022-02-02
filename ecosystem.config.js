@@ -1,4 +1,4 @@
-const pkg = require('./package.json')
+const pkg = require('./../package.json')
 require('dotenv').config()
 module.exports = {
   apps: [
@@ -7,7 +7,7 @@ module.exports = {
       script: './node_modules/nuxt/bin/nuxt.js',
       args: 'start',
       env: {
-        VERSION: pkg.version
+        APP_VERSION: pkg.version
       },
       env_production: {
         NODE_ENV: 'production'
