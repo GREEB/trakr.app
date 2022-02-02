@@ -6,7 +6,7 @@ const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 // eslint-disable-next-line node/no-path-concat
-const config = require(__dirname + '/../config/config.json')[env]
+const config = require(__dirname + '/../config/config.js')[env]
 const db = {}
 
 let sequelize
