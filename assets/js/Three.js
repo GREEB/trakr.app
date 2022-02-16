@@ -1,8 +1,8 @@
 // Import librarys
-import { PointLight, AmbientLight, BufferGeometry, Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, Object3D, Clock } from 'three'
+import { Vector2, Raycaster, BufferGeometry, Color, PerspectiveCamera, Scene, Vector3, WebGLRenderer, Object3D, Clock } from 'three'
 import { bindAll } from 'lodash-es'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { initGui, initCarGui } from '~/assets/js/Gui'
+import { initGui, initCarGui, onDownload } from '~/assets/js/Gui'
 import { EventBus } from '~/assets/js/utils/event.js'
 
 // import local
@@ -14,6 +14,7 @@ import { orbit, setFollowCam, setOrbitCam, simpleFollow, smoothFollow, setSmooth
 export default class Stage {
   constructor (opts = {}) {
     // oh no redo this
+    this.lastChordPack = 0
     this.app = opts.app
     this.geometry = new BufferGeometry()
     this.scene = new Scene()
@@ -23,17 +24,21 @@ export default class Stage {
     this.material = null
     this.carCam = new Object3D()
     this.tempCarCam = new Vector3()
+    this.raycaster = new Raycaster()
     this.PointsMaterial = null
     this.container = opts.container || document.body
     this.guiContainer = opts.guiContainer || document.body
     this.controls = null
     this.packOffset = null
     this.packClock = new Clock()
+    this.pointer = new Vector2()
     this.frameRate = 0
+    this.intersection = 0
     this.car = null
     this.positions = 0
     this.isBreaking = null
     this.cameraSettings = { type: 2 }
+    this.currentPoint = { x: 0, y: 0, z: 0 }
     this.lastCompute = null
     this.stats = null
     this.breakLight = null
@@ -98,18 +103,17 @@ export default class Stage {
     /* Main scene and camera */
     this.controls = new OrbitControls(this.camera, this.container)
     this.camera.position.set(-0.16198904908582307, 0.3551316000009279, 0.22134693608538228)
-    // this.orbit()
-    const light = new PointLight(0xFFFFFF, 1)
-    light.position.set(0, 600, 1000)
-    this.scene.add(light)
-    const light2 = new PointLight(0xFFFFFF, 1)
-    light2.position.set(0, 0, 500)
-    this.scene.add(light2)
-    // const light3 = new PointLight(0xFFFFFF, 2)
+    // const light = new PointLight(0xFFFFFF, 1)
+    // light.position.set(0, 1000, 10000)
+    // this.scene.add(light)
+    // const light2 = new PointLight(0xFFFFFF, 1)
+    // light2.position.set(0, 0, 500)
+    // this.scene.add(light2)
+    // const light3 = new PointLight(0xFFFFFF, 1)
     // light3.position.set(0, 0, 1000)
     // this.scene.add(light3)
-    const ambient = new AmbientLight(0xFFFFFF, 0.1) // soft white light
-    this.scene.add(ambient)
+    // const ambient = new AmbientLight(0xFFFFFF, 0.51) // soft white light
+    // this.scene.add(ambient)
     // this.scene.add(new AxesHelper(100))
     this.initGui()
     this.addCar()
@@ -122,7 +126,24 @@ export default class Stage {
     this.renderer.setSize(window.innerWidth, newHeight)
   }
 
+  animatePoint (el) {
+    this.points.geometry.attributes.size.array[el.index] = 10.0
+  }
+
   render ({ mouse }) {
+    // this.pointer.x = (mouse.x / window.innerWidth) * 2 - 1
+    // this.pointer.y = (mouse.y / window.innerWidth) * 2 - 1
+
+    // this.raycaster.setFromCamera(this.pointer, this.camera)
+    // const intersects = this.raycaster.intersectObject(this.points)
+    // // this.intersection = (intersects.length) > 0 ? intersects[0] : null
+    // for (let i = 0; i < intersects.length; i++) {
+    //   this.currentPoint.x = intersects[i].point.x
+    //   this.currentPoint.y = intersects[i].point.y
+    //   this.currentPoint.z = intersects[i].point.z
+    //   this.animatePoint(intersects[i])
+    // }
+    // Car animation
     if (this.car !== undefined && this.fromPosition && this.toPosition && this.toRotation) {
       this.smoothCar()
       if (this.cameraSettings.type === 1) {
@@ -140,11 +161,22 @@ export default class Stage {
         this.controls.enabled = true
       }
     }
-    this.controls.update()
-
     this.lastPos = this.fromPosition
-    this.stats.update()
-    this.renderer.clear()
+
+    // raycasting
+
+    // this.raycaster.setFromCamera(this.mouse, this.camera)
+    // const intersects = this.raycaster.intersectObject(this.points)
+    // this.intersection = (intersects.length) > 0 ? intersects[0] : null
+    // for (let i = 0; i < intersects.length; i++) {
+    //   console.log(intersects[i].point)
+    //   this.currentPoint = Object.values(intersects[i].point).toString()
+    //   console.log(this.currentPoint)
+    //   // intersects[i].object.material.color.set(0xFF0000)
+    // }
+
+    this.controls.update() // OrbitControls
+    this.stats.update() // lil gui update
     this.renderer.render(this.scene, this.camera)
   }
 }
@@ -155,7 +187,7 @@ Stage.prototype.parsePoint = parsePoint
 Stage.prototype.parseChordPack = parseChordPack
 Stage.prototype.updateMaterial = updateMaterial
 Stage.prototype.parsePointStress = parsePointStress
-
+Stage.prototype.onDownload = onDownload
 // Misc
 Stage.prototype.setBackgroundColor = setBackgroundColor
 

@@ -36,8 +36,8 @@ export default ({ app, route }, inject) => {
   }
 
   const onTick = () => {
-    mouse.x = (position[0] / size.w) * 2 - 1
-    mouse.y = -(position[1] / size.h) * 2 + 1
+    mouse.x = position[0]
+    mouse.y = position[1]
 
     EventBus.$emit('ON_TICK', { mouse })
     requestAnimationFrame(onTick)

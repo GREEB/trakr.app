@@ -9,15 +9,18 @@ import { defaultFragment, defaultVertex } from '~/assets/js/Shaders'
 
 export function createEmptyPoints () {
   this.pointsCount = 0
-  this.positions = new Float32Array(this.maxParticle * 3)
+  const positions = new Float32Array(this.maxParticle * 3)
+  const sizes = new Float32Array(this.maxParticle)
   this.geometry = new BufferGeometry()
-  if (this.scene.getObjectByName('points') !== undefined) {
+
+  if (this.scene.getObjectByName('points') !== undefined) { // remove old points could be done better
     this.scene.remove(this.scene.getObjectByName('points'))
   }
+  this.geometry.setAttribute('size', new Float32BufferAttribute(sizes, 1))
+  this.geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+  this.geometry.frustumCulled = false // this helps with not needing to calcualte a bounding box but may be problematic later
 
-  this.geometry.setAttribute('position', new Float32BufferAttribute(this.positions, 3))
-  this.geometry.frustumCulled = false
-  if (this.material === null) {
+  if (this.material === null) { // this helps with shader edits needs to be redone
     this.material = new ShaderMaterial({
       vertexShader: defaultVertex,
       fragmentShader: defaultFragment,
@@ -25,9 +28,10 @@ export function createEmptyPoints () {
       depthWrite: true
     })
   }
-
   this.material.needsUpdate = true
+
   // this.material = new PointsMaterial({ color: 0x888888, size: 1 }) // Don't delete handy to debug/disable shaders
+
   this.points = new Points(this.geometry, this.material)
   this.points.frustumCulled = false
   this.points.name = 'points'
@@ -44,6 +48,9 @@ export function updateMaterial () {
 // Not sure why this happens yet but chrome->device simulation-> pixel 5 doesn't add points
 export function addPoint (xyz) {
   const positions = this.points.geometry.attributes.position.array
+
+  const size = this.points.geometry.attributes.size.array
+  size[this.pointsCount] = 1.00
 
   positions[this.pointsCount] = xyz[0]
   positions[this.pointsCount + 1] = xyz[1]
@@ -80,13 +87,15 @@ export function parsePointStress (posData) {
 }
 
 export function parseChordPack (val, home) {
+  this.lastChordPack = val
+  // console.log(val)
   const now = new Date()
   for (let i = 0; i < val.alluserPos.length; i++) {
-    this.parsePoint([val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, val.alluserPos[i].z / 20])
+    this.parsePoint([val.alluserPos[i][0] / 20, val.alluserPos[i][1] / 20, val.alluserPos[i][2] / 20])
 
     if ((val.alluserPos.length - 1) === i) {
       if (home) {
-        this.car.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, val.alluserPos[i].z / 20)
+        this.car.position.set(val.alluserPos[i][0] / 20, val.alluserPos[i][1] / 20, val.alluserPos[i][2] / 20)
         this.cam2Car()
         // this.camera.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, (val.alluserPos[i].z / 20) + 1)
 

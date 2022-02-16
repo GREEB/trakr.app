@@ -2,7 +2,8 @@
   <v-container fluid class="toolbars ml-0 pl-0">
     <ToolBarCamera class="mb-3" />
     <ToolBarShader class="mb-3" />
-    <ToolBarCar class="mb-3" />
+    <ToolBarCar class="mb-3 d-block" />
+    <ToolBarOrbit class="mb-3 d-block" />
   </v-container>
 </template>
 <script>

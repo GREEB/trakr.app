@@ -7,10 +7,18 @@ void main() {
 export const defaultVertex = `attribute float size;
 varying vec3 vColor;
 varying vec3 vPos;
+varying float vSize;
 void main() {
+    vSize = size;
     vColor = color;
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
     vPos = position;
-    gl_PointSize = color.r * 2.69420;
+    if (size == 1.0){
+        gl_PointSize = 2.69420;
+    }else if(size == 10.0){
+        gl_PointSize = 10.0 * 2.69420;
+    }else{
+        gl_PointSize = 2.0 * 0.69420;
+    }
 }
 `
