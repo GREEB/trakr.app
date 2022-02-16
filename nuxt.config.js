@@ -146,7 +146,7 @@ export default {
       {
         name: 'main',
         // Set localhost with port, on prod we do that with nginx so just pass URL
-        url: process.env.NODE_ENV === production ? process.env.URL : process.env.URL + ':3001',
+        url: process.env.NODE_ENV === 'production' ? process.env.URL : process.env.URL + ':3001',
         default: true,
         vuex: {
           actions: [
