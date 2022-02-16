@@ -20,18 +20,18 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
   const userId = idFromIp(rinfo.address)
   if (users[userId] === undefined || users[userId].udp === undefined) { return }
 
-  if (users[userId].udp.throttleTime === undefined) {
-    users[userId].udp.throttleTime = 1000 / 2
+  if (users[userId].udp[gameId].throttleTime === undefined) {
+    users[userId].udp[gameId].throttleTime = 1000 / 2
   }
 
   // throttle
-  if (Date.now() - users[userId].udp.lastSeen >= users[userId].udp.throttleTime) { // sending 12 cuz stop motion idk native is about 160
-    lastSeen(users[userId])
+  if (Date.now() - users[userId].udp[gameId].lastSeen >= users[userId].udp[gameId].throttleTime) { // sending 12 cuz stop motion idk native is about 160
+    lastSeen(users[userId].udp[gameId])
     // throttle user differently if on frontend or not, actually genius ifelse
     if (('socket' in users[userId])) {
-      users[userId].udp.throttleTime = 1000 / 12.69
+      users[userId].udp[gameId].throttleTime = 1000 / 12.69
     } else {
-      users[userId].udp.throttleTime = 1000 / 2
+      users[userId].udp[gameId].throttleTime = 1000 / 2
     }
   } else {
     return
@@ -39,11 +39,15 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
 
   // parse
   const parsed = games[gameId].parsers.xyz.parse(Buffer.from(msg, 'hex'))
+  // console.log(parsed.m_packetId === 0)
+  // if (parsed.m_packetId !== undefined && parsed.m_packetId === 0){
+  //   return
+  // }
   // const parseFull = games[gameId].parsers.full.parse(Buffer.from(msg, 'hex'))
   if (parsed.PositionX === 0 || parsed.PositionY === 0 || parsed.PositionZ === 0) { return }
 
   // See if user is known or not if not just send back chord
-  if (('socket' in users[userId]) && users[userId].udp.known === false) {
+  if (('socket' in users[userId]) && users[userId].udp[gameId].known === false) {
     // what are we sending back? default xyz data for game?
     // parse only xyz and surface here
     // io.to('gameName').emit('chord', msg) // maybe dont send raw tel of everyone to global map
@@ -54,10 +58,10 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
   // User is known look what we need to save and send
   // Throttle this again to not save as much as we send?
 
-  if (users[userId].udp.known !== false) {
+  if (users[userId].udp[gameId].known !== false) {
     // look at mode even tho user can only have x atm, tells us what to do with data
-    if (users[userId].udp.known.mode === 0) {
-      if (Date.now() - users[userId].lastSaved >= 1000 / 2 || users[userId].lastSaved === undefined) { // sending 12 cuz stop motion idk native is about 160
+    if (users[userId].udp[gameId].known.mode === 0) {
+      if (Date.now() - users[userId].udp[gameId].lastSaved >= 1000 / 2 || users[userId].udp[gameId].lastSaved === undefined) { // sending 12 cuz stop motion idk native is about 160
         metrics.data2db.mark()
         // parse only xyz and surface here
         await models.Positions.create({
@@ -68,13 +72,13 @@ export const throttledWrite = async (msg, rinfo, gameId) => {
           surfaceRumbleSum: parsed.SurfaceRumble.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           normSuspensionTravelSum: parsed.NormSuspensionTravel.reduce((partialSum, a) => partialSum + a, 0).toFixed(2),
           gameId,
-          clientId: users[userId].udp.known.id
+          clientId: users[userId].udp[gameId].known.id
         }).then(function () {
           lastSaved(users[userId])
         }).catch(function (err) {
           consola.error(err)
         })
-        if (users[userId].udp.known.visibility === 1) { return }
+        if (users[userId].udp[gameId].known.visibility === 1) { return }
         io.to(id2GameSlug(gameId)).emit('globalChord', parsed)
       }
       if ('socket' in users[userId]) {

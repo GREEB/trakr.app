@@ -15,6 +15,7 @@ sessionWatcher()
 
 // User send back to register call here
 export const registerUDPuser = async (data, socket) => {
+  // need to send what game it is here or look at data if it sends it already
   const userId = idFromSocket(socket)
 
   if (socket.decoded !== false) {
@@ -48,30 +49,34 @@ export const registerUDPuser = async (data, socket) => {
 
 export const addUDPUser = async (ip, gameId) => {
   const userId = idFromIp(ip).toString()
-  consola.info(`userController.js:addUDPUser() adding user with id ${userId}`)
+  consola.info(`userController.js:addUDPUser() adding user with id ${userId} and gameid ${gameId}`)
 
   if (!(userId in users)) { users[userId] = {} }
   if (users[userId].udp === undefined) { users[userId].udp = {} }
+  if (users[userId].udp[gameId] === undefined) { users[userId].udp[gameId] = {} }
+
   if (('socket' in users[userId])) { // If online on frontend, send udpConnect ping
     consola.info(`userController.js:addIOuser() emiting connectUdp to ${users[userId].socket.id}`)
     io.to(users[userId].socket.id).emit('udpConnect', gameId) // connect does not register client, connect just gives metadata to the connection
+  } else {
+    consola.warn(`userController.js:addIOuser() not found user on frontend ${users[userId]}`)
   }
 
   const udpClient = await models.Clients.findOne({ where: { mid: hash(userId) } }) // Check if we know this ip
   if (udpClient) { // if we know
-    users[userId].udp.known = udpClient.dataValues
+    users[userId].udp[gameId].known = udpClient.dataValues
     consola.info(`userController.js:addUDPUser() client found in db ${udpClient.id}`)
   } else { // if we dont know ip
-    users[userId].udp.known = false
+    users[userId].udp[gameId].known = false
     if ((userId in users) && users[userId].socket !== undefined) {
       io.to(users[userId].socket.id).emit('udpRegister', 'new')
     }
     consola.info(`userController.js:addUDPUser() client not found in db ${userId}`)
   }
-  users[userId].udp.ip = ip
-  users[userId].udp.game = gameId
-  users[userId].udp.lastSeen = null
-  users[userId].udp.firstSeen = Date.now()
+  users[userId].udp[gameId].ip = ip
+  users[userId].udp[gameId].game = gameId
+  users[userId].udp[gameId].lastSeen = null
+  users[userId].udp[gameId].firstSeen = Date.now()
 }
 
 /**
@@ -130,10 +135,12 @@ export const addIOuser = (socket) => {
   }
 
   if (('udp' in users[userId])) {
-    if (('game' in users[userId].udp)) {
-      consola.success(`userController.js:addIOuser() emiting connectUdp to ${socket.id}`)
-      io.to(socket.id).emit('udpConnect', users[userId].udp.game)
-    }
+    Object.keys(users[userId].udp).forEach((id) => {
+      if (('game' in users[userId].udp[id])) {
+        consola.success(`userController.js:addIOuser() emiting connectUdp with id: ${users[userId].udp[id].game} to ${socket.id}`)
+        io.to(socket.id).emit('udpConnect', users[userId].udp[id].game)
+      }
+    })
   }
 
   if (socket.decoded === false) {
@@ -194,6 +201,9 @@ export const idFromSocket = (socket) => {
  * @returns ip in ipv4 or ipv6
  */
 export const idFromIp = (ip) => {
+  if (process.env.NODE_ENV !== 'production') {
+    return '0.0.0.0'
+  }
   if (ipaddr.IPv6.isValid(ip)) {
     const addr = ipaddr.IPv6.parse(ip)
     if (addr.isIPv4MappedAddress()) {
