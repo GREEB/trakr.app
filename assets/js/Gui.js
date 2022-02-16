@@ -24,12 +24,16 @@ export function initGui () {
   this.stats = new Stats()
   this.stats.dom.style.cssText = ''
   this.stats.dom.classList.add('statsjs')
-
+  const self = this
   // console.log(document)
   // document.getElementsByClassName('stats')[0].appendChild(this.stats.dom)
   const optionFolder = this.gui.addFolder('Options')
   optionFolder.add(this.guiLet, 'pointsCount').listen()
-  // optionFolder.add({ add () { } }, 'add')
+  optionFolder.add({
+    download () {
+      onDownload(self)
+    }
+  }, 'download')
   // optionFolder.add(this.guiLet, 'colorSchema', ['Height', 'Terrain']).onChange(function (v) { changeColor(v) })
   // optionFolder.add(this.material, 'opacity', 0, 1).listen()
   // optionFolder.add(this.material, 'size', 0.1, 10).listen()
@@ -37,6 +41,15 @@ export function initGui () {
   // optionFolder.add(this.guiLet, 'boxVisible').name('Bounding box').onChange(function (value) { this.box.visible = value })
   const shaderFolder = this.gui.addFolder('Shaders')
   shaderFolder.add(this.material, 'vertexShader').listen()
+
+  const pointer = this.gui.addFolder('pointer')
+  pointer.add(this.pointer, 'x').listen()
+  pointer.add(this.pointer, 'y').listen()
+
+  const raycasting = this.gui.addFolder('raycasting')
+  raycasting.add(this.currentPoint, 'x').listen()
+  raycasting.add(this.currentPoint, 'y').listen()
+  raycasting.add(this.currentPoint, 'z').listen()
 
   const cameraFolder = this.gui.addFolder('Camera')
 
@@ -57,6 +70,17 @@ export function initGui () {
 
   // document.body.appendChild()
 }
+function download (content, fileName, contentType) {
+  const a = document.createElement('a')
+  const file = new Blob([content], { type: contentType })
+  a.href = URL.createObjectURL(file)
+  a.download = fileName
+  a.click()
+}
+
+export function onDownload (self) {
+  download(JSON.stringify(self.lastChordPack.alluserPos), 'positions.json', 'text/plain')
+}
 export function cameraSettings () {
 
 }
@@ -66,9 +90,9 @@ export function initCarGui () {
 
   const goalCamera = this.gui.addFolder('GoalCam')
 
-  goalCamera.add(this.goalCam.position, 'x', -1, 1).listen()
-  goalCamera.add(this.goalCam.position, 'y', -1, 1).listen()
-  goalCamera.add(this.goalCam.position, 'z', 0, 1).listen()
+  goalCamera.add(this.goalCam.position, 'x', -10, 10).listen()
+  goalCamera.add(this.goalCam.position, 'y', -10, 10).listen()
+  goalCamera.add(this.goalCam.position, 'z', -10, 10).listen()
   const carFolder = this.gui.addFolder('Car')
   carFolder.add(this, 'lerpSmoothing', 0.00000001, 0.5).listen()
   carFolder.add(this, 'slerpTime').listen()
