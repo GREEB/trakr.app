@@ -138,7 +138,6 @@ export function smoothCar () {
     this.breakLight.material.color.setHex(0x000000)
   } else {
     this.breakLight.material.color.setHex(0xFF0000)
-    console.log(this.breakLight.material)
   }
   // Frist try
   this.lerpAlpha += 1 / ((this.stats.fps / 1000) * (this.packOffset * 1000))

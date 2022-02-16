@@ -12,7 +12,7 @@
 export default {
   0: { // id helps to have it as obj key so we can port - 1024 to get game id and object
     gameName: 'NAME',
-    slug: 'GAMESLUG',
+    slug: 'GAMESLUG'
     //   parser: new Parser()
     //     .endianess('little')
     //     .int32('IsRaceOn')

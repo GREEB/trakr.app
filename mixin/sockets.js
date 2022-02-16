@@ -71,7 +71,6 @@ export default {
       this.$stage.parsePoint([(msg.PositionX / 20).toFixed(3), (msg.PositionY / 20).toFixed(3), (msg.PositionZ / 20).toFixed(3)])
     },
     parseUserData (msg) {
-      console.log(this.udpGame)
       // eslint-disable-next-line no-lonely-if
       if (this.udpGame !== undefined) {
         const parsed = games[this.udpGame].parsers.full.parse(Buffer.from(msg, 'hex'))

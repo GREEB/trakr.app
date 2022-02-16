@@ -1,5 +1,4 @@
 import colors from 'vuetify/es5/util/colors'
-import { production } from './server/config/config'
 
 export default {
   head: {
