@@ -1,4 +1,4 @@
-import { Vector3, Quaternion, MeshPhysicalMaterial, BoxGeometry, MeshBasicMaterial, Mesh } from 'three'
+import { PointLight, Vector3, Quaternion } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 export function addCar () {
@@ -6,30 +6,56 @@ export function addCar () {
   const self = this
   loader.load(
   // resource URL
-    '../models/race.glb',
+    '../models/race2.glb',
     function (gltf) { self.carLoaded(gltf) }
   )
 }
 export function carLoaded (gltf) {
-  gltf.scene.children[0].scale.set(0.1, 0.1, 0.1) // getting right scale would help
-  gltf.scene.children[0].rotation.x = Math.PI / 2
+  // for (let index = 0; index < gltf.scene.children.length; index++) {
+  //   const element = gltf.scene.children[index];
+
+  // }
+
+  // gltf.scene.children[0].scale.set(0.1, 0.1, 0.1) // getting right scale would help
+  // gltf.scene.children[0].rotation.x = Math.PI / 2
   gltf.scene.traverse((child) => {
-    if (child.material) { child.material.metalness = 0 }
+    if (child.material && child.material.name === 'red') {
+      this.breakLight = child
+      // this.breakLight.material = new MeshPhysicalMaterial({
+      //   emissive: 0xFF00FF
+      // })
+    }
   })
   this.car = gltf.scene
-  this.car.getObjectByName('Mesh_body').material = new MeshPhysicalMaterial({
-    color: 0x4D4D4D, metalness: 1.0, roughness: 0.7, clearcoat: 0.05, clearcoatRoughness: 0.05
-  })
-  const geometry = new BoxGeometry(1, 1, 1)
-  const material = new MeshBasicMaterial({ color: 0xFF0000 })
-  this.breakLight = new Mesh(geometry, material)
-  this.breakLight.scale.set(0.02, 0.005, 0.002)
-  this.breakLight.position.set(0, -0.128, 0.025)
-  this.car.add(this.breakLight)
+  this.car.scale.set(0.06, 0.06, 0.06) // getting right scale would help
+  const quaternion = new Quaternion()
+  quaternion.setFromAxisAngle(new Vector3(1, 0, 0), Math.PI / 2)
+  this.car.applyQuaternion(quaternion)
+  // this.car.getObjectByName('body').material = new MeshPhysicalMaterial({
+  //   color: 0x4D4D4D, metalness: 1.0, roughness: 0.7, clearcoat: 0.05, clearcoatRoughness: 0.05
+  // })
+  // const geometry = new BoxGeometry(1, 1, 1)
+  // const material = new MeshBasicMaterial({ color: 0xFF0000 })
+  // this.breakLight = new Mesh(geometry, material)
+  // this.breakLight.scale.set(0.02, 0.005, 0.002)
+  // this.breakLight.position.set(0, -0.128, 0.025)
+  // this.car.add(this.breakLight)
 
-  this.goalCam.position.set(0, -0.5, 0.299)
+  this.goalCam.position.set(0, 5, -10)
   this.car.add(this.goalCam)
 
+  const light = new PointLight(0xFFFFFF, 1)
+  light.position.set(10, 0, 0)
+  this.car.add(light)
+  const light2 = new PointLight(0xFFFFFF, 1)
+  light2.position.set(-10, 0, 0)
+  this.car.add(light2)
+  const light3 = new PointLight(0xFFFFFF, 1)
+  light3.position.set(0, 10, 10)
+  this.car.add(light3)
+  const light4 = new PointLight(0xFFFFFF, 1)
+  light4.position.set(0, 10, -10)
+  this.car.add(light4)
   this.carCam.position.set(0, -0, 0.4)
   this.car.add(this.carCam)
 
@@ -60,16 +86,24 @@ export function animateCar (val) {
     this.toRotationX = new Quaternion()
     this.steerFl = new Quaternion()
     this.steerFr = new Quaternion()
-    // const a = new THREE.Euler( 0, 1, 1.57,
-    this.toRotationZ.setFromAxisAngle(new Vector3(0, 0, 1), val[3] - (val[3] * 2))
-    this.toRotationY.setFromAxisAngle(new Vector3(0, 1, 0), val[5] * -1)
-    this.toRotationX.setFromAxisAngle(new Vector3(1, 0, 0), val[4] * -1)
-    this.steerFl.setFromAxisAngle(new Vector3(0, 1, 0), (val[6] / 127 * -1) - Math.PI)
-    this.steerFr.setFromAxisAngle(new Vector3(0, 1, 0), (val[6] / 127 * -1))
+    const steerFLX = new Quaternion()
+    const steerFRX = new Quaternion()
+
+    this.toRotationZ.setFromAxisAngle(new Vector3(0, 0, 1), val[3] - (val[3] * 2) + (Math.PI))
+    this.toRotationY.setFromAxisAngle(new Vector3(0, 1, 0), val[5])
+    this.toRotationX.setFromAxisAngle(new Vector3(1, 0, 0), val[4] + (Math.PI / 2))
 
     this.toRotation.multiply(this.toRotationZ)
     this.toRotation.multiply(this.toRotationY)
     this.toRotation.multiply(this.toRotationX)
+
+    steerFLX.setFromAxisAngle(new Vector3(1, 0, 0), Math.PI / 2)
+    steerFRX.setFromAxisAngle(new Vector3(1, 0, 0), Math.PI / 2)
+
+    this.steerFl.setFromAxisAngle(new Vector3(0, 1, 0), (val[6] / 127 * -1))
+    this.steerFr.setFromAxisAngle(new Vector3(0, 1, 0), (val[6] / 127 * -1))
+    this.steerFl.multiply(steerFLX)
+    this.steerFr.multiply(steerFRX)
 
     // const toRotationEuler = new Euler(val[4] * -1, val[5] * -1, val[3] * -1, 'XYZ')
     // this is really bad breaks when driving backwards i guess a quaternion would fix that
@@ -104,6 +138,7 @@ export function smoothCar () {
     this.breakLight.material.color.setHex(0x000000)
   } else {
     this.breakLight.material.color.setHex(0xFF0000)
+    console.log(this.breakLight.material)
   }
   // Frist try
   this.lerpAlpha += 1 / ((this.stats.fps / 1000) * (this.packOffset * 1000))
@@ -113,8 +148,8 @@ export function smoothCar () {
   }
   this.car.position.lerp(this.toPosition, this.slerpTime)
   this.car.quaternion.slerp(this.toRotation, this.slerpTime)
-  this.car.getObjectByName('wheel_frontLeft').quaternion.slerp(this.steerFl, this.slerpTime)
-  this.car.getObjectByName('wheel_frontRight').quaternion.slerp(this.steerFr, this.slerpTime)
+  this.car.getObjectByName('fl').quaternion.slerp(this.steerFl, this.slerpTime)
+  this.car.getObjectByName('fr').quaternion.slerp(this.steerFr, this.slerpTime)
 
   // this.car.children[0].children[3].quaternion.slerp(this.wheelRotation)
   // this.car.children[0].children[4].quaternion.slerp(this.wheelRotation)
