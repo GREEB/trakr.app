@@ -5,3 +5,8 @@
     </v-card>
   </div>
 </template>
+<style lang="sass">
+.lil-gui
+    .title
+        font-size: 1em !important
+</style>

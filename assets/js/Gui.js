@@ -41,27 +41,29 @@ export function initGui () {
   // optionFolder.add(this.guiLet, 'boxVisible').name('Bounding box').onChange(function (value) { this.box.visible = value })
   const shaderFolder = this.gui.addFolder('Shaders')
   shaderFolder.add(this.material, 'vertexShader').listen()
-
+  shaderFolder.close()
   const pointer = this.gui.addFolder('pointer')
   pointer.add(this.pointer, 'x').listen()
   pointer.add(this.pointer, 'y').listen()
-
+  pointer.close()
   const raycasting = this.gui.addFolder('raycasting')
   raycasting.add(this.currentPoint, 'x').listen()
   raycasting.add(this.currentPoint, 'y').listen()
   raycasting.add(this.currentPoint, 'z').listen()
-
+  raycasting.close()
   const cameraFolder = this.gui.addFolder('Camera')
 
   cameraFolder.add(this.camera.position, 'x').listen()
   cameraFolder.add(this.camera.position, 'y').listen()
   cameraFolder.add(this.camera.position, 'z').listen()
   cameraFolder.add(this.cameraSettings, 'type').listen()
+  cameraFolder.close()
 
   const statsFolder = this.gui.addFolder('FPS')
   statsFolder.domElement.children[1].appendChild(this.stats.dom)
   // this.gui.domElement.childNodes[0].appendChild(this.stats.dom)
   // statsFolder.appendChild(this.stats.dom)
+
   this.guiContainer.appendChild(this.gui.domElement)
 
   // this.guiContainer.appendChild(this.stats.dom)
@@ -86,14 +88,18 @@ export function cameraSettings () {
 }
 export function initCarGui () {
   const wheels = this.gui.addFolder('wheels')
+  wheels.close()
   wheels.add(this.car.children[0].children[3].rotation, 'y', -10, 10).listen()
 
   const goalCamera = this.gui.addFolder('GoalCam')
+  goalCamera.close()
 
   goalCamera.add(this.goalCam.position, 'x', -10, 10).listen()
   goalCamera.add(this.goalCam.position, 'y', -10, 10).listen()
   goalCamera.add(this.goalCam.position, 'z', -10, 10).listen()
   const carFolder = this.gui.addFolder('Car')
+  carFolder.close()
+
   carFolder.add(this, 'lerpSmoothing', 0.00000001, 0.5).listen()
   carFolder.add(this, 'slerpTime').listen()
 
