@@ -1,7 +1,7 @@
 {
   "name": "trakr.app",
   "license": "MIT",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -21,7 +21,6 @@
     "@nuxtjs/axios": "^5.13.6",
     "babel-register": "^6.26.0",
     "binary-parser": "^2.0.2",
-    "conventional-changelog": "^3.1.25",
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.20.3",
     "express": "^4.17.2",
@@ -60,6 +59,7 @@
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/vuetify": "^1.12.3",
+    "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.4.1",
     "eslint-plugin-nuxt": "^3.1.0",
     "eslint-plugin-vue": "^8.2.0",
