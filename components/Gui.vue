@@ -9,4 +9,5 @@
 .lil-gui
     .title
         font-size: 1em !important
+        line-height: calc(var(--title-height) - 4px)
 </style>
