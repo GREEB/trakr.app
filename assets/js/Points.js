@@ -86,15 +86,14 @@ export function parsePointStress (posData) {
   this.addPoint(xyz)
 }
 
-export function parseChordPack (val, home) {
-  this.lastChordPack = val
+export function parseChordPack (val, name) {
   // console.log(val)
   const now = new Date()
   for (let i = 0; i < val.alluserPos.length; i++) {
     this.parsePoint([val.alluserPos[i][0] / 20, val.alluserPos[i][1] / 20, val.alluserPos[i][2] / 20])
 
     if ((val.alluserPos.length - 1) === i) {
-      if (home) {
+      if (name === 'home') {
         this.car.position.set(val.alluserPos[i][0] / 20, val.alluserPos[i][1] / 20, val.alluserPos[i][2] / 20)
         this.cam2Car()
         // this.camera.position.set(val.alluserPos[i].x / 20, val.alluserPos[i].y / 20, (val.alluserPos[i].z / 20) + 1)
@@ -108,6 +107,7 @@ export function parseChordPack (val, home) {
       // this.geometry.computeBoundingSphere()
       // this.geometry.computeBoundingBox()
       this.app.$toast.info(`${val.alluserPos.length} points drawn in ${(new Date() - now)} ms`)
+      this.chordPackCache[name] = this.points.geometry.attributes.position.array
     }
   }
 }

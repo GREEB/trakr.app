@@ -31,9 +31,9 @@ export default {
     chordPack (val) {
       if (val.length === 0) { return }
       if (this.currentSlug === undefined) {
-        this.$stage.parseChordPack(val, true)
+        this.$stage.parseChordPack(val, 'home')
       } else {
-        this.$stage.parseChordPack(val, false)
+        this.$stage.parseChordPack(val, this.currentSlug)
       }
     }
   },

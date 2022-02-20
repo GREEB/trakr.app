@@ -27,8 +27,14 @@ export function initGui () {
   const self = this
   // console.log(document)
   // document.getElementsByClassName('stats')[0].appendChild(this.stats.dom)
-  const optionFolder = this.gui.addFolder('Options')
+  const optionFolder = this.gui.addFolder('Points')
   optionFolder.add(this.guiLet, 'pointsCount').listen()
+  optionFolder.add(self.geometry.drawRange, 'count', 0, 300000).name('drawCount').onChange(function (value) {
+    self.geometry.setDrawRange(0, value)
+
+    console.log(self.geometry.drawRange.count)
+  })
+
   optionFolder.add({
     download () {
       onDownload(self)
@@ -56,6 +62,10 @@ export function initGui () {
   cameraFolder.add(this.camera.position, 'x').listen()
   cameraFolder.add(this.camera.position, 'y').listen()
   cameraFolder.add(this.camera.position, 'z').listen()
+
+  cameraFolder.add(this.camera.rotation, 'x').listen()
+  cameraFolder.add(this.camera.rotation, 'y').listen()
+  cameraFolder.add(this.camera.rotation, 'z').listen()
   cameraFolder.add(this.cameraSettings, 'type').listen()
   cameraFolder.close()
 

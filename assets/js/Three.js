@@ -14,7 +14,7 @@ import { orbit, setFollowCam, setOrbitCam, simpleFollow, smoothFollow, setSmooth
 export default class Stage {
   constructor (opts = {}) {
     // oh no redo this
-    this.lastChordPack = 0
+    this.chordPackCache = {}
     this.app = opts.app
     this.geometry = new BufferGeometry()
     this.scene = new Scene()
