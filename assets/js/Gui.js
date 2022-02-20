@@ -31,8 +31,6 @@ export function initGui () {
   optionFolder.add(this.guiLet, 'pointsCount').listen()
   optionFolder.add(self.geometry.drawRange, 'count', 0, 300000).name('drawCount').onChange(function (value) {
     self.geometry.setDrawRange(0, value)
-
-    console.log(self.geometry.drawRange.count)
   })
 
   optionFolder.add({
