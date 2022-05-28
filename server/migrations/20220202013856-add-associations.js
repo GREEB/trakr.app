@@ -2,6 +2,7 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
+    // RefreshToken belongsTo User
     await queryInterface.addColumn(
       'RefreshTokens', // name of Source model
       'userId', // name of the key we're adding
@@ -15,19 +16,21 @@ module.exports = {
         onDelete: 'SET NULL'
       }
     )
+    // Positions have sessoinId
     await queryInterface.addColumn(
       'Positions', // name of Source model
-      'clientId', // name of the key we're adding
+      'sessionId', // name of the key we're adding
       {
         type: Sequelize.UUID,
         references: {
-          model: 'Clients', // name of Target model
+          model: 'Sessions', // name of Target model
           key: 'id' // key in Target model that we're referencing
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       }
     )
+    // Client belongsTo User
     await queryInterface.addColumn(
       'Clients', // name of Source model
       'userId', // name of the key we're adding

@@ -4,8 +4,7 @@
 [![Build Status](https://app.travis-ci.com/GREEB/trakr.app.svg?branch=main)](https://app.travis-ci.com/GREEB/trakr.app)
 [![issues](https://github.com/GREEB/ForzaPointCloud/workflows/todo2issue/badge.svg)](https://github.com/GREEB/trakr.app/actions?query=workflow:"todo2issue") [![Join the chat at https://gitter.im/trakr-app/community](https://badges.gitter.im/trakr-app/community.svg)](https://gitter.im/trakr-app/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-### Data
-
+### Data 
 Really not sure how to do data atm we parse on server and on client to get nice data to animate car. Saving raw bytes would be 200MB/h at ~160 packets/second. So for now to test we only save XYZ to build worldmaps saved every 1000/2 ms. Frontend still gets full telemetry at 12 packets/second.
 ~~We save the full telemetry bytes, frontend does parsing. Maybe implement [Draco](https://google.github.io/draco/)~~
 
@@ -18,7 +17,7 @@ Really not sure how to do data atm we parse on server and on client to get nice 
 - [x]  Nuxt: Start of modular system for input data
 - [x]  Nuxt/Three: Custom Shader frontend
 - [x]  Nuxt: Simple Camera System
-- [x]  Nuxt: Simple Global maps 
+- [x]  Nuxt: Simple Global maps
 
 
 ## Contributing

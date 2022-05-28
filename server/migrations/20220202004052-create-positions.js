@@ -25,7 +25,7 @@ module.exports = {
       normSuspensionTravelSum: {
         type: Sequelize.FLOAT
       },
-      gameId: {
+      gameId: { // TODO: remove this, why do we need it now?
         type: Sequelize.INTEGER
       }
     })
